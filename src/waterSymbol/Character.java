@@ -47,5 +47,9 @@ public class Character {
 	public int getSpeed() {
 		return this.speed;
 	}
+	
+	public void takeDamage(int damage) {
+		health -= damage;
+	}
 
 }

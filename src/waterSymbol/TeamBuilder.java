@@ -24,9 +24,9 @@ public class TeamBuilder {
 		charSize = 200*ratio;
 		
 		choices = new ArrayList<Character>();
-		choices.add(new Character((char) 0));
-		choices.add(new Character((char) 1));
-		choices.add(new Character((char) 2));
+		choices.add(new Character("PAUL", "0"));
+		choices.add(new Character("Jean-Mi", "1"));
+		choices.add(new Character("Bob", "2"));
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
