@@ -56,6 +56,7 @@ public class Character {
 	    return randomNum;
 	}
 	
+<<<<<<< HEAD
 	public void generateStat() {
 		ArrayList<String> classeListe = new ArrayList<String>() ;
 		classeListe.add("healer") ;
@@ -110,4 +111,10 @@ public class Character {
 		
 		
 		}
+=======
+	public void takeDamage(int damage) {
+		health -= damage;
+	}
+
+>>>>>>> 56e4a822fc60dd3bd824cd8de546792883e488aa
 }
