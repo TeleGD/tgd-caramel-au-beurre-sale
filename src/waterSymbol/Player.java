@@ -16,6 +16,14 @@ public class Player {
 		this.id = id;
 	}
 	
+	public void setTeam(ArrayList<Character> team) {
+		this.team = team;
+	}
+	
+	public void ajouter(Character c) {
+		this.team.add(c);
+	}
+	
 	public String getId() {
 		return this.id;
 	}
