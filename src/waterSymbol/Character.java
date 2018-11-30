@@ -3,6 +3,8 @@ package waterSymbol;
 import java.util.ArrayList;
 import java.util.Random;
 
+import waterSymbol.weapon.Weapon;
+
 public class Character {
 
 	private String name;
@@ -14,11 +16,13 @@ public class Character {
 	private int initiative;
 	private int agility;
 	private String classe;
+	private Weapon weapon;
 
-	public Character(String name, String type) {
+	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.type = type;
 		this.health = 100 ;
+		this.weapon = weapon;
 	}
 
 	public String getName() {
@@ -48,6 +52,14 @@ public class Character {
 
 	public int getInitiative() {
 		return this.initiative;
+	}
+	
+	public int getAgility() {
+		return this.agility;
+	}
+	
+	public Weapon getWeapon() {
+		return this.weapon;
 	}
 
 	public static int randInt(int min, int max) {
@@ -109,8 +121,21 @@ public class Character {
 		}
 
 
-		}
-	public void takeDamage(int damage) {
-		health -= damage;
 	}
+	
+	public void takeDirectDamage(Character c) {
+		if (randInt(0,100) < this.agility) {
+			int damage = c.attack + c.weapon.getEffectValue();
+			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
+				health -= (int) 1.2*damage;
+			} else {
+				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
+					health -= (int) 0.8*damage;
+				} else {
+					health -= damage;
+				}
+			}
+		}
+	}
+	
 }
