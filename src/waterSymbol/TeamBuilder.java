@@ -1,7 +1,5 @@
 package waterSymbol;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -28,22 +26,28 @@ public class TeamBuilder {
 	private int y1;
 	private int y2;
 	
+	private int compt;
+	private int max;
+	
 	private Player activePlayer;
 	
 	private Player player1;
 	private Player player2;
 	
-	public TeamBuilder(int width, int height, Player p1, Player p2) {
+	public TeamBuilder(int teamSize, GameContainer container, Player p1, Player p2) {
 		
 		player1 = p1;
 		player2 = p2;
 		activePlayer = p1;
 		
-		adpatSize(width, height);
+		adpatSize(container.getWidth(), container.getHeight());
 		
 		characters = new Character[4];
 		
 		resetCharacters();
+		
+		compt = 0;
+		max = teamSize;
 	}
 	
 	private void adpatSize(int width, int height) {
@@ -71,12 +75,13 @@ public class TeamBuilder {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		onClickAction(container);	
+		onClickAction(container);
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		context.setColor(Color.black);
 		context.drawImage(image, xmin, ymin, xmax, ymax, 0, 0, image.getWidth(), image.getHeight());
+		
 		context.drawRect(x1, y1, charSize, charSize);
 		context.drawRect(x2, y1, charSize, charSize);
 		context.drawRect(x1, y2, charSize, charSize);
@@ -87,15 +92,19 @@ public class TeamBuilder {
 		Input input = container.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			int choice = getChoice(input.getAbsoluteMouseX(),input.getAbsoluteMouseY());
-			System.out.println(choice);
 			if (choice != 0) {
 				activePlayer.giveChar(characters[choice-1]);
 				activePlayer = activePlayer==player1 ? player2 : player1;
+				compt = activePlayer==player1?compt+1:compt;
 				resetCharacters();
 			}
 		}
 	}
 
+	public boolean areTeamsReady() {
+		return compt>=max;
+	}
+	
 	private void resetCharacters() {
 		// TODO
 		characters[0] = new Character("Amos", "a");

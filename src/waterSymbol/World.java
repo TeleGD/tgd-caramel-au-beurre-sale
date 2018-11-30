@@ -41,7 +41,6 @@ public class World extends BasicGameState {
 		} else if (this.state == 2) {
 			this.resume (container, game);
 		}
-		builder = new TeamBuilder(container.getWidth(), container.getHeight(), new Player("Tristan"), new Player("Axel"));
 	}
 
 	@Override
@@ -63,18 +62,32 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		builder.update(container, game, delta);
+		
+		if (!builder.areTeamsReady()) {
+			// Construction des teams
+			builder.update(container, game, delta);
+		} else {
+			//TODO en jeu
+		}
+		
 	}
 
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		/* Méthode exécutée environ 60 fois par seconde */
-		builder.render(container, game, context);
-		//board.render(container, game, context);
+		/* Méthode exécutée environ 60 fois par seconde */		
+		if (!builder.areTeamsReady()) {
+			// Construction des teams
+			builder.render(container, game, context);
+		} else {
+			//TODO en jeu
+			//board.render(container, game, context);
+		}
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		
+		builder = new TeamBuilder(10, container, new Player("Tristan"), new Player("Axel"));
 		//board = Generation.generate(container.getWidth(), container.getHeight());
 	}
 
