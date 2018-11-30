@@ -1,4 +1,4 @@
-package waterSymbol.bord;
+package waterSymbol.board;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

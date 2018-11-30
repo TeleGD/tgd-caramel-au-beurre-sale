@@ -1,20 +1,18 @@
-package waterSymbol.bord.cases;
+package waterSymbol.board.cases;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import waterSymbol.bord.Case;
+import waterSymbol.board.Case;
 
-public class Void extends Case {
-	private Image sprite;
-
-	public Void(int x, int y) {
+public class Wall extends Case {
+	public Wall(int x, int y) {
 		super(x, y);
 		
 		Image sprite = null;
 		
 		try {
-			sprite = new Image("res/images/void.png");
+			sprite = new Image("res/images/wall.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

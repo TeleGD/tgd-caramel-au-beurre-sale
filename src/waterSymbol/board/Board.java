@@ -1,11 +1,11 @@
-package waterSymbol.bord;
+package waterSymbol.board;
 
 import java.util.*;
 
-public class Bord {
+public class Board {
 	private List<Case> cases;
 	
-	public Bord() {
+	public Board() {
 		this.cases = new ArrayList<Case>() ;
 	}
 }
