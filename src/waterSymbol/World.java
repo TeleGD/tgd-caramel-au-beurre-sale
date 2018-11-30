@@ -9,6 +9,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
+import waterSymbol.board.Generation;
 
 public class World extends BasicGameState {
 
@@ -69,10 +70,12 @@ public class World extends BasicGameState {
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
 		builder.render(container, game, context);
+		//board.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		//board = Generation.generate(container.getWidth(), container.getHeight());
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {

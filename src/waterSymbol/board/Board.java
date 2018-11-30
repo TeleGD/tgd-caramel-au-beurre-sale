@@ -9,28 +9,31 @@ import org.newdawn.slick.state.StateBasedGame;
 import waterSymbol.board.cases.*;
 
 public class Board {
-	private List<Case> cases;
+	private Case[][] cases;
+	private int nbCol, nbLig;
 	private float ratio;
 	
-	public Board(int width, int height) {
+	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height) {
 		this.ratio = (width/1920f)<(height/1080f)?(width/1920f):(height/1080f);
 		
-		this.cases = new ArrayList<Case>();
-	}
-	
-	public void addCase(Case c) {
-		this.cases.add(c);
+		this.nbLig = nbLig;
+		this.nbCol = nbCol;
+		this.cases = cases;
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		for(Case c : cases) {
-			c.update(container, game, delta);
+		for(int i=0; i<nbLig; i++) {
+			for(int j=0; j<nbCol; j++) {
+				cases[i][j].update(container, game, delta);
+			}
 		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		for(Case c : cases) {
-			c.render(container, game, context, ratio);
+		for(int i=0; i<nbLig; i++) {
+			for(int j=0; j<nbCol; j++) {
+				cases[i][j].render(container, game, context, ratio);
+			}
 		}
 	}
 }
