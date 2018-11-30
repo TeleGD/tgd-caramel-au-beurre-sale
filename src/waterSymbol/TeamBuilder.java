@@ -33,9 +33,9 @@ public class TeamBuilder {
 		adpatSize(width, height);
 		
 		choices = new ArrayList<Character>();
-		choices.add(new Character("a","a"));
-		choices.add(new Character("a","a"));
-		choices.add(new Character("a","a"));
+		choices.add(new Character("PAUL", "0"));
+		choices.add(new Character("Jean-Mi", "1"));
+		choices.add(new Character("Bob", "2"));
 	}
 	
 	private void adpatSize(int width, int height) {
