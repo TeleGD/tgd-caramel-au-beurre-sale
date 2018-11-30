@@ -8,12 +8,15 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import waterSymbol.board.Board;
+
 public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
 	private TeamBuilder builder;
-
+	private Board board;
+	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
