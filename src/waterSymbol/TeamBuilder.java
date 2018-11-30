@@ -6,13 +6,14 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
 
 public class TeamBuilder {
 
-	private ArrayList<Character> choices;
+	private Character characters[];
 	private static Image image = AppLoader.loadPicture("/images/teamBuilder.png");
 	
 	private float charSize;
@@ -27,15 +28,22 @@ public class TeamBuilder {
 	private int y1;
 	private int y2;
 	
+	private Player activePlayer;
 	
-	public TeamBuilder(int width, int height) {
+	private Player player1;
+	private Player player2;
+	
+	public TeamBuilder(int width, int height, Player p1, Player p2) {
+		
+		player1 = p1;
+		player2 = p2;
+		activePlayer = p1;
 		
 		adpatSize(width, height);
 		
-		choices = new ArrayList<Character>();
-		choices.add(new Character("PAUL", "0"));
-		choices.add(new Character("Jean-Mi", "1"));
-		choices.add(new Character("Bob", "2"));
+		characters = new Character[4];
+		
+		resetCharacters();
 	}
 	
 	private void adpatSize(int width, int height) {
@@ -63,7 +71,7 @@ public class TeamBuilder {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
+		onClickAction(container);	
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
@@ -75,4 +83,38 @@ public class TeamBuilder {
 		context.drawRect(x2, y2, charSize, charSize);
 	}
 	
+	private void onClickAction(GameContainer container) {
+		Input input = container.getInput();
+		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			int choice = getChoice(input.getAbsoluteMouseX(),input.getAbsoluteMouseY());
+			System.out.println(choice);
+			if (choice != 0) {
+				activePlayer.giveChar(characters[choice-1]);
+				activePlayer = activePlayer==player1 ? player2 : player1;
+				resetCharacters();
+			}
+		}
+	}
+
+	private void resetCharacters() {
+		// TODO
+		characters[0] = new Character("Amos", "a");
+		characters[1] = new Character("Xavier", "a");
+		characters[2] = new Character("David", "a");
+		characters[3] = new Character("Frédéric", "a");
+	}
+
+	private int getChoice(int x, int y) {
+		if (x>=x1 && x<=x1+charSize && y>=y1 && y<=y1+charSize) {
+			return 1;
+		} else if (x>=x2 && x<=x2+charSize && y>=y1 && y<=y1+charSize) {
+			return 2;
+		} else if (x>=x1 && x<=x1+charSize && y>=y2 && y<=y2+charSize) {
+			return 3;
+		} else if (x>=x2 && x<=x2+charSize && y>=y2 && y<=y2+charSize) {
+			return 4;
+		} else {
+			return 0;
+		}
+	}
 }

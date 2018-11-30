@@ -37,7 +37,7 @@ public class World extends BasicGameState {
 		} else if (this.state == 2) {
 			this.resume (container, game);
 		}
-		builder = new TeamBuilder(container.getWidth(), container.getHeight());
+		builder = new TeamBuilder(container.getWidth(), container.getHeight(), new Player("Tristan"), new Player("Axel"));
 	}
 
 	@Override
@@ -59,6 +59,7 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
+		builder.update(container, game, delta);
 	}
 
 	@Override
