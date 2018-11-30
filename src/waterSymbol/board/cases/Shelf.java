@@ -5,11 +5,9 @@ import org.newdawn.slick.SlickException;
 
 import waterSymbol.board.Case;
 
-public class Floor extends Case {
-	private Image sprite;
+public class Shelf extends Case {
 
-	public Floor(int x, int y) {
-		super(x, y, "floor");
+	public Shelf(int x, int y) {
+		super(x, y, "shell");
 	}
-
 }

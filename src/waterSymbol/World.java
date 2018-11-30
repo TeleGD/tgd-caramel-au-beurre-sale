@@ -12,6 +12,7 @@ public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
+	private TeamBuilder builder;
 
 	public World (int ID) {
 		this.ID = ID;
@@ -36,6 +37,7 @@ public class World extends BasicGameState {
 		} else if (this.state == 2) {
 			this.resume (container, game);
 		}
+		builder = new TeamBuilder(container.getWidth(), container.getHeight());
 	}
 
 	@Override
@@ -62,6 +64,7 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
+		builder.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
