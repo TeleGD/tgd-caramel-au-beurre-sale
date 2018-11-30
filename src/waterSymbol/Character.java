@@ -123,16 +123,20 @@ public class Character {
 
 	}
 	
-	public void takeDirectDamage(Character c) {
+	public void takeDirectDamage(int damage) {
+		this.health -= damage;
+	}
+	
+	public void takeDamage(Character c) {
 		if (randInt(0,100) < this.agility) {
 			int damage = c.attack + c.weapon.getEffectValue();
 			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
-				health -= (int) 1.2*damage;
+				this.health -= (int) 1.2*damage;
 			} else {
 				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
-					health -= (int) 0.8*damage;
+					this.health -= (int) 0.8*damage;
 				} else {
-					health -= damage;
+					this.health -= damage;
 				}
 			}
 		}

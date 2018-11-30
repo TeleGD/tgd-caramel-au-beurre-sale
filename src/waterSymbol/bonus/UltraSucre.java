@@ -9,7 +9,7 @@ public class UltraSucre extends Bonus {
 	}
 	
 	public void activate() {
-		character.takeDamage(value);
+		character.takeDirectDamage(value);
 	}
 
 }
