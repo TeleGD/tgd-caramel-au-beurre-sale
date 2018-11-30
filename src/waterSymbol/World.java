@@ -16,6 +16,7 @@ public class World extends BasicGameState {
 	private int state;
 	private TeamBuilder builder;
 	private Board board;
+	private int phase;	// Indique si le jeu en est à l'écran de création de Characters (0) ou à la phase de jeu (1)
 	
 	public World (int ID) {
 		this.ID = ID;
@@ -62,7 +63,11 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		builder.update(container, game, delta);
+		if (phase) {
+			
+		} else {
+			builder.update(container, game, delta);
+		}
 	}
 
 	@Override
