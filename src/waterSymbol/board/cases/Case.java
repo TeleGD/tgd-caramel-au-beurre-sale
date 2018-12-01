@@ -3,7 +3,6 @@ package waterSymbol.board.cases;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
@@ -65,5 +64,21 @@ public abstract class Case {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g, float ratio) {
 		g.drawImage(sprite, x*width*ratio, y*height*ratio, width*ratio*(x+1), (y+1)*height*ratio, 0, 0, sprite.getWidth(), sprite.getHeight());
+	}
+
+	public void highlight(boolean b) {
+		System.out.println("CA MARCHE PAS");
+		if (b)
+			sprite.setImageColor(0, 0, 1, .8f);
+		else
+			sprite.setImageColor(1, 0, 0, .8f);
+	}
+	
+	public void outlight() {
+		sprite.setImageColor(0, 0, 0, 1);
+	}
+
+	public boolean isAccessible() {
+		return (character==null && !(this instanceof Wall));
 	}
 }

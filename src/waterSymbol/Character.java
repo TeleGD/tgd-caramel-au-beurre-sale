@@ -26,7 +26,7 @@ public class Character {
 		this.type = type;
 		this.health = 100;
 		this.maxHealth = 100;
-		this.pos = new int [] {-1, -1};
+		this.pos = new int [] {1, 1};
 		this.weapon = weapon;
 		this.dead = false;
 		generateStat();
