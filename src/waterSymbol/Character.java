@@ -17,12 +17,15 @@ public class Character {
 	private int agility;
 	private String classe;
 	private Weapon weapon;
+	private boolean dead;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.type = type;
 		this.health = 100 ;
 		this.weapon = weapon;
+		this.dead = false;
+		generateStat();
 	}
 
 	public String getName() {
@@ -61,6 +64,10 @@ public class Character {
 	public Weapon getWeapon() {
 		return this.weapon;
 	}
+	
+	public boolean isDead() {
+		return this.dead;
+	}
 
 	public static int randInt(int min, int max) {
 	    Random rand = new Random();
@@ -77,7 +84,7 @@ public class Character {
 		classeListe.add("warrior");
 
 
-		int i = randInt(1, 4) ;
+		int i = randInt(0, 4) ;
 		this.classe = classeListe.get(i) ;
 
 		if (this.classe.equals("healer")) {
@@ -125,6 +132,9 @@ public class Character {
 	
 	public void takeDirectDamage(int damage) {
 		this.health -= damage;
+		if (this.health <= 0) {
+			this.dead = true;
+		}
 	}
 	
 	public void takeDamage(Character c) {
@@ -138,6 +148,9 @@ public class Character {
 				} else {
 					this.health -= damage;
 				}
+			}
+			if (this.health <= 0) {
+				this.dead = true;
 			}
 		}
 	}
