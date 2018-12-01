@@ -40,7 +40,9 @@ public class Generation {
 			else generateWallBlock(i,j,0);
 		}
 		
-		createPath((int)(Math.random()*height-10)+5,1);
+		generateShelves();
+		
+		createPath((int)(Math.random()*(height-10))+5,1);
 		
 		return new Board(cases, height, width, screenWidth, screenHeight);
 	}
@@ -66,6 +68,14 @@ public class Generation {
 			if(j+1<width-1 && !(cases[0][j+1] instanceof Wall) && !(cases[i][j+1] instanceof Wall)) generateWallBlock(i,j+1, iteration+1);
 			if(i-1>=0 && !(cases[i-1][j] instanceof Wall)) generateWallBlock(i-1,j, iteration+1);
 			if(i+1<height && !(cases[i+1][j] instanceof Wall)) generateWallBlock(i+1,j, iteration+1);
+		}
+	}
+	
+	private static void generateShelves() {
+		for(int i=0; i<height; i++) {
+			for(int j=0; j<width; j++) {
+				if(cases[i][j] instanceof Wall && (int)(Math.random()*10)==0) cases[i][j] = new Shelf(j,i,ratio);
+			}
 		}
 	}
 	
