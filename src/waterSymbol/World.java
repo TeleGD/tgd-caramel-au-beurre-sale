@@ -172,7 +172,7 @@ public class World extends BasicGameState {
 					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
 					System.out.println("Action sur moi-même");
 				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
-					board.showPossibleMove(players.get(0).getTeam().get(0));
+					board.showPossibleMove(characterSelected1);
 					System.out.println("Je veux me déplacer en case : i " + i + " j = " + j);
 					if (characterSelected2.getPlayer() != playerActif) {
 						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
