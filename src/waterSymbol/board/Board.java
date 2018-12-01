@@ -59,23 +59,25 @@ public class Board {
 	}
 
 	private boolean find (List <Case> path, Case end, int remainder) {
-		if (path.get (path.size () - 1) == end) {
+		int length = path.size ();
+		Case currentCase = path.get (length - 1);
+		if (currentCase == end) {
 			return true;
 		} else if (remainder > 0) {
 			remainder--;
-			int length = path.size ();
-			Case currentCase = path.get (path.size () - 1);
 			int [] pos = currentCase.getPos ();
 			for (int k = 0; k < 4; k++) {
 				int i = pos [0] + (k == 1 ? 1 : 0) - (k == 3 ? 1 : 0);
 				int j = pos [1] + (k == 2 ? 1 : 0) - (k == 0 ? 1 : 0);
-				Case next = this.cases [i] [j];
-				if (next instanceof Floor && next.getCharacter () == null && !path.contains (next)) {
-					path.add (next);
-					if (find (path, end, remainder)) {
-						return true;
+				if (0 <= i && i < nbLig && 0 <= j && j < nbCol) {
+					Case next = this.cases [i] [j];
+					if (next instanceof Floor && next.getCharacter () == null && !path.contains (next)) {
+						path.add (next);
+						if (find (path, end, remainder)) {
+							return true;
+						}
+						path.remove (length);
 					}
-					path.remove (length - 1);
 				}
 			}
 		}
@@ -89,6 +91,19 @@ public class Board {
 				List <Case> path = new ArrayList <Case> ();
 				path.add (start);
 				if (this.find (path, end, character.getMovePoints ())) {
+					for (int i = path.size () - 1; i >= 3; i--) {
+						Case currentCase = path.get (i);
+						int [] currentPos = currentCase.getPos ();
+						for (int j = i - 3; j >= 0; j -= 2) {
+							Case nextCase = path.get (j);
+							int [] nextPos = nextCase.getPos ();
+							if (Math.abs (nextPos [0] - currentPos [0]) + Math.abs (nextPos [1] - currentPos [1]) <= 1) {
+								while (i >= j + 2) {
+									path.remove (--i);
+								}
+							}
+						}
+					}
 					return path;
 				}
 			}

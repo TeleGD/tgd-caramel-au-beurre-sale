@@ -27,7 +27,7 @@ public class World extends BasicGameState {
 	private Case caseSelected2;
 	private Character characterSelected1;
 	private Character characterSelected2;
-	private boolean a = true;
+	private boolean a;
 	
 	public World (int ID) {
 		this.ID = ID;
@@ -85,6 +85,7 @@ public class World extends BasicGameState {
 				Character character = players.get(0).getTeam().get(0);
 				board.moveCharacter(character, board.getCases () [0] [0]);
 				board.showPossibleMove(character);
+				System.out.println(board.connect(character, board.getCases () [2] [2]));
 			}
 		}
 	}
@@ -113,6 +114,7 @@ public class World extends BasicGameState {
 		
 		builder = new TeamBuilder(1, container, players.get(0), players.get(1));
 		board = Generation.generate(container.getWidth(), container.getHeight());
+		a = true;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
