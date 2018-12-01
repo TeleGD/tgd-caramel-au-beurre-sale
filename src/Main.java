@@ -15,10 +15,10 @@ public final class Main {
 		int width = 1280;
 		int height = 720;
 		boolean fullscreen = false;
-		String request = "Voulez-vous jouer en plein écran ?";
+		String request = "Connaissez-vous aussi bien Fire Emblem que le président de TGD ?";
 		Object [] options = {
 			"Oui",
-			"Non"
+			"MDR j'entends pas les rageux"
 		};
 		int returnValue = JOptionPane.showOptionDialog (
 			null,

@@ -3,22 +3,33 @@ package waterSymbol;
 import java.util.ArrayList;
 import java.util.Random;
 
+import waterSymbol.weapon.Weapon;
+
 public class Character {
 
 	private String name;
 	private String type;
 	private int health;
+	private int maxHealth;
 	private int movePoints;
 	private int attack;
 	private int defense;
 	private int initiative;
 	private int agility;
 	private String classe;
+	private int [] pos;
+	private Weapon weapon;
+	private boolean dead;
 
-	public Character(String name, String type) {
+	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.type = type;
-		this.health = 100 ;
+		this.health = 100;
+		this.maxHealth = 100;
+		this.pos = new int [] {-1, -1};
+		this.weapon = weapon;
+		this.dead = false;
+		generateStat();
 	}
 
 	public String getName() {
@@ -31,6 +42,10 @@ public class Character {
 
 	public int getHealth() {
 		return this.health;
+	}
+	
+	public int getMaxHealth() { 
+		return this.maxHealth;
 	}
 
 	public int getMovePoints() {
@@ -50,6 +65,26 @@ public class Character {
 		return this.initiative;
 	}
 
+	public int getAgility() {
+		return this.agility;
+	}
+
+	public Weapon getWeapon() {
+		return this.weapon;
+	}
+
+	public boolean isDead() {
+		return this.dead;
+	}
+
+	public int [] getPos () {
+		return new int [] {this.pos [0], this.pos [1]};
+	}
+
+	public void setPos (int [] pos) {
+		this.pos = new int [] {pos [0], pos [1]};
+	}
+
 	public static int randInt(int min, int max) {
 	    Random rand = new Random();
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
@@ -65,7 +100,7 @@ public class Character {
 		classeListe.add("warrior");
 
 
-		int i = randInt(1, 4) ;
+		int i = randInt(0, 4) ;
 		this.classe = classeListe.get(i) ;
 
 		if (this.classe.equals("healer")) {
@@ -109,8 +144,50 @@ public class Character {
 		}
 
 
-		}
-	public void takeDamage(int damage) {
-		health -= damage;
 	}
+
+	public void takeDirectDamage(int damage) {
+		this.health -= damage;
+		if (this.health <= 0) {
+			this.dead = true;
+		}
+	}
+
+	public void takeDamage(Character c) {
+		if (randInt(0,100) < this.agility) {
+			int damage = c.attack + c.weapon.getEffectValue();
+			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
+				this.health -= (int) 1.2*damage;
+			} else {
+				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
+					this.health -= (int) 0.8*damage;
+				} else {
+					this.health -= damage;
+				}
+			}
+			if (this.health <= 0) {
+				this.dead = true;
+			}
+		}
+	}
+		
+	public void takeDirectHealing(int heal) {
+		if (this.maxHealth-this.health <= heal) {
+			this.health = this.maxHealth;
+		} else {
+			this.health += heal;
+		}
+	}
+	
+	public void takeHealing(Character c) {
+		if (c.weapon.getTypeId() == 4) {
+			if (this.maxHealth-this.health <= c.weapon.getEffectValue()) {
+				this.health = this.maxHealth;
+			} else {
+				this.health += this.weapon.getEffectValue();
+			}
+		}
+	}
+
+
 }

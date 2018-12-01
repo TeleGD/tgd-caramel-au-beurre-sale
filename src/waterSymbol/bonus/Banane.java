@@ -10,7 +10,7 @@ public class Banane extends Bonus {
 
 	@Override
 	public void activate() {
-		character.takeDamage(value);
+		character.takeDirectDamage(value);
 	}
 
 }

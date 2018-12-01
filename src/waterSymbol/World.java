@@ -1,5 +1,8 @@
 package waterSymbol;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -10,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
+import waterSymbol.board.cases.Case;
 
 public class World extends BasicGameState {
 
@@ -17,10 +21,15 @@ public class World extends BasicGameState {
 	private int state;
 	private TeamBuilder builder;
 	private Board board;
+	private Player playerActif;
+	private List<Player> players;
+	private Case caseSelected;
 	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
+		players = new ArrayList<Player>();
+		caseSelected = null;
 	}
 
 	@Override
@@ -68,8 +77,8 @@ public class World extends BasicGameState {
 			builder.update(container, game, delta);
 		} else {
 			//TODO en jeu
+			board.update(container, game, delta);
 		}
-		
 	}
 
 	@Override
@@ -80,15 +89,21 @@ public class World extends BasicGameState {
 			builder.render(container, game, context);
 		} else {
 			//TODO en jeu
-			//board.render(container, game, context);
+			board.render(container, game, context);
 		}
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		
-		builder = new TeamBuilder(10, container, new Player("Tristan"), new Player("Axel"));
-		//board = Generation.generate(container.getWidth(), container.getHeight());
+		players.add(new Player("Tristan"));
+		players.add(new Player("Axel"));
+		
+		playerActif = players.get(0);
+		
+		builder = new TeamBuilder(10, container, players.get(0), players.get(1));
+		board = Generation.generate(container.getWidth(), container.getHeight());
+		
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
@@ -109,6 +124,25 @@ public class World extends BasicGameState {
 
 	public int getState () {
 		return this.state;
+	}
+	
+	@Override
+	public void mousePressed(int arg0, int x, int y) {
+		if (!builder.areTeamsReady()) {
+			return;
+		}
+		// Rencentre x et y dans le cadre du board
+		x -= board.getX();
+		y -= board.getY();
+		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) {
+			// Si on clique dans le board
+//			Case[][] cases = board.getCases();
+//			
+//			caseSelected = cases[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+			
+			caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+		}
+		System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
 	}
 
 }

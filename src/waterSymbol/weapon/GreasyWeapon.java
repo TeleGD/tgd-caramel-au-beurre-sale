@@ -1,0 +1,25 @@
+package waterSymbol.weapon;
+
+public class GreasyWeapon extends Weapon {
+
+	public GreasyWeapon(int id, int value) {
+		super(id, value);
+		super.typeId = 3;
+	}
+	
+	@Override
+	public int getId() {
+		return this.id;
+	}
+	
+	@Override
+	public int getTypeId() {
+		return this.typeId;
+	}
+	
+	@Override
+	public int getEffectValue() {
+		return this.effectValue;
+	}
+
+}
