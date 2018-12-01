@@ -13,6 +13,7 @@ public class Player {
 	
 	public Player(String id) {
 		this.id = id;
+		this.team = new ArrayList<Character>();
 	}
 	
 	public void setTeam(ArrayList<Character> team) {
@@ -35,10 +36,6 @@ public class Player {
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-	}
-
-	public void giveChar(Character character) {
-		// TODO Auto-generated method stub
 	}
 
 }

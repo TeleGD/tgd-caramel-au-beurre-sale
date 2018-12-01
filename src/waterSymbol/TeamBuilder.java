@@ -96,7 +96,7 @@ public class TeamBuilder {
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			int choice = getChoice(input.getAbsoluteMouseX(),input.getAbsoluteMouseY());
 			if (choice != 0) {
-				activePlayer.giveChar(characters[choice-1]);
+				activePlayer.ajouter(characters[choice-1]);
 				activePlayer = activePlayer==player1 ? player2 : player1;
 				compt = activePlayer==player1?compt+1:compt;
 				resetCharacters();

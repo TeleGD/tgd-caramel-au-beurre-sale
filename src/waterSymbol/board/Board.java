@@ -16,12 +16,19 @@ public class Board {
 	
 	private ArrayList<Case> traitees; 
 
-	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height) {
-		this.ratio = (width/1920f)<(height/1080f)?(width/1920f):(height/1080f);
-
+	// Pour la gestion des clics :
+	private int x, y;
+	private int height, width;
+	
+	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height, float ratio) {
 		this.nbLig = nbLig;
 		this.nbCol = nbCol;
 		this.cases = cases;
+		
+		this.height = height;
+		this.width = width;
+		this.x = 0;
+		this.y = 0;
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -35,11 +42,46 @@ public class Board {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for(int i=0; i<nbLig; i++) {
 			for(int j=0; j<nbCol; j++) {
-				cases[i][j].render(container, game, context, ratio);
+				cases[i][j].render(container, game, context);
 			}
 		}
 	}
+	public int getX() {
+		return x;
+	}
 
+	public int getY() {
+		return y;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+	
+	public Case[][] getCases(){
+		return cases;
+	}
+	
+	public float getWidthCase() {
+		if (cases.length != 0) {
+			return cases[0][0].getWidth();
+		}else {
+			return -1;
+		}
+	}
+	
+	public float getHeightCase() {
+		if (cases.length != 0) {
+			return cases[0][0].getHeight();
+		}else {
+			return -1;
+		}
+	}
+	
 	public void moveCharacter (Character character, int di, int dj) {
 		int [] oldPos = character.getPos ();
 		int [] newPos = new int [] {oldPos [0] + di, oldPos [1] + dj};
@@ -69,22 +111,23 @@ public class Board {
 	
 	private void parcourt(int x, int y, int move) {
 		traitees.add(cases[x][y]);
+		System.out.println(move);
 		if (move >= 0) {
 			if (move == 0) {
 				cases[x][y].highlight(false);
 			} else {
 				cases[x][y].highlight(true);
 			}
-			if (!traitees.contains(cases[x-1][y]) && cases[x-1][y].isAccessible()) {
+			if (x!=0 && !traitees.contains(cases[x-1][y]) && cases[x-1][y].isAccessible()) {
 				parcourt(x-1,y,move-1);
 			}
-			if (!traitees.contains(cases[x][y-1]) && cases[x][y-1].isAccessible()) {
+			if (y!=0 && !traitees.contains(cases[x][y-1]) && cases[x][y-1].isAccessible()) {
 				parcourt(x,y-1,move-1);
 			}
-			if (!traitees.contains(cases[x+1][y]) && cases[x+1][y].isAccessible()) {
+			if (x!=cases.length-1 && !traitees.contains(cases[x+1][y]) && cases[x+1][y].isAccessible()) {
 				parcourt(x+1,y,move-1);
 			}
-			if (!traitees.contains(cases[x][y+1]) && cases[x][y+1].isAccessible()) {
+			if (y!=cases.length-1 && !traitees.contains(cases[x][y+1]) && cases[x][y+1].isAccessible()) {
 				parcourt(x,y+1,move-1);
 			}
 		}

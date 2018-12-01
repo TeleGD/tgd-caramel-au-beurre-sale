@@ -13,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
+import waterSymbol.board.cases.Case;
 
 public class World extends BasicGameState {
 
@@ -23,6 +24,8 @@ public class World extends BasicGameState {
 	private int phase;	// Indique si le jeu en est à l'écran de création de Characters (0) ou à la phase de jeu (1)
 	private Player playerActif;
 	private List<Player> players;
+	private Case caseSelected;
+	private boolean a = true;
 	
 	public World (int ID) {
 		this.ID = ID;
@@ -75,7 +78,6 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
-			boolean a = true;
 			if (a) {
 				a = false;
 				board.showPossibleMove(players.get(0).getTeam().get(0));
@@ -98,13 +100,14 @@ public class World extends BasicGameState {
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		players = new ArrayList<Player>();
+		caseSelected = null;
 		
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
 		
 		playerActif = players.get(0);
 		
-		builder = new TeamBuilder(10, container, players.get(0), players.get(1));
+		builder = new TeamBuilder(1, container, players.get(0), players.get(1));
 		board = Generation.generate(container.getWidth(), container.getHeight());
 	}
 
@@ -126,6 +129,22 @@ public class World extends BasicGameState {
 
 	public int getState () {
 		return this.state;
+	}
+	
+	@Override
+	public void mousePressed(int arg0, int x, int y) {
+		// Rencentre x et y dans le cadre du board
+		x -= board.getX();
+		y -= board.getY();
+		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) {
+			// Si on clique dans le board
+//			Case[][] cases = board.getCases();
+//			
+//			caseSelected = cases[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+			
+			caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+		}
+		System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
 	}
 
 }
