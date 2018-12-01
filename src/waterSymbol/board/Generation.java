@@ -91,7 +91,7 @@ public class Generation {
 		if(j<width) {
 			cases[i][j] = new Floor(j,i,ratio);
 			if(i-1>0) cases[i-1][j] = new Floor(j,i-1,ratio);
-			if(i+1<width-1) cases[i+1][j] = new Floor(j,i+1,ratio);
+			if(i+1<height-1) cases[i+1][j] = new Floor(j,i+1,ratio);
 			
 			int r = (int)(Math.random()*5);
 			if(r==4 && i>=2) createPath(i-1,j);
