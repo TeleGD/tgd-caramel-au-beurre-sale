@@ -8,7 +8,7 @@ import waterSymbol.weapon.Weapon;
 public class Character {
 
 	private String name;
-	private String type;
+	private String classe;
 	private int health;
 	private int maxHealth;
 	private int movePoints;
@@ -16,14 +16,13 @@ public class Character {
 	private int defense;
 	private int initiative;
 	private int agility;
-	private String classe;
 	private int [] pos;
 	private Weapon weapon;
 	private boolean dead;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
-		this.type = type;
+		this.classe = type;
 		this.health = 100;
 		this.maxHealth = 100;
 		this.pos = new int [] {1, 1};
@@ -36,8 +35,8 @@ public class Character {
 		return this.name;
 	}
 
-	public String getType() {
-		return this.type;
+	public String getClasse() {
+		return this.classe;
 	}
 
 	public int getHealth() {
@@ -154,15 +153,19 @@ public class Character {
 	}
 
 	public void takeDamage(Character c) {
+		int delta = 1;
+		if (randInt(0,100) <= 5) {
+			delta = 2;
+		}
 		if (randInt(0,100) < this.agility) {
 			int damage = c.attack + c.weapon.getEffectValue();
 			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
-				this.health -= (int) 1.2*damage;
+				this.health -= (int) 1.2*damage*delta;
 			} else {
 				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
-					this.health -= (int) 0.8*damage;
+					this.health -= (int) 0.8*damage*delta;
 				} else {
-					this.health -= damage;
+					this.health -= damage*delta;
 				}
 			}
 			if (this.health <= 0) {
@@ -180,11 +183,15 @@ public class Character {
 	}
 	
 	public void takeHealing(Character c) {
+		int delta = 1;
+		if (randInt(0,100) <= 5) {
+			delta = 2;
+		}
 		if (c.weapon.getTypeId() == 4) {
-			if (this.maxHealth-this.health <= c.weapon.getEffectValue()) {
+			if (this.maxHealth-this.health <= c.weapon.getEffectValue()*delta) {
 				this.health = this.maxHealth;
 			} else {
-				this.health += this.weapon.getEffectValue();
+				this.health += this.weapon.getEffectValue()*delta;
 			}
 		}
 	}
