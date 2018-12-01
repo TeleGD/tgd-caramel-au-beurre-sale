@@ -27,7 +27,6 @@ public class World extends BasicGameState {
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
-		players = new ArrayList<Player>();
 	}
 
 	@Override
@@ -76,6 +75,11 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
+			boolean a = true;
+			if (a) {
+				a = false;
+				board.showPossibleMove(players.get(0).getTeam().get(0));
+			}
 		}
 	}
 
@@ -93,6 +97,7 @@ public class World extends BasicGameState {
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		players = new ArrayList<Player>();
 		
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
@@ -101,7 +106,6 @@ public class World extends BasicGameState {
 		
 		builder = new TeamBuilder(10, container, players.get(0), players.get(1));
 		board = Generation.generate(container.getWidth(), container.getHeight());
-		
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {

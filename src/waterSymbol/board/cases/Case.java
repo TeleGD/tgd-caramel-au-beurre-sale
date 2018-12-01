@@ -47,4 +47,19 @@ public abstract class Case {
 	public void render(GameContainer container, StateBasedGame game, Graphics g, float ratio) {
 		g.drawImage(sprite, x*width*ratio, y*height*ratio, width*ratio*(x+1), (y+1)*height*ratio, 0, 0, sprite.getWidth(), sprite.getHeight());
 	}
+
+	public void highlight(boolean b) {
+		if (b)
+			sprite.setImageColor(0, 0, 1, .2f);
+		else
+			sprite.setImageColor(1, 0, 0, .2f);
+	}
+	
+	public void outlight() {
+		sprite.setImageColor(0, 0, 0, 1);
+	}
+
+	public boolean isAccessible() {
+		return (character==null && this instanceof Wall);
+	}
 }

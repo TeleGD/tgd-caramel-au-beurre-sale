@@ -110,10 +110,10 @@ public class TeamBuilder {
 	
 	private void resetCharacters() {
 		// TODO
-		characters[0] = new Character("Amos", "a", new SweetWeapon(1, 10));
-		characters[1] = new Character("Xavier", "a", new SweetWeapon(2, 10));
-		characters[2] = new Character("David", "a", new GreasyWeapon(3,10));
-		characters[3] = new Character("Frédéric", "a", new SaltedWeapon(4,10));
+		characters[0] = new Character("Amos", "ranger", new SweetWeapon(1, 10));
+		characters[1] = new Character("Xavier", "ranger", new SweetWeapon(2, 10));
+		characters[2] = new Character("David", "ranger", new GreasyWeapon(3,10));
+		characters[3] = new Character("Frédéric", "ranger", new SaltedWeapon(4,10));
 	}
 
 	private int getChoice(int x, int y) {
