@@ -160,12 +160,12 @@ public class Character {
 		if (randInt(0,100) < this.agility) {
 			int damage = c.attack + c.weapon.getEffectValue();
 			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
-				this.health -= (int) 1.2*damage*delta;
+				this.health -= (int) 1.2*damage*delta - this.defense;
 			} else {
 				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
-					this.health -= (int) 0.8*damage*delta;
+					this.health -= (int) 0.8*damage*delta - this.defense;
 				} else {
-					this.health -= damage*delta;
+					this.health -= damage*delta - this.defense;
 				}
 			}
 			if (this.health <= 0) {
