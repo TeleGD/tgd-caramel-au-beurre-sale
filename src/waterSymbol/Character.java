@@ -19,9 +19,10 @@ public class Character {
 	private int agility;
 	private Weapon weapon;
 	private boolean dead;
+	private Player player;
 	private Case host;
 
-	public Character(String name, String type, Weapon weapon) {
+	public Character(String name, String type, Weapon weapon, Player player) {
 		this.name = name;
 		this.classe = type;
 		this.health = 100;
@@ -195,6 +196,10 @@ public class Character {
 				this.health += this.weapon.getEffectValue()*delta;
 			}
 		}
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 
