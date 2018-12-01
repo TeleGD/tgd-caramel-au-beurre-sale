@@ -21,7 +21,6 @@ public class World extends BasicGameState {
 	private int state;
 	private TeamBuilder builder;
 	private Board board;
-	private int phase;	// Indique si le jeu en est à l'écran de création de Characters (0) ou à la phase de jeu (1)
 	private Player playerActif;
 	private List<Player> players;
 	private Case caseSelected;
@@ -133,6 +132,9 @@ public class World extends BasicGameState {
 	
 	@Override
 	public void mousePressed(int arg0, int x, int y) {
+		if (!builder.areTeamsReady()) {
+			return;
+		}
 		// Rencentre x et y dans le cadre du board
 		x -= board.getX();
 		y -= board.getY();

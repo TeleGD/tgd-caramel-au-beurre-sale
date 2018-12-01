@@ -12,7 +12,6 @@ import waterSymbol.board.cases.*;
 public class Board {
 	private Case[][] cases;
 	private int nbCol, nbLig;
-	private float ratio;
 	
 	private ArrayList<Case> traitees; 
 
@@ -20,7 +19,7 @@ public class Board {
 	private int x, y;
 	private int height, width;
 	
-	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height, float ratio) {
+	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height) {
 		this.nbLig = nbLig;
 		this.nbCol = nbCol;
 		this.cases = cases;
