@@ -41,6 +41,7 @@ public class Generation {
 		}
 		
 		generateShelves();
+		generateSales();
 		
 		createPath((int)(Math.random()*(height-10))+5,1);
 		
@@ -74,7 +75,7 @@ public class Generation {
 	private static void generateShelves() {
 		for(int i=0; i<height; i++) {
 			for(int j=0; j<width; j++) {
-				if(cases[i][j] instanceof Wall && (int)(Math.random()*10)==0) cases[i][j] = new Shelf(j,i,ratio);
+				if(cases[i][j] instanceof Wall && (int)(Math.random()*8)==0) cases[i][j] = new Shelf(j,i,ratio);
 			}
 		}
 		
@@ -87,6 +88,27 @@ public class Generation {
 		}
 	}
 	
+	private static void generateSales() {
+		for(int i=0; i<height; i++) {
+			for(int j=0; j<width; j++) {
+				int rand = (int)(Math.random()*2);
+				if(cases[i][j] instanceof Wall && (int)(Math.random()*8)==0) {
+					if(rand==0) cases[i][j] = new Sale(j,i,ratio);
+					else cases[i][j] = new MegaSale(j,i,ratio);
+				}
+			}
+		}
+		
+		for(int k=0; k<(int)(Math.random()*10); k++) {
+			int j = (int)(Math.random()*(width-2)+1);
+			int i = (int)(Math.random()*(height-2)+1);
+			
+			if(cases[0][j] instanceof Wall) k--;
+			else if ((int)(Math.random()*2)==0) cases[i][j] = new Sale(j,i,ratio);
+			else cases[i][j] = new MegaSale(j,i,ratio);
+		}
+	}
+	
 	private static void createPath(int i, int j) {
 		if(j<width) {
 			cases[i][j] = new Floor(j,i,ratio);
@@ -95,7 +117,7 @@ public class Generation {
 			
 			int r = (int)(Math.random()*5);
 			if(r==4 && i>=2) createPath(i-1,j);
-			else if(r==3 && i<width-2) createPath(i+1,j);
+			else if(r==3 && i<height-2) createPath(i+1,j);
 			else createPath(i,j+1);
 		}
 	}

@@ -80,6 +80,11 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
+			if (a) {
+				a = false;
+				board.moveCharacter(players.get(0).getTeam().get(0), 0, 0);
+				board.showPossibleMove(players.get(0).getTeam().get(0));
+			}
 		}
 	}
 
