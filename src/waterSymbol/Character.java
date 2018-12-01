@@ -10,6 +10,7 @@ public class Character {
 	private String name;
 	private String type;
 	private int health;
+	private int maxHealth;
 	private int movePoints;
 	private int attack;
 	private int defense;
@@ -24,6 +25,7 @@ public class Character {
 		this.name = name;
 		this.type = type;
 		this.health = 100;
+		this.maxHealth = 100;
 		this.pos = new int [] {-1, -1};
 		this.weapon = weapon;
 		this.dead = false;
@@ -40,6 +42,10 @@ public class Character {
 
 	public int getHealth() {
 		return this.health;
+	}
+	
+	public int getMaxHealth() { 
+		return this.maxHealth;
 	}
 
 	public int getMovePoints() {
@@ -164,5 +170,24 @@ public class Character {
 			}
 		}
 	}
+		
+	public void takeDirectHealing(int heal) {
+		if (this.maxHealth-this.health <= heal) {
+			this.health = this.maxHealth;
+		} else {
+			this.health += heal;
+		}
+	}
+	
+	public void takeHealing(Character c) {
+		if (c.weapon.getTypeId() == 4) {
+			if (this.maxHealth-this.health <= c.weapon.getEffectValue()) {
+				this.health = this.maxHealth;
+			} else {
+				this.health += this.weapon.getEffectValue();
+			}
+		}
+	}
+
 
 }
