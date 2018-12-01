@@ -82,10 +82,9 @@ public class Board {
 		return false;
 	}
 
-	public List <Case> connect (Character character, int i, int j) {
+	public List <Case> connect (Character character, Case end) {
 		Case start = character.getCase ();
-		if (start != null && 0 <= i && i < this.nbLig && 0 <= j && j < this.nbCol) {
-			Case end = this.cases [i] [j];
+		if (start != null && end != null) {
 			if (end.getCharacter () == null) {
 				List <Case> path = new ArrayList <Case> ();
 				path.add (start);
@@ -97,13 +96,12 @@ public class Board {
 		return null;
 	}
 
-	public void moveCharacter (Character character, int i, int j) {
-		Case start = character.getCase ();
-		if (0 <= i && i < this.nbLig && 0 <= j && j < this.nbCol) {
-			Case end = this.cases [i] [j];
+	public void moveCharacter (Character character, Case end) {
+		if (end != null) {
 			end.setCharacter (character);
 			character.setCase (end);
 		} else {
+			Case start = character.getCase ();
 			if (start != null) {
 				start.setCharacter (null);
 			}
