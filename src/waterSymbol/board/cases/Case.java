@@ -32,6 +32,10 @@ public abstract class Case {
 		this.sprite = sprite.copy();
 	}
 
+	public int [] getPos () {
+		return new int [] {this.y, this.x};
+	}
+
 	public void setCharacter (Character character) {
 		this.character = character;
 	}

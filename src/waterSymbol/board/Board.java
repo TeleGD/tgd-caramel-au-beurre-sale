@@ -38,13 +38,53 @@ public class Board {
 		}
 	}
 
-	public void moveCharacter (Character character, int di, int dj) {
-		int [] oldPos = character.getPos ();
-		int [] newPos = new int [] {oldPos [0] + di, oldPos [1] + dj};
-		if (0 < newPos [0] && newPos [0] < this.nbLig && 0 < newPos [1] && newPos [1] < this.nbCol && this.cases [newPos [0]] [newPos [1]].getCharacter () == null) {
-			character.setPos (newPos);
-			this.cases [oldPos [0]] [oldPos [1]].setCharacter (null);
-			this.cases [newPos [0]] [newPos [1]].setCharacter (character);
+	private boolean find (List <Case> path, Case end, int remainder) {
+		if (path.get (path.size () - 1) == end) {
+			return true;
+		} else if (remainder > 0) {
+			remainder--;
+			int length = path.size ();
+			Case currentCase = path.get (path.size () - 1);
+			int [] pos = currentCase.getPos ();
+			for (int k = 0; k < 4; k++) {
+				int i = pos [0] + (k == 1 ? 1 : 0) - (k == 3 ? 1 : 0);
+				int j = pos [1] + (k == 2 ? 1 : 0) - (k == 0 ? 1 : 0);
+				Case next = this.cases [i] [j];
+				if (next instanceof Floor && next.getCharacter () == null && !path.contains (next)) {
+					path.add (next);
+					if (find (path, end, remainder)) {
+						return true;
+					}
+					path.remove (length - 1);
+				}
+			}
+		}
+		return false;
+	}
+
+	public List <Case> connect (Character character, int i, int j) {
+		Case start = character.getCase ();
+		if (start != null && 0 < i && i < this.nbLig && 0 < j && j < this.nbCol) {
+			Case end = this.cases [i] [j];
+			if (end.getCharacter () == null) {
+				List <Case> path = new ArrayList <Case> ();
+				path.add (start);
+				if (this.find (path, end, character.getMovePoints ())) {
+					return path;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void moveCharacter (Character character, int i, int j) {
+		Case start = character.getCase ();
+		start.setCharacter (null);
+		character.setCase (null);
+		if (start != null && 0 < i && i < this.nbLig && 0 < j && j < this.nbCol) {
+			Case end = this.cases [i] [j];
+			end.setCharacter (character);
+			character.setCase (end);
 		}
 	}
 }

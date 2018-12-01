@@ -3,6 +3,7 @@ package waterSymbol;
 import java.util.ArrayList;
 import java.util.Random;
 
+import waterSymbol.board.cases.Case;
 import waterSymbol.weapon.Weapon;
 
 public class Character {
@@ -16,15 +17,15 @@ public class Character {
 	private int initiative;
 	private int agility;
 	private String classe;
-	private int [] pos;
 	private Weapon weapon;
 	private boolean dead;
+	private Case host;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.type = type;
 		this.health = 100;
-		this.pos = new int [] {-1, -1};
+		this.host = null;
 		this.weapon = weapon;
 		this.dead = false;
 		generateStat();
@@ -71,12 +72,12 @@ public class Character {
 		return this.dead;
 	}
 
-	public int [] getPos () {
-		return new int [] {this.pos [0], this.pos [1]};
+	public Case getCase () {
+		return this.host;
 	}
 
-	public void setPos (int [] pos) {
-		this.pos = new int [] {pos [0], pos [1]};
+	public void setCase (Case host) {
+		this.host = host;
 	}
 
 	public static int randInt(int min, int max) {
