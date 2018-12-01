@@ -9,23 +9,24 @@ import waterSymbol.weapon.Weapon;
 public class Character {
 
 	private String name;
-	private String type;
+	private String classe;
 	private int health;
+	private int maxHealth;
 	private int movePoints;
 	private int attack;
 	private int defense;
 	private int initiative;
 	private int agility;
-	private String classe;
 	private Weapon weapon;
 	private boolean dead;
 	private Case host;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
-		this.type = type;
+		this.classe = type;
 		this.health = 100;
 		this.host = null;
+		this.maxHealth = 100;
 		this.weapon = weapon;
 		this.dead = false;
 		generateStat();
@@ -35,12 +36,16 @@ public class Character {
 		return this.name;
 	}
 
-	public String getType() {
-		return this.type;
+	public String getClasse() {
+		return this.classe;
 	}
 
 	public int getHealth() {
 		return this.health;
+	}
+
+	public int getMaxHealth() {
+		return this.maxHealth;
 	}
 
 	public int getMovePoints() {
@@ -149,15 +154,19 @@ public class Character {
 	}
 
 	public void takeDamage(Character c) {
+		int delta = 1;
+		if (randInt(0,100) <= 5) {
+			delta = 2;
+		}
 		if (randInt(0,100) < this.agility) {
 			int damage = c.attack + c.weapon.getEffectValue();
 			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
-				this.health -= (int) 1.2*damage;
+				this.health -= (int) 1.2*damage*delta - this.defense;
 			} else {
 				if ((c.weapon.getTypeId() - this.weapon.getTypeId())%3 == 1) {
-					this.health -= (int) 0.8*damage;
+					this.health -= (int) 0.8*damage*delta - this.defense;
 				} else {
-					this.health -= damage;
+					this.health -= damage*delta - this.defense;
 				}
 			}
 			if (this.health <= 0) {
@@ -165,5 +174,28 @@ public class Character {
 			}
 		}
 	}
+
+	public void takeDirectHealing(int heal) {
+		if (this.maxHealth-this.health <= heal) {
+			this.health = this.maxHealth;
+		} else {
+			this.health += heal;
+		}
+	}
+
+	public void takeHealing(Character c) {
+		int delta = 1;
+		if (randInt(0,100) <= 5) {
+			delta = 2;
+		}
+		if (c.weapon.getTypeId() == 4) {
+			if (this.maxHealth-this.health <= c.weapon.getEffectValue()*delta) {
+				this.health = this.maxHealth;
+			} else {
+				this.health += this.weapon.getEffectValue()*delta;
+			}
+		}
+	}
+
 
 }
