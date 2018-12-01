@@ -84,7 +84,7 @@ public class Board {
 
 	public List <Case> connect (Character character, int i, int j) {
 		Case start = character.getCase ();
-		if (start != null && 0 < i && i < this.nbLig && 0 < j && j < this.nbCol) {
+		if (start != null && 0 <= i && i < this.nbLig && 0 <= j && j < this.nbCol) {
 			Case end = this.cases [i] [j];
 			if (end.getCharacter () == null) {
 				List <Case> path = new ArrayList <Case> ();
@@ -99,7 +99,7 @@ public class Board {
 
 	public void moveCharacter (Character character, int i, int j) {
 		Case start = character.getCase ();
-		if (0 < i && i < this.nbLig && 0 < j && j < this.nbCol) {
+		if (0 <= i && i < this.nbLig && 0 <= j && j < this.nbCol) {
 			Case end = this.cases [i] [j];
 			end.setCharacter (character);
 			character.setCase (end);
@@ -136,7 +136,6 @@ public class Board {
 	}
 
 	public void showPossibleMove(Character character) {
-		System.out.println (character);
 		int [] pos = character.getCase().getPos();
 		int movePoints = character.getMovePoints()+1;
 		traitees = new HashMap<Case,Integer>();

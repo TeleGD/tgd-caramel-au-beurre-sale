@@ -83,7 +83,7 @@ public class World extends BasicGameState {
 			if (a) {
 				a = false;
 				board.moveCharacter(players.get(0).getTeam().get(0), 0, 0);
-//				board.showPossibleMove(players.get(0).getTeam().get(0));
+				board.showPossibleMove(players.get(0).getTeam().get(0));
 			}
 		}
 	}
