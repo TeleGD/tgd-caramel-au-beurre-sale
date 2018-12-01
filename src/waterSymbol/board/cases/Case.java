@@ -72,9 +72,9 @@ public abstract class Case {
 
 	public void highlight(boolean b) {
 		if (b)
-			filter = new Color(0, 0, 255, 230);
+			filter = new Color(49, 140, 231, 254);
 		else
-			filter = new Color(255, 0, 0, 230);
+			filter = new Color(247, 35, 12, 254);
 	}
 	
 	public void outlight() {

@@ -1,6 +1,7 @@
 package waterSymbol.board;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -103,10 +104,10 @@ public class Board {
 	}
 	
 	public void hidePossibleMove(Character character) {
-		/*for (Case c : traitees) {
-			c.outlight();
-		}*/
-		
+		for(Entry<Case, Integer> entry : traitees.entrySet()) {
+		    Case c = entry.getKey();
+		    c.outlight();
+		}
 		traitees = null;
 	}
 	
