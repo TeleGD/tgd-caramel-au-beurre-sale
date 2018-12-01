@@ -13,14 +13,14 @@ public abstract class Case {
 	private float width, height;
 	private Image sprite;
 	
-	public Case(int x, int y, String type) {
+	public Case(int x, int y, String type, float ratio) {
 		this.x = x;
 		this.y = y;
 		
 		setSprite(AppLoader.loadPicture ("/images/"+ type+ ".png"));
 		
-		this.width = 1920f/35f;
-		this.height = 1080f/20f;
+		this.width = 1920f/35f * ratio;
+		this.height = 1080f/20f * ratio;
 	}
 	
 	public void setSprite(Image sprite) {
@@ -31,7 +31,23 @@ public abstract class Case {
 		
 	}
 	
-	public void render(GameContainer container, StateBasedGame game, Graphics g, float ratio) {
-		g.drawImage(sprite, x*width*ratio, y*height*ratio, width*ratio*(x+1), (y+1)*height*ratio, 0, 0, sprite.getWidth(), sprite.getHeight());
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		g.drawImage(sprite, x*width, y*height, width*(x+1), (y+1)*height, 0, 0, sprite.getWidth(), sprite.getHeight());
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 }
