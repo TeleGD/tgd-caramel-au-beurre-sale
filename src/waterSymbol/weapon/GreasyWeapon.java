@@ -1,10 +1,10 @@
 package waterSymbol.weapon;
 
-public class SweetWeapon extends Weapon {
+public class GreasyWeapon extends Weapon {
 
-	public SweetWeapon(int id, int value) {
+	public GreasyWeapon(int id, int value) {
 		super(id, value);
-		super.typeId = 2;
+		super.typeId = 3;
 	}
 	
 	@Override
@@ -21,5 +21,5 @@ public class SweetWeapon extends Weapon {
 	public int getEffectValue() {
 		return this.effectValue;
 	}
-	
+
 }
