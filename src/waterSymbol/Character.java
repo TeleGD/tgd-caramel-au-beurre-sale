@@ -14,11 +14,13 @@ public class Character {
 	private int initiative;
 	private int agility;
 	private String classe;
+	private int [] pos;
 
 	public Character(String name, String type) {
 		this.name = name;
 		this.type = type;
-		this.health = 100 ;
+		this.health = 100;
+		this.pos = new int [] {-1, -1};
 	}
 
 	public String getName() {
@@ -48,6 +50,14 @@ public class Character {
 
 	public int getInitiative() {
 		return this.initiative;
+	}
+
+	public int [] getPos () {
+		return new int [] {this.pos [0], this.pos [1]};
+	}
+
+	public void setPos (int [] pos) {
+		this.pos = new int [] {pos [0], pos [1]};
 	}
 
 	public static int randInt(int min, int max) {
