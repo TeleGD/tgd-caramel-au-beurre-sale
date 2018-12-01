@@ -24,12 +24,11 @@ public class World extends BasicGameState {
 	private Player playerActif;
 	private List<Player> players;
 	private Case caseSelected;
+	private boolean a = true;
 	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
-		players = new ArrayList<Player>();
-		caseSelected = null;
 	}
 
 	@Override
@@ -78,6 +77,10 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
+			if (a) {
+				a = false;
+				board.showPossibleMove(players.get(0).getTeam().get(0));
+			}
 		}
 	}
 
@@ -95,15 +98,16 @@ public class World extends BasicGameState {
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		players = new ArrayList<Player>();
+		caseSelected = null;
 		
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
 		
 		playerActif = players.get(0);
 		
-		builder = new TeamBuilder(10, container, players.get(0), players.get(1));
+		builder = new TeamBuilder(1, container, players.get(0), players.get(1));
 		board = Generation.generate(container.getWidth(), container.getHeight());
-		
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
