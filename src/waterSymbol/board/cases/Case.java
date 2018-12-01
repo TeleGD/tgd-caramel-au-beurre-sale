@@ -1,5 +1,6 @@
 package waterSymbol.board.cases;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,6 +15,7 @@ public abstract class Case {
 	private float width, height;
 	private Image sprite;
 	private Character character;
+	private Color filter;
 	
 	public Case(int x, int y, String type, float ratio) {
 	
@@ -24,6 +26,8 @@ public abstract class Case {
 		
 		this.width = 1920f/35f * ratio;
 		this.height = 1080f/20f * ratio;
+		
+		filter = new Color(255,255,255,255);
 	}
 
 	public void setSprite(Image sprite) {
@@ -43,7 +47,7 @@ public abstract class Case {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(sprite, x*width, y*height, width*(x+1), (y+1)*height, 0, 0, sprite.getWidth(), sprite.getHeight());
+		g.drawImage(sprite, x*width, y*height, width*(x+1), (y+1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
 	}
 
 	public float getWidth() {
@@ -67,15 +71,14 @@ public abstract class Case {
 	}
 
 	public void highlight(boolean b) {
-		System.out.println("CA MARCHE PAS");
 		if (b)
-			sprite.setImageColor(0, 0, 1, .8f);
+			filter = new Color(0, 0, 255, 230);
 		else
-			sprite.setImageColor(1, 0, 0, .8f);
+			filter = new Color(255, 0, 0, 230);
 	}
 	
 	public void outlight() {
-		sprite.setImageColor(0, 0, 0, 1);
+		filter = new Color(255,255,255,255);
 	}
 
 	public boolean isAccessible() {

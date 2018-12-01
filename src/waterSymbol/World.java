@@ -139,11 +139,7 @@ public class World extends BasicGameState {
 		x -= board.getX();
 		y -= board.getY();
 		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) {
-			// Si on clique dans le board
-//			Case[][] cases = board.getCases();
-//			
-//			caseSelected = cases[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
-			
+			// Si on clique dans le board		
 			caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
 		}
 		System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
