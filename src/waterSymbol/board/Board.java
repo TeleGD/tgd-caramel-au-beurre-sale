@@ -1,6 +1,7 @@
 package waterSymbol.board;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,7 +14,8 @@ public class Board {
 	private Case[][] cases;
 	private int nbCol, nbLig;
 	
-	private ArrayList<Case> traitees; 
+	private HashMap<Case,Integer> traitees; 
+	private ArrayList<Case> accessibles;
 
 	// Pour la gestion des clics :
 	private int x, y;
@@ -95,38 +97,40 @@ public class Board {
 		int [] pos = character.getPos();
 		int movePoints = character.getMovePoints()+1;
 		
-		traitees = new ArrayList<Case>();
+		traitees = new HashMap<Case,Integer>();
+		accessibles = new ArrayList<Case>();
 		
 		parcourt(pos[0],pos[1],movePoints);
 	}
 	
 	public void hidePossibleMove(Character character) {
-		for (Case c : traitees) {
-			c.outlight();
+		for(Entry<Case, Integer> entry : traitees.entrySet()) {
+		    Case c = entry.getKey();
+		    c.outlight();
 		}
-		
 		traitees = null;
 	}
 	
 	private void parcourt(int x, int y, int move) {
-		traitees.add(cases[x][y]);
-		System.out.println(move);
+		traitees.put(cases[x][y],move);
+		System.out.println("Traitement "+x+" "+y);
 		if (move >= 0) {
 			if (move == 0) {
 				cases[x][y].highlight(false);
 			} else {
 				cases[x][y].highlight(true);
+				accessibles.add(cases[x][y]);
 			}
-			if (x!=0 && !traitees.contains(cases[x-1][y]) && cases[x-1][y].isAccessible()) {
+			if (x!=0 && (traitees.containsKey(cases[x-1][y]) && traitees.get(cases[x-1][y])<move || !traitees.containsKey(cases[x-1][y])) && cases[x-1][y].isAccessible()) {
 				parcourt(x-1,y,move-1);
 			}
-			if (y!=0 && !traitees.contains(cases[x][y-1]) && cases[x][y-1].isAccessible()) {
+			if (y!=0 && (traitees.containsKey(cases[x][y-1]) && traitees.get(cases[x][y-1])<move || !traitees.containsKey(cases[x][y-1])) && cases[x][y-1].isAccessible()) {
 				parcourt(x,y-1,move-1);
 			}
-			if (x!=cases.length-1 && !traitees.contains(cases[x+1][y]) && cases[x+1][y].isAccessible()) {
+			if (x!=cases.length-1 && (traitees.containsKey(cases[x+1][y]) && traitees.get(cases[x+1][y])<move || !traitees.containsKey(cases[x+1][y])) && cases[x+1][y].isAccessible()) {
 				parcourt(x+1,y,move-1);
 			}
-			if (y!=cases.length-1 && !traitees.contains(cases[x][y+1]) && cases[x][y+1].isAccessible()) {
+			if (y!=cases.length-1 && (traitees.containsKey(cases[x][y+1]) && traitees.get(cases[x][y+1])<move || !traitees.containsKey(cases[x][y+1])) && cases[x][y+1].isAccessible()) {
 				parcourt(x,y+1,move-1);
 			}
 		}
