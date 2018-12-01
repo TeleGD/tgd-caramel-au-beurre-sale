@@ -1,5 +1,8 @@
 package waterSymbol;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -18,10 +21,13 @@ public class World extends BasicGameState {
 	private TeamBuilder builder;
 	private Board board;
 	private int phase;	// Indique si le jeu en est à l'écran de création de Characters (0) ou à la phase de jeu (1)
+	private Player playerActif;
+	private List<Player> players;
 	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
+		players = new ArrayList<Player>();
 	}
 
 	@Override
@@ -69,6 +75,7 @@ public class World extends BasicGameState {
 			builder.update(container, game, delta);
 		} else {
 			//TODO en jeu
+			board.update(container, game, delta);
 		}
 	}
 
@@ -80,15 +87,21 @@ public class World extends BasicGameState {
 			builder.render(container, game, context);
 		} else {
 			//TODO en jeu
-			//board.render(container, game, context);
+			board.render(container, game, context);
 		}
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		
-		builder = new TeamBuilder(10, container, new Player("Tristan"), new Player("Axel"));
-		//board = Generation.generate(container.getWidth(), container.getHeight());
+		players.add(new Player("Tristan"));
+		players.add(new Player("Axel"));
+		
+		playerActif = players.get(0);
+		
+		builder = new TeamBuilder(10, container, players.get(0), players.get(1));
+		board = Generation.generate(container.getWidth(), container.getHeight());
+		
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
