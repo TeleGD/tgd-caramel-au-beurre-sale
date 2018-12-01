@@ -77,13 +77,21 @@ public class Generation {
 				if(cases[i][j] instanceof Wall && (int)(Math.random()*10)==0) cases[i][j] = new Shelf(j,i,ratio);
 			}
 		}
+		
+		for(int k=0; k<(int)(Math.random()*10); k++) {
+			int j = (int)(Math.random()*(width-2)+1);
+			int i = (int)(Math.random()*(height-2)+1);
+			
+			if(cases[0][j] instanceof Wall) k--;
+			else cases[i][j] = new Shelf(j,i,ratio);			
+		}
 	}
 	
 	private static void createPath(int i, int j) {
 		if(j<width) {
 			cases[i][j] = new Floor(j,i,ratio);
 			if(i-1>0) cases[i-1][j] = new Floor(j,i-1,ratio);
-			if(i+1<width-1) cases[i+1][j] = new Floor(j,i+1,ratio);
+			if(i+1<height-1) cases[i+1][j] = new Floor(j,i+1,ratio);
 			
 			int r = (int)(Math.random()*5);
 			if(r==4 && i>=2) createPath(i-1,j);

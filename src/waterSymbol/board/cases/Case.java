@@ -70,15 +70,11 @@ public abstract class Case {
 		return y;
 	}
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g, float ratio) {
-		g.drawImage(sprite, x*width*ratio, y*height*ratio, width*ratio*(x+1), (y+1)*height*ratio, 0, 0, sprite.getWidth(), sprite.getHeight());
-	}
-
 	public void highlight(boolean b) {
 		if (b)
-			filter = new Color(0, 0, 255, 230);
+			filter = new Color(187, 210, 225, 255);
 		else
-			filter = new Color(255, 0, 0, 230);
+			filter = new Color(247, 180, 150, 255);
 	}
 	
 	public void outlight() {
