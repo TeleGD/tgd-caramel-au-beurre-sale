@@ -23,7 +23,10 @@ public class World extends BasicGameState {
 	private Board board;
 	private Player playerActif;
 	private List<Player> players;
-	private Case caseSelected;
+	private Case caseSelected1;
+	private Case caseSelected2;
+	private Character characterSelected1;
+	private Character characterSelected2;
 	private boolean a = true;
 	
 	public World (int ID) {
@@ -79,7 +82,8 @@ public class World extends BasicGameState {
 			board.update(container, game, delta);
 			if (a) {
 				a = false;
-				board.showPossibleMove(players.get(0).getTeam().get(0));
+				board.moveCharacter(players.get(0).getTeam().get(0), 0, 0);
+//				board.showPossibleMove(players.get(0).getTeam().get(0));
 			}
 		}
 	}
@@ -99,7 +103,7 @@ public class World extends BasicGameState {
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		players = new ArrayList<Player>();
-		caseSelected = null;
+		caseSelected1 = null;
 		
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
@@ -138,11 +142,28 @@ public class World extends BasicGameState {
 		// Rencentre x et y dans le cadre du board
 		x -= board.getX();
 		y -= board.getY();
-		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) {
-			// Si on clique dans le board		
-			caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) { // Si on clique dans le board
+			Case caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+			if (arg0 == 0) {	// Clic gauche de la souris
+				caseSelected1 = caseSelected;
+				characterSelected1 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
+				System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
+			}else if (arg0 == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
+				caseSelected2 = caseSelected;
+				characterSelected2 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
+				if (caseSelected1 == caseSelected2) {	// Si le joueur selectionne la même case qu'avant
+					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
+					System.out.println("Action sur moi-même");
+				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
+					System.out.println("Je veux me déplacer en case : i " + x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
+				}
+				caseSelected2 = null;
+				characterSelected2 = null;
+				
+				//TODO : déplacer la réinitialisation de la première selection dans la fin de la dernière action du character
+				
+			}
 		}
-		System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
 	}
 
 }

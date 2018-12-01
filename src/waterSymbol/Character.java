@@ -3,6 +3,7 @@ package waterSymbol;
 import java.util.ArrayList;
 import java.util.Random;
 
+import waterSymbol.board.cases.Case;
 import waterSymbol.weapon.Weapon;
 
 public class Character {
@@ -16,16 +17,16 @@ public class Character {
 	private int defense;
 	private int initiative;
 	private int agility;
-	private int [] pos;
 	private Weapon weapon;
 	private boolean dead;
+	private Case host;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.classe = type;
 		this.health = 100;
+		this.host = null;
 		this.maxHealth = 100;
-		this.pos = new int [] {5,5};
 		this.weapon = weapon;
 		this.dead = false;
 		generateStat();
@@ -42,8 +43,8 @@ public class Character {
 	public int getHealth() {
 		return this.health;
 	}
-	
-	public int getMaxHealth() { 
+
+	public int getMaxHealth() {
 		return this.maxHealth;
 	}
 
@@ -76,12 +77,12 @@ public class Character {
 		return this.dead;
 	}
 
-	public int [] getPos () {
-		return new int [] {this.pos [0], this.pos [1]};
+	public Case getCase () {
+		return this.host;
 	}
 
-	public void setPos (int [] pos) {
-		this.pos = new int [] {pos [0], pos [1]};
+	public void setCase (Case host) {
+		this.host = host;
 	}
 
 	public static int randInt(int min, int max) {
@@ -173,7 +174,7 @@ public class Character {
 			}
 		}
 	}
-		
+
 	public void takeDirectHealing(int heal) {
 		if (this.maxHealth-this.health <= heal) {
 			this.health = this.maxHealth;
@@ -181,7 +182,7 @@ public class Character {
 			this.health += heal;
 		}
 	}
-	
+
 	public void takeHealing(Character c) {
 		int delta = 1;
 		if (randInt(0,100) <= 5) {
