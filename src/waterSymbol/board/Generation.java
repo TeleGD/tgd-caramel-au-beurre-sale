@@ -20,6 +20,6 @@ public class Generation {
 			}
 		}
 
-		return new Board(cases, height, width, screenWidth, screenHeight, ratio);
+		return new Board(cases, height, width, screenWidth, screenHeight);
 	}
 }
