@@ -10,19 +10,23 @@ public class Character {
 	private String name;
 	private String type;
 	private int health;
+	private int maxHealth;
 	private int movePoints;
 	private int attack;
 	private int defense;
 	private int initiative;
 	private int agility;
 	private String classe;
+	private int [] pos;
 	private Weapon weapon;
 	private boolean dead;
 
 	public Character(String name, String type, Weapon weapon) {
 		this.name = name;
 		this.type = type;
-		this.health = 100 ;
+		this.health = 100;
+		this.maxHealth = 100;
+		this.pos = new int [] {-1, -1};
 		this.weapon = weapon;
 		this.dead = false;
 		generateStat();
@@ -38,6 +42,10 @@ public class Character {
 
 	public int getHealth() {
 		return this.health;
+	}
+	
+	public int getMaxHealth() { 
+		return this.maxHealth;
 	}
 
 	public int getMovePoints() {
@@ -56,17 +64,25 @@ public class Character {
 	public int getInitiative() {
 		return this.initiative;
 	}
-	
+
 	public int getAgility() {
 		return this.agility;
 	}
-	
+
 	public Weapon getWeapon() {
 		return this.weapon;
 	}
-	
+
 	public boolean isDead() {
 		return this.dead;
+	}
+
+	public int [] getPos () {
+		return new int [] {this.pos [0], this.pos [1]};
+	}
+
+	public void setPos (int [] pos) {
+		this.pos = new int [] {pos [0], pos [1]};
 	}
 
 	public static int randInt(int min, int max) {
@@ -129,14 +145,14 @@ public class Character {
 
 
 	}
-	
+
 	public void takeDirectDamage(int damage) {
 		this.health -= damage;
 		if (this.health <= 0) {
 			this.dead = true;
 		}
 	}
-	
+
 	public void takeDamage(Character c) {
 		if (randInt(0,100) < this.agility) {
 			int damage = c.attack + c.weapon.getEffectValue();
@@ -154,5 +170,24 @@ public class Character {
 			}
 		}
 	}
+		
+	public void takeDirectHealing(int heal) {
+		if (this.maxHealth-this.health <= heal) {
+			this.health = this.maxHealth;
+		} else {
+			this.health += heal;
+		}
+	}
 	
+	public void takeHealing(Character c) {
+		if (c.weapon.getTypeId() == 4) {
+			if (this.maxHealth-this.health <= c.weapon.getEffectValue()) {
+				this.health = this.maxHealth;
+			} else {
+				this.health += this.weapon.getEffectValue();
+			}
+		}
+	}
+
+
 }
