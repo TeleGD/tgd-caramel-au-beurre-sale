@@ -80,10 +80,6 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
-			if (a) {
-				a = false;
-				board.showPossibleMove(players.get(0).getTeam().get(0));
-			}
 		}
 	}
 
@@ -141,20 +137,42 @@ public class World extends BasicGameState {
 		// Rencentre x et y dans le cadre du board
 		x -= board.getX();
 		y -= board.getY();
+		int i = x / (int) board.getWidthCase();
+		int j = y / (int) board.getHeightCase();
+		
 		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) { // Si on clique dans le board
-			Case caseSelected = (board.getCases())[ x / (int) board.getWidthCase()][ y / (int) board.getHeightCase()];
+			Case caseSelected = (board.getCases())[i][j];
 			if (arg0 == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;
 				characterSelected1 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
-				System.out.println("Case selectionnée : i = "+ x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
-			}else if (arg0 == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
+				System.out.println("Case selectionnée : i = "+ i + " j = " + j);
+				if (characterSelected1 == null) {
+					// Si le joueur ne selectionne pas un character, on annule la selection
+					caseSelected1 = null;
+					return;
+				} else if (characterSelected1.getPlayer() == playerActif) {
+					// Si le joueur selectionne un character de son adversaire, on annule la selection
+					caseSelected1 = null;
+					characterSelected1 = null;
+					return;
+				}
+			}
+			else if (arg0 == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
 				caseSelected2 = caseSelected;
 				characterSelected2 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
 				if (caseSelected1 == caseSelected2) {	// Si le joueur selectionne la même case qu'avant
 					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
 					System.out.println("Action sur moi-même");
 				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
-					System.out.println("Je veux me déplacer en case : i " + x / (int) board.getWidthCase() + " j = " + y / (int) board.getHeightCase());
+					board.showPossibleMove(players.get(0).getTeam().get(0));
+					System.out.println("Je veux me déplacer en case : i " + i + " j = " + j);
+					if (characterSelected2.getPlayer() != playerActif) {
+						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
+						//TODO : BASTON
+					} else if (characterSelected2.getPlayer() == playerActif) {
+						// Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
+						// TODO : SOINS du character soigné
+					}
 				}
 				caseSelected2 = null;
 				characterSelected2 = null;
