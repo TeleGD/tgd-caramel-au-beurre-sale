@@ -6,6 +6,9 @@ import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -28,6 +31,14 @@ public class World extends BasicGameState {
 	private Character characterSelected1;
 	private Character characterSelected2;
 	private boolean a;
+	private static Music lifelight;
+	static {
+		try {
+			lifelight = new Music("res/musics/purgatoire.ogg");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public World (int ID) {
 		this.ID = ID;
@@ -104,6 +115,7 @@ public class World extends BasicGameState {
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		lifelight.loop(1, (float) 0.4);
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
 		
@@ -119,14 +131,17 @@ public class World extends BasicGameState {
 
 	public void pause (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la mise en pause du jeu */
+		lifelight.pause();
 	}
 
 	public void resume (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la reprise du jeu */
+		lifelight.resume();
 	}
 
 	public void stop (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois à la fin du jeu */
+		lifelight.stop();
 	}
 
 	public void setState (int state) {

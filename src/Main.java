@@ -15,7 +15,7 @@ public final class Main {
 		int width = 1280;
 		int height = 720;
 		boolean fullscreen = false;
-		String request = "Connaissez-vous aussi bien Fire Emblem que le président de TGD ?";
+		String request = "Connaissez-vous aussi bien Fire Emblem qu'un ancien président de TGD ?";
 		Object [] options = {
 			"Oui",
 			"MDR j'entends pas les rageux"
