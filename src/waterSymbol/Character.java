@@ -63,18 +63,14 @@ public class Character {
 
 		this.host = null;
 		this.maxHealth = 100;
-		this.health = 100;
+		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
 		generateStat();
 
 		initAnim();
 
-		this.health = 100;
-		this.host = null;
-		this.maxHealth = 100;
 		this.weapon = weapon;
-		this.dead = false;
 		generateStat();
 		this.player = player;
 	}
@@ -86,18 +82,15 @@ public class Character {
 
 		this.host = null;
 		this.maxHealth = 100;
-		this.health = 100;
+		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
 		generateStat();
 
 		initAnim();
 
-		this.health = 100;
-		this.host = null;
 		this.maxHealth = 100;
 		this.weapon = weapon;
-		this.dead = false;
 		generateStat();
 		this.player = player;
 	}
