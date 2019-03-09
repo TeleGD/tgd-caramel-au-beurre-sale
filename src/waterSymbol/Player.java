@@ -9,9 +9,11 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Player {
 	
 	private String id;
+	private int score;
 	private ArrayList<Character> team;
 	
 	public Player(String id) {
+		this.score = 0;
 		this.id = id;
 		this.team = new ArrayList<Character>();
 	}
@@ -26,6 +28,10 @@ public class Player {
 	
 	public String getId() {
 		return this.id;
+	}
+	
+	public void addPoint(int p) {
+		score += p;
 	}
 	
 	public ArrayList<Character> getTeam() {

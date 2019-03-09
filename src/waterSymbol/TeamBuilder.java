@@ -123,11 +123,10 @@ public class TeamBuilder {
 	}
 	
 	private void resetCharacters() throws Exception {
-		// TODO
-		characters[0] = new Character("Amos", "ranger", "res/images/characters/skeleton.png", new SweetWeapon(1, 10),activePlayer);
-		characters[1] = new Character("Xavier", "ranger", "res/images/characters/skeleton.png", new SweetWeapon(2, 10),activePlayer);
-		characters[2] = new Character("David", "ranger", "res/images/characters/skeleton.png", new GreasyWeapon(3,10),activePlayer);
-		characters[3] = new Character("Frédéric", "ranger", "res/images/characters/skeleton.png", new SaltedWeapon(4,10),activePlayer);
+		characters[0] = new Character(activePlayer);
+		characters[1] = new Character(activePlayer);
+		characters[2] = new Character(activePlayer);
+		characters[3] = new Character(activePlayer);
 	}
 
 	private int getChoice(int x, int y) {

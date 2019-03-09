@@ -1,10 +1,11 @@
 package waterSymbol;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import waterSymbol.board.cases.Case;
-import waterSymbol.weapon.Weapon;
+import waterSymbol.weapon.*;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -19,7 +20,7 @@ import org.newdawn.slick.SpriteSheet;
 public class Character {
 
 	private String name;
-	private String classe;
+	private Classes classe;
 	private Image sprite;
 	private SpriteSheet spsh;
 	private Animation[] anim;
@@ -34,13 +35,45 @@ public class Character {
 	private boolean dead;
 	private Player player;
 	private Case host;
+	private int ownPoint;
 
-	public Character(String name, String type, String spsh, Weapon weapon, Player player) throws SlickException {
-		this.name = name;
-		this.classe = type;
+	/**
+	 * Create a random charactere
+	 * 
+	 * @param player
+	 * @throws SlickException
+	 */
+	public Character(Player player) throws SlickException {
+		this.name = generateName();
+		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length)];
+		switch ((int) (Math.random()*4)) {
+		case 0:
+			weapon = new DrinkingWeapon(1, 1);
+			break;
+		case 1:
+			weapon = new GreasyWeapon(1, 1);
+			break;
+		case 2:
+			weapon = new SaltedWeapon(1, 1);
+			break;
+		case 3:
+			weapon = new SweetWeapon(1, 1);
+			break;
+		}
+
+		this.host = null;
+		this.maxHealth = 100;
+		this.health = 100;
+		this.dead = false;
+		this.ownPoint = 0;
+		generateStat();
+		
+		// TODO animation selon la classe
+		/*
 		this.spsh = new SpriteSheet(new Image(spsh), 64, 64);
 		this.sprite = this.spsh.getSprite(2, 3);
 		this.anim = new Animation[8];
+		
 		this.anim[0] = loadAnimation(this.spsh,0,1,8);
 		this.anim[1] = loadAnimation(this.spsh,0,1,9);
 		this.anim[2] = loadAnimation(this.spsh,0,1,10);
@@ -53,15 +86,57 @@ public class Character {
 		this.host = null;
 		this.maxHealth = 100;
 		this.weapon = weapon;
-		this.dead = false;
+		this.dead = false; */
 		generateStat();
+		this.player = player;
+	}
+	
+	public Character(String name, Classes classe, Weapon weapon, Player player) throws SlickException {
+		this.name = name;
+		this.classe = classe;
+		this.weapon = weapon;
+
+		this.host = null;
+		this.maxHealth = 100;
+		this.health = 100;
+		this.dead = false;
+		this.ownPoint = 0;
+		generateStat();
+		
+		// TODO animation selon la classe
+		/*
+		this.spsh = new SpriteSheet(new Image(spsh), 64, 64);
+		this.sprite = this.spsh.getSprite(2, 3);
+		this.anim = new Animation[8];
+		
+		this.anim[0] = loadAnimation(this.spsh,0,1,8);
+		this.anim[1] = loadAnimation(this.spsh,0,1,9);
+		this.anim[2] = loadAnimation(this.spsh,0,1,10);
+		this.anim[3] = loadAnimation(this.spsh,0,1,11);
+		this.anim[4] = loadAnimation(this.spsh,1,9,8);
+		this.anim[5] = loadAnimation(this.spsh,1,9,9);
+		this.anim[6] = loadAnimation(this.spsh,1,9,10);
+		this.anim[7] = loadAnimation(this.spsh,1,9,11);
+		this.health = 100;
+		this.host = null;
+		this.maxHealth = 100;
+		this.weapon = weapon;
+		this.dead = false; */
+		generateStat();
+		this.player = player;
+	}
+
+	private String generateName() {
+		ArrayList<String> keywords = new ArrayList<String>(Arrays.asList("array","break","do","else","end","for","function","if","in","let","nil","of","then","to","type","var","while"));
+		
+		return keywords.get((int) (Math.random()*17))+keywords.get((int) (Math.random()*17));
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public String getClasse() {
+	public Classes getClasse() {
 		return this.classe;
 	}
 	
@@ -121,58 +196,43 @@ public class Character {
 	}
 
 	public void generateStat() {
-		ArrayList<String> classeListe = new ArrayList<String>() ;
-		classeListe.add("healer") ;
-		classeListe.add("ranger") ;
-		classeListe.add("knight") ;
-		classeListe.add("ninja") ;
-		classeListe.add("warrior");
-
-
-		int i = randInt(0, 4) ;
-		this.classe = classeListe.get(i) ;
-
-		if (this.classe.equals("healer")) {
+		switch (classe) {
+		case HEALER:
 			this.movePoints = 4 ;
 			this.attack = randInt(10, 25) ;
 			this.defense = randInt(10, 25) ;
 			this.initiative = randInt(45, 65) ;
 			this.agility = randInt(30, 50) ;
-		}
-
-		if (this.classe.equals("ranger")) {
+			break;
+		case RANGER:
 			this.movePoints = 3 ;
 			this.attack = randInt(25, 40) ;
 			this.defense = randInt(25, 40) ;
 			this.initiative = randInt(80, 99) ;
 			this.agility = randInt(60, 80) ;
-		}
-
-		if (this.classe.equals("knight")) {
+			break;
+		case KNIGHT:
 			this.movePoints = 3 ;
 			this.attack = randInt(40, 60) ;
 			this.defense = randInt(80, 99) ;
 			this.initiative = randInt(70, 90) ;
 			this.agility = randInt(10, 30) ;
-		}
-
-		if (this.classe.equals("ninja")) {
+			break;
+		case NINJA:
 			this.movePoints = 6 ;
 			this.attack = randInt(60, 80) ;
 			this.defense = randInt(10, 30) ;
 			this.initiative = randInt(40, 60) ;
 			this.agility = randInt(60, 80) ;
-		}
-
-		if (this.classe.equals("warrior")) {
+			break;
+		case WARRIOR:
 			this.movePoints = 4 ;
 			this.attack = randInt(70, 90) ;
 			this.defense = randInt(30, 50) ;
 			this.initiative = randInt(30, 50) ;
 			this.agility = randInt(10, 25) ;
+			break;
 		}
-
-
 	}
 
 	public void takeDirectDamage(int damage) {
@@ -225,7 +285,16 @@ public class Character {
 			}
 		}
 	}
-
+	
+	public void addPoint(int p) {
+		this.ownPoint += p;
+	}
+	
+	public void teamPoint() {
+		player.addPoint(ownPoint);
+		ownPoint = 0;
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}
