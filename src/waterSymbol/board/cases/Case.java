@@ -58,12 +58,12 @@ public class Case {
 		this.sprite = AppLoader.loadPicture("/images/" + type + ".png");
 	}
 
-	public String getType() {
-		return this.type;
-	}
-
 	public int [] getPos () {
 		return new int [] {this.i, this.j};
+	}
+
+	public String getType() {
+		return this.type;
 	}
 
 	public void setCharacter (Character character) {
@@ -81,7 +81,6 @@ public class Case {
 	public void render(GameContainer container, StateBasedGame game, Graphics g, float height, float width) {
 		g.drawImage(sprite, this.j * width, this.i * height, width * (this.j + 1), (this.i + 1) * height, 0, 0, this.sprite.getWidth(), sprite.getHeight(), this.filter);
 	}
-
 	public void highlight(boolean b) {
 		if (b)
 			filter = new Color(187, 210, 225, 255);

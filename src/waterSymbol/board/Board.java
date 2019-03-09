@@ -146,7 +146,7 @@ public class Board {
 		return null;
 	}
 
-	public void moveCharacter (Character character, Case end) {
+	/*public void moveCharacter (Character character, Case end) {
 		if (end != null) {
 			end.setCharacter (character);
 			character.setCase (end);
@@ -157,7 +157,7 @@ public class Board {
 			}
 			character.setCase (null);
 		}
-	}
+	}*/
 
 	public Case getCase(int[] pos){
 		if (pos.length < 2 || pos[0] < 0 || pos[0] >= this.height || pos[1] < 0 || pos[1] >= this.width) {

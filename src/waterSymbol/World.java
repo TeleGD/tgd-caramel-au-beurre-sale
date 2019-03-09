@@ -98,7 +98,7 @@ public class World extends BasicGameState {
 			if (a) {
 				a = false;
 				Character character = players.get(0).getTeam().get(0);
-				board.moveCharacter(character, board.getCase(new int[]{0, 0}));
+				//board.moveCharacter(character, board.getCases () [0] [0]);
 				board.showPossibleMove(character);
 				System.out.println(board.connect(character, board.getCase(new int[]{2, 2})));
 			}
@@ -114,6 +114,12 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
+			for (Player p : this.players) {
+				for (Character c : p.getTeam()) {
+					c.setCase(board.getCase(new int[]{0, 0}));
+					c.render(container, game, context);
+				}
+			}
 		}
 	}
 
@@ -197,23 +203,31 @@ public class World extends BasicGameState {
 				if (caseSelected1 == caseSelected2) {	// Si le joueur selectionne la même case qu'avant
 					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
 					System.out.println("Action sur moi-même");
-				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
+				} else if (caseSelected2.isAccessible()) {	// La case est vide : on peut s'y déplacer
 					board.showPossibleMove(characterSelected1);
 					int[] pos2 = caseSelected1.getPos();
 					System.out.println("Je veux me déplacer en case : i = "+ pos2[0] + " j = " + pos2[1]);
+					//TODO : Faire le déplacement
+				} else if (characterSelected2 != null) {    // La case de destination a un character dessus
 					if (characterSelected2.getPlayer() != playerActif) {
 						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
 						//TODO : BASTON
+						System.out.println("ATTAQUE !");
 					} else if (characterSelected2.getPlayer() == playerActif) {
 						// Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
 						// TODO : SOINS du character soigné
+						System.out.println("HEAL un character de la team");
 					}
+				} else { //La case de destination est un shelf //TODO : utiliser caseSelected2.getType()
+					 //TODO : gérer collect()
+					System.out.println("Collect un shelf");
 				}
+				// Réinitialisation des selections :
 				caseSelected2 = null;
 				characterSelected2 = null;
-
 				//TODO : déplacer la réinitialisation de la première selection dans la fin de la dernière action du character
-
+				caseSelected1 = null;
+				characterSelected1=null;
 			}
 		}
 	}
