@@ -6,10 +6,23 @@ import java.util.Random;
 import waterSymbol.board.cases.Case;
 import waterSymbol.weapon.Weapon;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.SpriteSheet;
+
 public class Character {
 
 	private String name;
 	private String classe;
+	private Image sprite;
+	private SpriteSheet spsh;
+	private Animation[] anim;
 	private int health;
 	private int maxHealth;
 	private int movePoints;
@@ -22,9 +35,13 @@ public class Character {
 	private Player player;
 	private Case host;
 
-	public Character(String name, String type, Weapon weapon, Player player) {
+	public Character(String name, String type, String spsh, Weapon weapon, Player player) throws SlickException {
 		this.name = name;
 		this.classe = type;
+		this.spsh = new SpriteSheet(new Image("res/images/characters/skeleton.png"), 64, 64);
+		this.sprite = this.spsh.getSprite(2, 3);
+		this.anim = new Animation[8];
+		this.anim[0] = loadAnimation(this.spsh,1,2,0);
 		this.health = 100;
 		this.host = null;
 		this.maxHealth = 100;
@@ -39,6 +56,10 @@ public class Character {
 
 	public String getClasse() {
 		return this.classe;
+	}
+	
+	public Image getSprite() {
+		return this.sprite;
 	}
 
 	public int getHealth() {
@@ -201,6 +222,13 @@ public class Character {
 	public Player getPlayer() {
 		return player;
 	}
-
+	
+	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
+		Animation animation = new Animation();
+		for (int x = startX;x<endX; x++) {
+			animation.addFrame(spriteSheet.getSprite(x, y), 100);
+		}
+		return animation;
+	}
 
 }
