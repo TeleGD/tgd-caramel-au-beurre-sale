@@ -192,6 +192,14 @@ public class Board {
 		}
 	}
 
+	public Case getCase(int x, int y){
+		// Renvoit la case qui posède le point (x,y) (x et y en pixels !)
+		int j = x / (int) getWidthCase();
+		int i = y / (int) getHeightCase();
+
+		return (getCases())[i][j];
+	}
+
 	public void showPossibleMove(Character character) {
 		int [] pos = character.getCase().getPos();
 		int movePoints = character.getMovePoints()+1;

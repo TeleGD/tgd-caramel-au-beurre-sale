@@ -47,7 +47,12 @@ public class TeamBuilder {
 		
 		characters = new Character[4];
 		
-		resetCharacters();
+		try {
+			resetCharacters();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		compt = 0;
 		max = teamSize;
@@ -85,10 +90,14 @@ public class TeamBuilder {
 		context.setColor(Color.black);
 		context.drawImage(image, xmin, ymin, xmax, ymax, 0, 0, image.getWidth(), image.getHeight());
 		
-		context.drawRect(x1, y1, charSize, charSize);
-		context.drawRect(x2, y1, charSize, charSize);
-		context.drawRect(x1, y2, charSize, charSize);
-		context.drawRect(x2, y2, charSize, charSize);
+		//context.drawRect(x1, y1, charSize, charSize);
+		context.drawImage(this.characters[0].getSprite(), x1, y1, x1+charSize, y1+charSize, 0, 0, 64, 64);
+		context.drawImage(this.characters[1].getSprite(), x2, y1, x2+charSize, y1+charSize, 0, 0, 64, 64);
+		context.drawImage(this.characters[2].getSprite(), x1, y2, x1+charSize, y2+charSize, 0, 0, 64, 64);
+		context.drawImage(this.characters[3].getSprite(), x2, y2, x2+charSize, y2+charSize, 0, 0, 64, 64);
+//		context.drawRect(x2, y1, charSize, charSize);
+//		context.drawRect(x1, y2, charSize, charSize);
+//		context.drawRect(x2, y2, charSize, charSize);
 	}
 	
 	private void onClickAction(GameContainer container) {
@@ -99,7 +108,12 @@ public class TeamBuilder {
 				activePlayer.ajouter(characters[choice-1]);
 				activePlayer = activePlayer==player1 ? player2 : player1;
 				compt = activePlayer==player1?compt+1:compt;
-				resetCharacters();
+				try {
+					resetCharacters();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -108,12 +122,12 @@ public class TeamBuilder {
 		return compt>=max;
 	}
 	
-	private void resetCharacters() {
+	private void resetCharacters() throws Exception {
 		// TODO
-		characters[0] = new Character("Amos", "ranger", new SweetWeapon(1, 10),activePlayer);
-		characters[1] = new Character("Xavier", "ranger", new SweetWeapon(2, 10),activePlayer);
-		characters[2] = new Character("David", "ranger", new GreasyWeapon(3,10),activePlayer);
-		characters[3] = new Character("Frédéric", "ranger", new SaltedWeapon(4,10),activePlayer);
+		characters[0] = new Character("Amos", "ranger", "res/images/characters/skeleton.png", new SweetWeapon(1, 10),activePlayer);
+		characters[1] = new Character("Xavier", "ranger", "res/images/characters/skeleton.png", new SweetWeapon(2, 10),activePlayer);
+		characters[2] = new Character("David", "ranger", "res/images/characters/skeleton.png", new GreasyWeapon(3,10),activePlayer);
+		characters[3] = new Character("Frédéric", "ranger", "res/images/characters/skeleton.png", new SaltedWeapon(4,10),activePlayer);
 	}
 
 	private int getChoice(int x, int y) {
