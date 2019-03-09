@@ -303,5 +303,9 @@ public class Character {
 		}
 		return animation;
 	}
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		g.drawImage(this.sprite, this.host.getX(), this.host.getY(), this.host.getX()+this.host.getWidth(), this.host.getY()+this.host.getHeight(), 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
+	}
 
 }
