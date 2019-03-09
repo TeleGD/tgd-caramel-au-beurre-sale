@@ -31,6 +31,7 @@ public class World extends BasicGameState {
 	private Character characterSelected2;
 	private boolean a;
 	private static Music lifelight;
+	private int[] mouse;
 	static {
 		try {
 			lifelight = new Music("res/musics/purgatoire.ogg");
@@ -38,7 +39,7 @@ public class World extends BasicGameState {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public World (int ID) {
 		this.ID = ID;
 		this.state = 0;
@@ -83,7 +84,11 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		
+		if (this.mouse != null) {
+			this.click(container, this.mouse[0], this.mouse[1], this.mouse[2]);
+			this.mouse = null;
+		}
+
 		if (!builder.areTeamsReady()) {
 			// Construction des teams
 			builder.update(container, game, delta);
@@ -93,16 +98,16 @@ public class World extends BasicGameState {
 			if (a) {
 				a = false;
 				Character character = players.get(0).getTeam().get(0);
-				board.moveCharacter(character, board.getCases () [0] [0]);
+				board.moveCharacter(character, board.getCase(new int[]{0, 0}));
 				board.showPossibleMove(character);
-				System.out.println(board.connect(character, board.getCases () [2] [2]));
+				System.out.println(board.connect(character, board.getCase(new int[]{2, 2})));
 			}
 		}
 	}
 
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		/* Méthode exécutée environ 60 fois par seconde */		
+		/* Méthode exécutée environ 60 fois par seconde */
 		if (!builder.areTeamsReady()) {
 			// Construction des teams
 			builder.render(container, game, context);
@@ -117,14 +122,14 @@ public class World extends BasicGameState {
 		lifelight.loop(1, (float) 0.4);
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
-		
+
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
-		
+
 		playerActif = players.get(0);
-		
+
 		builder = new TeamBuilder(1, container, players.get(0), players.get(1));
-		board = Generation.generate(container.getWidth(), container.getHeight());
+		board = Generation.generate();
 		a = true;
 	}
 
@@ -150,22 +155,31 @@ public class World extends BasicGameState {
 	public int getState () {
 		return this.state;
 	}
-	
+
 	@Override
-	public void mousePressed(int arg0, int x, int y) {
+	public void mousePressed(int button, int x, int y) {
+		this.mouse = new int[]{button, x, y};
+	}
+	public void click(GameContainer container, int button, int x, int y) {
 		if (!builder.areTeamsReady()) {
 			return;
 		}
 		// Rencentre x et y dans le cadre du board
-		x -= board.getX();
-		y -= board.getY();
-		
-		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) { // Si on clique dans le board
-			Case caseSelected = board.getCase(x,y);
-			if (arg0 == 0) {	// Clic gauche de la souris
+		float[] size = board.getSize();
+		float screenWidth = container.getWidth();
+		float screenHeight = container.getHeight();
+		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
+		float caseHeight = 1080f / size[0] * ratio;
+		float caseWidth = 1920f / size[1] * ratio;
+		int i = (int) Math.floor(y / caseHeight);
+		int j = (int) Math.floor(x / caseWidth);
+		if (i >= 0 && j < size[0] && j >= 0 && j < size[1]) { // Si on clique dans le board
+			Case caseSelected = board.getCase(new int[]{i, j});
+			if (button == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;
 				characterSelected1 = caseSelected1.getCharacter();	// Récupère le character présent sur la case (s'il y en a un)
-				System.out.println("Case selectionnée : i = "+ caseSelected1.getI() + " j = " + caseSelected1.getJ());
+				int[] pos = caseSelected1.getPos();
+				System.out.println("Case selectionnée : i = "+ pos[0] + " j = " + pos[1]);
 				if (characterSelected1 == null) {
 					// Si le joueur ne selectionne pas un character, on annule la selection
 					caseSelected1 = null;
@@ -177,7 +191,7 @@ public class World extends BasicGameState {
 					return;
 				}
 			}
-			else if (arg0 == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
+			else if (button == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
 				caseSelected2 = caseSelected;
 				characterSelected2 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
 				if (caseSelected1 == caseSelected2) {	// Si le joueur selectionne la même case qu'avant
@@ -185,7 +199,8 @@ public class World extends BasicGameState {
 					System.out.println("Action sur moi-même");
 				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
 					board.showPossibleMove(characterSelected1);
-					System.out.println("Je veux me déplacer en case : i = " + caseSelected2.getI() + " j = " + caseSelected2.getJ());
+					int[] pos2 = caseSelected1.getPos();
+					System.out.println("Je veux me déplacer en case : i = "+ pos2[0] + " j = " + pos2[1]);
 					if (characterSelected2.getPlayer() != playerActif) {
 						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
 						//TODO : BASTON
@@ -196,9 +211,9 @@ public class World extends BasicGameState {
 				}
 				caseSelected2 = null;
 				characterSelected2 = null;
-				
+
 				//TODO : déplacer la réinitialisation de la première selection dans la fin de la dernière action du character
-				
+
 			}
 		}
 	}

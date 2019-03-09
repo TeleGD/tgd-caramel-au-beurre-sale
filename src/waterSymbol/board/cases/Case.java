@@ -1,5 +1,7 @@
 package waterSymbol.board.cases;
 
+import java.util.Random;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,66 +13,53 @@ import app.AppLoader;
 import waterSymbol.Character;
 
 public class Case {
-	private int j, i;
-	private float width, height;
+	private static Random rng;
+	private static int[] scale;
+	static {
+		Case.rng = new Random();
+		Case.scale = new int[]{1, 2, 5};
+	}
+	private int i, j;
+	private String type;
+	private int points;
 	private Image sprite;
 	private Character character;
-	private String type;
 	private Color filter;
-	private int point;
-	
-	public Case(int j, int i, String type, float ratio) {
-	
-		this.j = j;
-		this.i = i;
 
-		setSprite(AppLoader.loadPicture ("/images/"+ type+ ".png"));
-		
-		this.type = type;
-				
-		if(type.equals("wall")) {
-			this.type = "wall"+((int)(Math.random() * 2)+1);
-		}
-		if(type.equals("sheld")) {
-			this.type = "shelf"+((int)(Math.random() * 3)+1);
-		}
-		
-		setSprite(AppLoader.loadPicture ("/images/"+ this.type+ ".png"));
-		
-		this.type = type;
-				
-		this.width = 1920f/35f * ratio;
-		this.height = 1080f/20f * ratio;
-		
-		filter = new Color(255,255,255,255);
-	}
-	
-	public Case(int j, int i, int team, float ratio){
-	
-		this.j = j;
+	public Case(int i, int j, String type) {
 		this.i = i;
-		switch(team) {
-		case 0 :
-			setSprite(AppLoader.loadPicture ("/images/teamO.png"));
-			break ;
-		case 1 :
-			setSprite(AppLoader.loadPicture ("/images/teamV.png"));
-			break ;
-		}
-		
-		
-		this.width = 1920f/35f * ratio;
-		this.height = 1080f/20f * ratio;
-		
-		filter = new Color(255,255,255,255);
+		this.j = j;
+		this.setType(type);
+		this.filter = new Color(255,255,255,255);
 	}
-	
-	public void setSprite(Image sprite) {
-		this.sprite = sprite.copy();
-	}
-	
+
 	public void setType(String type) {
 		this.type = type;
+		this.points = 0;
+		switch (type) {
+			case "floor": {
+				break;
+			}
+			case "wall": {
+				type = "wall" + (Case.rng.nextInt(2) + 1);
+				break;
+			}
+			case "shelf": {
+				type = "shelf" + (Case.rng.nextInt(3) + 1);
+				break;
+			}
+			case "sale": {
+				this.points = Case.scale[Case.rng.nextInt(3)] * 10;
+			}
+			case "mega_sale": {
+				this.points = Case.scale[Case.rng.nextInt(3)] * 100;
+			}
+		}
+		this.sprite = AppLoader.loadPicture("/images/" + type + ".png");
+	}
+
+	public String getType() {
+		return this.type;
 	}
 
 	public int [] getPos () {
@@ -88,50 +77,28 @@ public class Case {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 
 	}
-	
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(sprite, j *width, i *height, width*(j +1), (i +1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
+
+	public void render(GameContainer container, StateBasedGame game, Graphics g, float height, float width) {
+		g.drawImage(sprite, this.j * width, this.i * height, width * (this.j + 1), (this.i + 1) * height, 0, 0, this.sprite.getWidth(), sprite.getHeight(), this.filter);
 	}
 
-	public float getWidth() {
-		return width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
-	public int getJ() {
-		return j;
-	}
-
-	public int getI() {
-		return i;
-	}
-	
-	public String getType() {
-		return this.type;
-	}
-	
 	public void highlight(boolean b) {
 		if (b)
 			filter = new Color(187, 210, 225, 255);
 		else
 			filter = new Color(247, 180, 150, 255);
 	}
-	
+
 	public void outlight() {
 		filter = new Color(255,255,255,255);
 	}
-	
+
 	public void collect(Character player) {
 		if(type.equals("sale") || type.equals("mega_sale"))
-		player.addPoint(point);
-		setSprite(AppLoader.loadPicture ("/images/shelf"+((int)(Math.random() * 3)+1)+ ".png"));
-		type = "shelf";
-		point = 0;
+		player.addPoint(this.points);
+		this.setType("shelf");
 	}
-	
+
 	public boolean isAccessible() {
 		switch(this.type) {
 		case "wall" :
