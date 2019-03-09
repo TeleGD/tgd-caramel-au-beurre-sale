@@ -92,9 +92,12 @@ public class TeamBuilder {
 		
 		//context.drawRect(x1, y1, charSize, charSize);
 		context.drawImage(this.characters[0].getSprite(), x1, y1, x1+charSize, y1+charSize, 0, 0, 64, 64);
-		context.drawRect(x2, y1, charSize, charSize);
-		context.drawRect(x1, y2, charSize, charSize);
-		context.drawRect(x2, y2, charSize, charSize);
+		context.drawImage(this.characters[1].getSprite(), x2, y1, x2+charSize, y1+charSize, 0, 0, 64, 64);
+		context.drawImage(this.characters[2].getSprite(), x1, y2, x1+charSize, y2+charSize, 0, 0, 64, 64);
+		context.drawImage(this.characters[3].getSprite(), x2, y2, x2+charSize, y2+charSize, 0, 0, 64, 64);
+//		context.drawRect(x2, y1, charSize, charSize);
+//		context.drawRect(x1, y2, charSize, charSize);
+//		context.drawRect(x2, y2, charSize, charSize);
 	}
 	
 	private void onClickAction(GameContainer container) {
