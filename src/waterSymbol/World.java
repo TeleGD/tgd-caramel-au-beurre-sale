@@ -15,7 +15,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
-import waterSymbol.board.cases.Case;
+import waterSymbol.board.Case;
 
 public class World extends BasicGameState {
 
@@ -165,7 +165,7 @@ public class World extends BasicGameState {
 			return;
 		}
 		// Rencentre x et y dans le cadre du board
-		float[] size = board.getSize();
+		int[] size = board.getSize();
 		float screenWidth = container.getWidth();
 		float screenHeight = container.getHeight();
 		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);

@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import waterSymbol.Character;
-import waterSymbol.board.cases.*;
 
 public class Board {
 	private Case[][] cases;
@@ -16,7 +15,7 @@ public class Board {
 	private ArrayList<Case> accessibles;
 
 	// Pour la gestion des clics :
-	private float height, width;
+	private int height, width;
 
 	public Board(Case[][] cases, int height, int width) {
 		this.cases = cases;
@@ -45,8 +44,8 @@ public class Board {
 		}
 	}
 
-	public float[] getSize() {
-		return new float[]{this.height, this.width};
+	public int[] getSize() {
+		return new int[]{this.height, this.width};
 	}
 
 	private boolean find (List <Case> path, Case end, int remainder) {

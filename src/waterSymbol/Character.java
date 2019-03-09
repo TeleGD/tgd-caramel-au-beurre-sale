@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import waterSymbol.board.cases.Case;
+import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
 import org.newdawn.slick.Animation;

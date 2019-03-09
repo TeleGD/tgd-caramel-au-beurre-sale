@@ -1,4 +1,4 @@
-package waterSymbol.board.cases;
+package waterSymbol.board;
 
 import java.util.Random;
 
