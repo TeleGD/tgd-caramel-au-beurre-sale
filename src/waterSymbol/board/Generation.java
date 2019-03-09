@@ -11,17 +11,17 @@ public class Generation {
 		height = 20;
 
 		cases = new Case[height][width];
-		
+
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 
 				cases[i][j] = new Case(i, j, "floor");
 			}
 		}
-		
-		cases[0][0] = new Case(0, 0, "teamO", ratio);
-		
-		cases[height-1][width-1] = new Case(width-1, height-1, "teamV", ratio);
+
+		cases[0][0] = new Case(0, 0, "teamO");
+
+		cases[height-1][width-1] = new Case(width-1, height-1, "teamV");
 		int nbObstacles = 13;
 
 		int r = (int)(Math.random()*5+4);

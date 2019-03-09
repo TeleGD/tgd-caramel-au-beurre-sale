@@ -226,7 +226,7 @@ public class Board {
 			if (x!=cases.length-1 && (traitees.containsKey(cases[x+1][y]) && traitees.get(cases[x+1][y])<move || !traitees.containsKey(cases[x+1][y])) && cases[x+1][y].isAccessible()) {
 				parcourt(x+1,y,move-1);
 			}
-			if (y!=cases.length-1 && (traitees.containsKey(cases[x][y+1]) && traitees.get(cases[x][y+1])<move || !traitees.containsKey(cases[x][y+1])) && cases[x][y+1].isAccessible()) {
+			if (y!=cases[0].length-1 && (traitees.containsKey(cases[x][y+1]) && traitees.get(cases[x][y+1])<move || !traitees.containsKey(cases[x][y+1])) && cases[x][y+1].isAccessible()) {
 				parcourt(x,y+1,move-1);
 			}
 		}

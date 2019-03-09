@@ -40,7 +40,7 @@ public class Character {
 
 	/**
 	 * Create a random charactere
-	 * 
+	 *
 	 * @param player
 	 * @throws SlickException
 	 */
@@ -75,7 +75,7 @@ public class Character {
 		generateStat();
 		this.player = player;
 	}
-	
+
 	public Character(String name, Classes classe, Weapon weapon, Player player) throws SlickException {
 		this.name = name;
 		this.classe = classe;
@@ -119,7 +119,7 @@ public class Character {
 
 	private String generateName() {
 		ArrayList<String> keywords = new ArrayList<String>(Arrays.asList("array","break","do","else","end","for","function","if","in","let","nil","of","then","to","type","var","while"));
-		
+
 		return keywords.get((int) (Math.random()*17))+keywords.get((int) (Math.random()*17));
 	}
 
@@ -130,7 +130,7 @@ public class Character {
 	public Classes getClasse() {
 		return this.classe;
 	}
-	
+
 	public Image getSprite() {
 		return this.sprite;
 	}
@@ -276,42 +276,44 @@ public class Character {
 			}
 		}
 	}
-	
+
 	public void addPoint(int p) {
 		this.ownPoint += p;
 	}
-	
+
 	public void teamPoint() {
 		player.addPoint(ownPoint);
 		ownPoint = 0;
 	}
-	
+
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	public void moveAnim(Case c) {
-		if(host.getI() - c.getI() > 0) {
+		int[] hostPos = host.getPos();
+		int[] cPos = c.getPos();
+		if(hostPos[0] - cPos[0] > 0) {
 			/* haut */
 			setCase(c);
-		} else if(host.getI() - c.getI() < 0) {
+		} else if(hostPos[0] - cPos[0] < 0) {
 			/* bas */
 			setCase(c);
-		} else if(host.getJ() - c.getJ() > 0) {
+		} else if(hostPos[1] - cPos[1] > 0) {
 			/* gauche */
 			setCase(c);
-		} else if(host.getJ() - c.getJ() < 0) {
+		} else if(hostPos[1] - cPos[1] < 0) {
 			/* droite */
 			setCase(c);
 		}
 	}
-	
+
 	public void move(List<Case> path) {
 		for (Case c : path) {
 			moveAnim(c);
 		}
 	}
-	
+
 	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
 		for (int x = startX;x<endX; x++) {
@@ -319,9 +321,9 @@ public class Character {
 		}
 		return animation;
 	}
-	
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(this.sprite, this.host.getX(), this.host.getY(), this.host.getX()+this.host.getWidth(), this.host.getY()+this.host.getHeight(), 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
+
+	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
+		context.drawImage(this.sprite, j, i, j + width, i + height, 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 }

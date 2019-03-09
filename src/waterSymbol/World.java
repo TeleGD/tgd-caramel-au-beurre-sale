@@ -114,12 +114,6 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
-			for (Player p : this.players) {
-				for (Character c : p.getTeam()) {
-					c.setCase(board.getCase(new int[]{0, 0}));
-					c.render(container, game, context);
-				}
-			}
 		}
 	}
 

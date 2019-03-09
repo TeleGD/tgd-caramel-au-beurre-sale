@@ -78,8 +78,11 @@ public class Case {
 
 	}
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g, float height, float width) {
-		g.drawImage(sprite, this.j * width, this.i * height, width * (this.j + 1), (this.i + 1) * height, 0, 0, this.sprite.getWidth(), sprite.getHeight(), this.filter);
+	public void render(GameContainer container, StateBasedGame game, Graphics context, float height, float width) {
+		context.drawImage(sprite, this.j * width, this.i * height, width * (this.j + 1), (this.i + 1) * height, 0, 0, this.sprite.getWidth(), sprite.getHeight(), this.filter);
+		if (this.character != null) {
+			this.character.render(container, game, context, this.i * height, this.j * width, height, width);
+		}
 	}
 	public void highlight(boolean b) {
 		if (b)
