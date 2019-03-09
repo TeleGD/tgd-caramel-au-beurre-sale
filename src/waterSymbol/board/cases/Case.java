@@ -70,7 +70,7 @@ public class Case {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(sprite, j *width, i *height, width*(j +1), (i +1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
+		g.drawImage(sprite, getX(), getY(), width + getX(), getY() + height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
 	}
 
 	public float getWidth() {
@@ -87,6 +87,14 @@ public class Case {
 
 	public int getI() {
 		return i;
+	}
+	
+	public int getX() {
+		return (int) (j *width);
+	}
+	
+	public int getY() {
+		return (int) (i *height);
 	}
 	
 	public String getType() {
