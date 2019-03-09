@@ -125,6 +125,7 @@ public class Case {
 	}
 	
 	public void collect(Character player) {
+		if(type.equals("sale") || type.equals("mega_sale"))
 		player.addPoint(point);
 		setSprite(AppLoader.loadPicture ("/images/shelf"+((int)(Math.random() * 3)+1)+ ".png"));
 		type = "shelf";
