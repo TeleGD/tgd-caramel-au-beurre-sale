@@ -13,14 +13,17 @@ public class Generation {
 		ratio = (screenWidth/1920f)>=(screenHeight/1080f)?(screenWidth/1920f):(screenHeight/1080f);
 		
 		cases = new Case[height][width];
-
+		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 
 				cases[i][j] = new Case(j,i,"floor",ratio);
 			}
 		}
-
+		
+		cases[0][0] = new Case(1, 1, "teamO", ratio);
+		
+		cases[1][0] = new Case(width-1, height-1, "teamV", ratio);
 		int nbObstacles = 13;
 		
 		int r = (int)(Math.random()*5+4);

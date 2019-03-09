@@ -24,7 +24,6 @@ public class Board {
 		this.nbLig = nbLig;
 		this.nbCol = nbCol;
 		this.cases = cases;
-		
 
 		this.height = height;
 		this.width = width;
