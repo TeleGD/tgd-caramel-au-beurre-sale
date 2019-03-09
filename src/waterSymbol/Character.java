@@ -38,10 +38,17 @@ public class Character {
 	public Character(String name, String type, String spsh, Weapon weapon, Player player) throws SlickException {
 		this.name = name;
 		this.classe = type;
-		this.spsh = new SpriteSheet(new Image("res/images/characters/skeleton.png"), 64, 64);
+		this.spsh = new SpriteSheet(new Image(spsh), 64, 64);
 		this.sprite = this.spsh.getSprite(2, 3);
 		this.anim = new Animation[8];
-		this.anim[0] = loadAnimation(this.spsh,1,2,0);
+		this.anim[0] = loadAnimation(this.spsh,0,1,8);
+		this.anim[1] = loadAnimation(this.spsh,0,1,9);
+		this.anim[2] = loadAnimation(this.spsh,0,1,10);
+		this.anim[3] = loadAnimation(this.spsh,0,1,11);
+		this.anim[4] = loadAnimation(this.spsh,1,9,8);
+		this.anim[5] = loadAnimation(this.spsh,1,9,9);
+		this.anim[6] = loadAnimation(this.spsh,1,9,10);
+		this.anim[7] = loadAnimation(this.spsh,1,9,11);
 		this.health = 100;
 		this.host = null;
 		this.maxHealth = 100;
