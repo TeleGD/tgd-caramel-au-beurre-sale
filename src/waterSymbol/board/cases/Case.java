@@ -31,7 +31,7 @@ public class Case {
 		if(type.equals("wall")) {
 			this.type = "wall"+((int)(Math.random() * 2)+1);
 		}
-		if(type.equals("sheld")) {
+		if(type.equals("shelf")) {
 			this.type = "shelf"+((int)(Math.random() * 3)+1);
 		}
 		
@@ -39,26 +39,6 @@ public class Case {
 		
 		this.type = type;
 				
-		this.width = 1920f/35f * ratio;
-		this.height = 1080f/20f * ratio;
-		
-		filter = new Color(255,255,255,255);
-	}
-	
-	public Case(int j, int i, int team, float ratio){
-	
-		this.j = j;
-		this.i = i;
-		switch(team) {
-		case 0 :
-			setSprite(AppLoader.loadPicture ("/images/teamO.png"));
-			break ;
-		case 1 :
-			setSprite(AppLoader.loadPicture ("/images/teamV.png"));
-			break ;
-		}
-		
-		
 		this.width = 1920f/35f * ratio;
 		this.height = 1080f/20f * ratio;
 		
@@ -90,7 +70,7 @@ public class Case {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(sprite, j *width, i *height, width*(j +1), (i +1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
+		g.drawImage(sprite, getX(), getY(), width + getX(), getY() + height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
 	}
 
 	public float getWidth() {
@@ -109,6 +89,14 @@ public class Case {
 		return i;
 	}
 	
+	public int getX() {
+		return (int) (j *width);
+	}
+	
+	public int getY() {
+		return (int) (i *height);
+	}
+	
 	public String getType() {
 		return this.type;
 	}
@@ -125,11 +113,12 @@ public class Case {
 	}
 	
 	public void collect(Character player) {
-		if(type.equals("sale") || type.equals("mega_sale"))
-		player.addPoint(point);
-		setSprite(AppLoader.loadPicture ("/images/shelf"+((int)(Math.random() * 3)+1)+ ".png"));
-		type = "shelf";
-		point = 0;
+		if(type.equals("sale") || type.equals("mega_sale")) {
+			player.addPoint(point);
+			setSprite(AppLoader.loadPicture ("/images/shelf"+((int)(Math.random() * 3)+1)+ ".png"));
+			type = "shelf";
+			point = 0;
+		}
 	}
 	
 	public boolean isAccessible() {

@@ -63,30 +63,14 @@ public class Character {
 
 		this.host = null;
 		this.maxHealth = 100;
-		this.health = 100;
+		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
 		generateStat();
-		
-		// TODO animation selon la classe
-		/*
-		this.spsh = new SpriteSheet(new Image(spsh), 64, 64);
-		this.sprite = this.spsh.getSprite(2, 3);
-		this.anim = new Animation[8];
-		
-		this.anim[0] = loadAnimation(this.spsh,0,1,8);
-		this.anim[1] = loadAnimation(this.spsh,0,1,9);
-		this.anim[2] = loadAnimation(this.spsh,0,1,10);
-		this.anim[3] = loadAnimation(this.spsh,0,1,11);
-		this.anim[4] = loadAnimation(this.spsh,1,9,8);
-		this.anim[5] = loadAnimation(this.spsh,1,9,9);
-		this.anim[6] = loadAnimation(this.spsh,1,9,10);
-		this.anim[7] = loadAnimation(this.spsh,1,9,11);
-		this.health = 100;
-		this.host = null;
-		this.maxHealth = 100;
+
+		initAnim();
+
 		this.weapon = weapon;
-		this.dead = false; */
 		generateStat();
 		this.player = player;
 	}
@@ -98,17 +82,30 @@ public class Character {
 
 		this.host = null;
 		this.maxHealth = 100;
-		this.health = 100;
+		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
 		generateStat();
-		
+
+		initAnim();
+
+		this.maxHealth = 100;
+		this.weapon = weapon;
+		generateStat();
+		this.player = player;
+	}
+
+	public void initAnim(){
 		// TODO animation selon la classe
-		/*
-		this.spsh = new SpriteSheet(new Image(spsh), 64, 64);
+		String path = "res/images/characters/skeleton.png"; //TODO : CHANGER CE MAGIC STRING
+		try {
+			this.spsh = new SpriteSheet(new Image(path), 64, 64);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		this.sprite = this.spsh.getSprite(2, 3);
 		this.anim = new Animation[8];
-		
+
 		this.anim[0] = loadAnimation(this.spsh,0,1,8);
 		this.anim[1] = loadAnimation(this.spsh,0,1,9);
 		this.anim[2] = loadAnimation(this.spsh,0,1,10);
@@ -117,13 +114,6 @@ public class Character {
 		this.anim[5] = loadAnimation(this.spsh,1,9,9);
 		this.anim[6] = loadAnimation(this.spsh,1,9,10);
 		this.anim[7] = loadAnimation(this.spsh,1,9,11);
-		this.health = 100;
-		this.host = null;
-		this.maxHealth = 100;
-		this.weapon = weapon;
-		this.dead = false; */
-		generateStat();
-		this.player = player;
 	}
 
 	private String generateName() {
@@ -305,6 +295,10 @@ public class Character {
 			animation.addFrame(spriteSheet.getSprite(x, y), 100);
 		}
 		return animation;
+	}
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		g.drawImage(this.sprite, this.host.getX(), this.host.getY(), this.host.getX()+this.host.getWidth(), this.host.getY()+this.host.getHeight(), 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 }
