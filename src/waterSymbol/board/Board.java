@@ -83,7 +83,51 @@ public class Board {
 		}
 		return false;
 	}
-
+	
+	/*public List<Case> find2 (Character character, Case end) {
+		List <Case> path = new ArrayList<Case>();
+		Case start = character.getCase ();
+		Case current = start;
+		boolean modI = false;
+		boolean modJ = false;
+		 Premier Algorithme qui bug si cul de sac
+		while( (end.getJ() != current.getJ()) && (end.getI()!= current.getI()) ) {
+			if (end.getJ() - current.getJ() > 0) {
+				if ( cases[current.getI()][current.getJ()+1].isFloor() ){
+					current = cases[current.getI()][current.getJ()+1];
+					modJ = true;
+				}
+			} else if(end.getJ() - current.getJ() < 0){
+				if ( cases[current.getI()][current.getJ()-1].isFloor() ){
+					current = cases[current.getI()][current.getJ()-1];
+					modJ = true;
+				}
+			}
+			if(modJ) {
+				path.add(current);
+			}
+			
+			if (end.getI() - current.getI() > 0) {
+				if ( cases[current.getI()+1][current.getJ()].isFloor() ){
+					current = cases[current.getI()+1][current.getJ()];
+					modI = true;
+				}
+			} else if(end.getI() - current.getI() < 0){
+				if ( cases[current.getI()-1][current.getJ()].isFloor() ){
+					current = cases[current.getI()-1][current.getJ()];
+					modI = true;
+				}
+			}
+			if (modI) {
+				path.add(current);
+			}
+			modJ = false;
+			modI = false;
+		}
+		return path;
+	}
+	*/
+	
 	public List <Case> connect (Character character, Case end) {
 		Case start = character.getCase ();
 		if (start != null && end != null) {

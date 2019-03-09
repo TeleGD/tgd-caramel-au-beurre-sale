@@ -10,20 +10,32 @@ import app.AppLoader;
 
 import waterSymbol.Character;
 
-public abstract class Case {
+public class Case {
 	private int x, y;
 	private float width, height;
 	private Image sprite;
 	private Character character;
+	private String type;
 	private Color filter;
 	
 	public Case(int x, int y, String type, float ratio) {
 	
 		this.x = x;
 		this.y = y;
-
-		setSprite(AppLoader.loadPicture ("/images/"+ type+ ".png"));
 		
+		this.type = type;
+				
+		if(type.equals("wall")) {
+			this.type = "wall"+((int)(Math.random() * 2)+1);
+		}
+		if(type.equals("sheld")) {
+			this.type = "shelf"+((int)(Math.random() * 3)+1);
+		}
+		
+		setSprite(AppLoader.loadPicture ("/images/"+ this.type+ ".png"));
+		
+		this.type = type;
+				
 		this.width = 1920f/35f * ratio;
 		this.height = 1080f/20f * ratio;
 		
@@ -32,6 +44,10 @@ public abstract class Case {
 
 	public void setSprite(Image sprite) {
 		this.sprite = sprite.copy();
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int [] getPos () {
@@ -62,14 +78,18 @@ public abstract class Case {
 		return height;
 	}
 
-	public int getX() {
+	public int getJ() {
 		return x;
 	}
 
-	public int getY() {
+	public int getI() {
 		return y;
 	}
-
+	
+	public String getType() {
+		return this.type;
+	}
+	
 	public void highlight(boolean b) {
 		if (b)
 			filter = new Color(187, 210, 225, 255);
@@ -82,6 +102,14 @@ public abstract class Case {
 	}
 
 	public boolean isAccessible() {
-		return (character==null && !(this instanceof Wall));
+		switch(this.type) {
+		case "wall" :
+		case "sale" :
+		case "mega_sale" :
+		case "shelf":
+			return false;
+		default :
+			return true;
+		}
 	}
 }
