@@ -200,37 +200,37 @@ public class Character {
 		case HEALER:
 			this.movePoints = 4 ;
 			this.attack = randInt(10, 25) ;
-			this.defense = randInt(10, 25) ;
+			this.defense = randInt(20, 50) ;
 			this.initiative = randInt(45, 65) ;
-			this.agility = randInt(30, 50) ;
+			this.agility = randInt(50, 70) ;
 			break;
 		case RANGER:
-			this.movePoints = 3 ;
-			this.attack = randInt(25, 40) ;
+			this.movePoints = 4 ;
+			this.attack = randInt(25, 45) ;
 			this.defense = randInt(25, 40) ;
-			this.initiative = randInt(80, 99) ;
-			this.agility = randInt(60, 80) ;
+			this.initiative = randInt(60, 80) ;
+			this.agility = randInt(40, 60) ;
 			break;
 		case KNIGHT:
-			this.movePoints = 3 ;
+			this.movePoints = 2 ;
 			this.attack = randInt(40, 60) ;
-			this.defense = randInt(80, 99) ;
-			this.initiative = randInt(70, 90) ;
+			this.defense = randInt(70, 90) ;
+			this.initiative = randInt(30, 50) ;
 			this.agility = randInt(10, 30) ;
 			break;
 		case NINJA:
 			this.movePoints = 6 ;
-			this.attack = randInt(60, 80) ;
+			this.attack = randInt(40, 60) ;
 			this.defense = randInt(10, 30) ;
-			this.initiative = randInt(40, 60) ;
-			this.agility = randInt(60, 80) ;
+			this.initiative = randInt(35, 55) ;
+			this.agility = randInt(65, 85) ;
 			break;
 		case WARRIOR:
-			this.movePoints = 4 ;
+			this.movePoints = 3 ;
 			this.attack = randInt(70, 90) ;
 			this.defense = randInt(30, 50) ;
 			this.initiative = randInt(30, 50) ;
-			this.agility = randInt(10, 25) ;
+			this.agility = randInt(20, 40) ;
 			break;
 		}
 	}
