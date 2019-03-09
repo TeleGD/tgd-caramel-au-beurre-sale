@@ -31,7 +31,7 @@ public class Case {
 		if(type.equals("wall")) {
 			this.type = "wall"+((int)(Math.random() * 2)+1);
 		}
-		if(type.equals("sheld")) {
+		if(type.equals("shelf")) {
 			this.type = "shelf"+((int)(Math.random() * 3)+1);
 		}
 		
