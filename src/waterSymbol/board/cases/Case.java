@@ -11,16 +11,16 @@ import app.AppLoader;
 import waterSymbol.Character;
 
 public abstract class Case {
-	private int x, y;
+	private int j, i;
 	private float width, height;
 	private Image sprite;
 	private Character character;
 	private Color filter;
 	
-	public Case(int x, int y, String type, float ratio) {
+	public Case(int j, int i, String type, float ratio) {
 	
-		this.x = x;
-		this.y = y;
+		this.j = j;
+		this.i = i;
 
 		setSprite(AppLoader.loadPicture ("/images/"+ type+ ".png"));
 		
@@ -35,7 +35,7 @@ public abstract class Case {
 	}
 
 	public int [] getPos () {
-		return new int [] {this.y, this.x};
+		return new int [] {this.i, this.j};
 	}
 
 	public void setCharacter (Character character) {
@@ -51,7 +51,7 @@ public abstract class Case {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.drawImage(sprite, x*width, y*height, width*(x+1), (y+1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
+		g.drawImage(sprite, j *width, i *height, width*(j +1), (i +1)*height, 0, 0, sprite.getWidth(), sprite.getHeight(),filter);
 	}
 
 	public float getWidth() {
@@ -62,12 +62,12 @@ public abstract class Case {
 		return height;
 	}
 
-	public int getX() {
-		return x;
+	public int getJ() {
+		return j;
 	}
 
-	public int getY() {
-		return y;
+	public int getI() {
+		return i;
 	}
 
 	public void highlight(boolean b) {

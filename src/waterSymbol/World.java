@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -160,15 +159,13 @@ public class World extends BasicGameState {
 		// Rencentre x et y dans le cadre du board
 		x -= board.getX();
 		y -= board.getY();
-		int i = x / (int) board.getWidthCase();
-		int j = y / (int) board.getHeightCase();
 		
 		if (x >= 0 && y >= 0 && x <= board.getWidth() && x <= board.getHeight()) { // Si on clique dans le board
-			Case caseSelected = (board.getCases())[i][j];
+			Case caseSelected = board.getCase(x,y);
 			if (arg0 == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;
-				characterSelected1 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
-				System.out.println("Case selectionnée : i = "+ i + " j = " + j);
+				characterSelected1 = caseSelected1.getCharacter();	// Récupère le character présent sur la case (s'il y en a un)
+				System.out.println("Case selectionnée : i = "+ caseSelected1.getI() + " j = " + caseSelected1.getJ());
 				if (characterSelected1 == null) {
 					// Si le joueur ne selectionne pas un character, on annule la selection
 					caseSelected1 = null;
@@ -188,7 +185,7 @@ public class World extends BasicGameState {
 					System.out.println("Action sur moi-même");
 				} else if (true) {	//TODO : tester que la destination est accessible avant de lancer le déplacement
 					board.showPossibleMove(characterSelected1);
-					System.out.println("Je veux me déplacer en case : i " + i + " j = " + j);
+					System.out.println("Je veux me déplacer en case : i = " + caseSelected2.getI() + " j = " + caseSelected2.getJ());
 					if (characterSelected2.getPlayer() != playerActif) {
 						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
 						//TODO : BASTON
