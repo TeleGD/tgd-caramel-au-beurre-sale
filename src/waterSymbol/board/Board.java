@@ -155,7 +155,7 @@ public class Board {
 		return null;
 	}
 
-	public void moveCharacter (Character character, Case end) {
+	/*public void moveCharacter (Character character, Case end) {
 		if (end != null) {
 			end.setCharacter (character);
 			character.setCase (end);
@@ -166,7 +166,7 @@ public class Board {
 			}
 			character.setCase (null);
 		}
-	}
+	}*/
 
 	public int getWidth() {
 		return width;

@@ -2,6 +2,7 @@ package waterSymbol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import waterSymbol.board.cases.Case;
@@ -287,6 +288,28 @@ public class Character {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public void moveAnim(Case c) {
+		if(host.getI() - c.getI() > 0) {
+			/* haut */
+			setCase(c);
+		} else if(host.getI() - c.getI() < 0) {
+			/* bas */
+			setCase(c);
+		} else if(host.getJ() - c.getJ() > 0) {
+			/* gauche */
+			setCase(c);
+		} else if(host.getJ() - c.getJ() < 0) {
+			/* droite */
+			setCase(c);
+		}
+	}
+	
+	public void move(List<Case> path) {
+		for (Case c : path) {
+			moveAnim(c);
+		}
 	}
 	
 	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
