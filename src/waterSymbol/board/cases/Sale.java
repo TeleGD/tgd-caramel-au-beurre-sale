@@ -5,10 +5,6 @@ public abstract class Sale extends Case {
 		super(x, y, type, ratio);
 	}
 	
-	public void collect(Character player) {
-		
-	}
-	
 	@Override
 	public boolean isAccessible() {
 		return false;

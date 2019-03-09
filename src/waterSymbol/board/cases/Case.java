@@ -17,6 +17,7 @@ public class Case {
 	private Character character;
 	private String type;
 	private Color filter;
+	private int point;
 	
 	public Case(int j, int i, String type, float ratio) {
 	
@@ -43,7 +44,27 @@ public class Case {
 		
 		filter = new Color(255,255,255,255);
 	}
-
+	
+	public Case(int j, int i, int team, float ratio){
+	
+		this.j = j;
+		this.i = i;
+		switch(team) {
+		case 0 :
+			setSprite(AppLoader.loadPicture ("/images/teamO.png"));
+			break ;
+		case 1 :
+			setSprite(AppLoader.loadPicture ("/images/teamV.png"));
+			break ;
+		}
+		
+		
+		this.width = 1920f/35f * ratio;
+		this.height = 1080f/20f * ratio;
+		
+		filter = new Color(255,255,255,255);
+	}
+	
 	public void setSprite(Image sprite) {
 		this.sprite = sprite.copy();
 	}
@@ -102,7 +123,14 @@ public class Case {
 	public void outlight() {
 		filter = new Color(255,255,255,255);
 	}
-
+	
+	public void collect(Character player) {
+		player.addPoint(point);
+		setSprite(AppLoader.loadPicture ("/images/shelf"+((int)(Math.random() * 3)+1)+ ".png"));
+		type = "shelf";
+		point = 0;
+	}
+	
 	public boolean isAccessible() {
 		switch(this.type) {
 		case "wall" :

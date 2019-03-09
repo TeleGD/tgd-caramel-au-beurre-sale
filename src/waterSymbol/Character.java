@@ -34,6 +34,7 @@ public class Character {
 	private boolean dead;
 	private Player player;
 	private Case host;
+	private int ownPoint;
 
 	public Character(String name, String type, String spsh, Weapon weapon, Player player) throws SlickException {
 		this.name = name;
@@ -54,6 +55,7 @@ public class Character {
 		this.maxHealth = 100;
 		this.weapon = weapon;
 		this.dead = false;
+		this.ownPoint = 0;
 		generateStat();
 	}
 
@@ -225,7 +227,16 @@ public class Character {
 			}
 		}
 	}
-
+	
+	public void addPoint(int p) {
+		this.ownPoint += p;
+	}
+	
+	public void teamPoint() {
+		player.addPoint(ownPoint);
+		ownPoint = 0;
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}
