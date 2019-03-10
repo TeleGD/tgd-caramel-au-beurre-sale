@@ -98,6 +98,9 @@ public class Case {
 	}
 
 	public boolean isAccessible() {
+		if (this.character != null) {
+			return false;
+		}
 		switch(this.type) {
 		case "wall" :
 		case "sale" :

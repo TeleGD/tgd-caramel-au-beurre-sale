@@ -50,60 +50,6 @@ public class World extends BasicGameState {
 		return this.ID;
 	}
 	
-	public void placeCharacters1(Player activePlayer) {
-		int i = 0;
-		int j = 0;
-		int w = this.board.getSize()[0];
-		int h = this.board.getSize()[1];
-		int signe = 1;
-		for (Character c : activePlayer.getTeam()) {
-			if (activePlayer == this.players.get(0)) {
-				boolean hasAccess = false;
-				while (!hasAccess) {
-					int[] pos = {i,j};
-					if (this.board.getCase(pos).isAccessible()) {
-						c.setCase(this.board.getCase(pos));
-						hasAccess = true;
-					}
-					if (j == 0 && signe == -1) {
-						signe = 1;
-						i++;
-					} else {
-						if (j == h-1 && signe == 1) {
-							signe = -1;
-							i++;
-						} else {
-							j = j + signe;
-						}
-					}
-				}
-			} else {
-				if (activePlayer == this.players.get(1)) {
-					boolean hasAccess = false;
-					while (!hasAccess) {
-						int[] pos = {w-1-i,h-1-j};
-						System.out.println(w-1-i);
-						System.out.println(h-1-j);
-						if (this.board.getCase(pos).isAccessible()) {
-							c.setCase(this.board.getCase(pos));
-						}
-						if (j == 0 && signe == -1) {
-							signe = 1;
-							i++;
-						} else {
-							if (j == h-1 && signe == 1) {
-								signe = -1;
-								i++;
-							} else {
-								j = j + signe;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
 	public void placeCharacters(Player player) {
 		ArrayList<Character> team = new ArrayList<>(player.getTeam());
 		Case tile;
@@ -124,6 +70,7 @@ public class World extends BasicGameState {
 		
 		for(Character character : team) {
 			found = false;
+			j = 0;
 			while(!found && j < board.getSize()[1]) {
 				i = 0;
 				while(!found && i < board.getSize()[0]){
