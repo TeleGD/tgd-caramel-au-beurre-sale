@@ -1,4 +1,4 @@
-package waterSymbol.board.cases;
+package waterSymbol.board;
 
 import java.util.Random;
 
@@ -75,7 +75,6 @@ public class Case {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float height, float width) {

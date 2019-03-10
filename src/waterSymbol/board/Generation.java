@@ -1,7 +1,5 @@
 package waterSymbol.board;
 
-import waterSymbol.board.cases.*;
-
 public class Generation {
 	private static int width, height;
 	private static Case[][] cases;
