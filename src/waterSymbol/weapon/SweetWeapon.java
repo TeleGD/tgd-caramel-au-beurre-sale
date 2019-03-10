@@ -18,6 +18,11 @@ public class SweetWeapon extends Weapon {
 	}
 	
 	@Override
+	public String getType() {
+		return "Sucre d'orge";
+	}
+	
+	@Override
 	public int getEffectValue() {
 		return this.effectValue;
 	}

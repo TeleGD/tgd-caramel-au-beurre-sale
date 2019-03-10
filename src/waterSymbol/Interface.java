@@ -19,10 +19,17 @@ public class Interface {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		float hc = container.getHeight();
-		context.setColor(Color.black);
-		context.drawString("Nom : "+character.getName(), 100, hc-100);
-		context.drawString("Equipe du joueur : "+character.getPlayer().getId(), 100, hc-80);
-		context.drawString("Classe : "+character.getClasse(), 100, hc-60);
+		float wc = container.getWidth();
+		Color backcolor = new Color(1f,1f,1f,0.5f);
+		context.setColor(backcolor);
+		context.setColor(Color.blue);
+		context.drawString("Nom : "+character.getName(), 100, hc-120);
+		context.drawString("Equipe du joueur : "+character.getPlayer().getId(), 100, hc-105);
+		context.drawString("Classe : "+character.getClasse(), 100, hc-90);
+		context.drawString("Arme : "+character.getWeapon().getType(), 100, hc-75);
+		context.drawString("Santé : "+character.getHealth()+"/"+character.getMaxHealth(), 100, hc-60);
+		context.drawString("Points de mouvement : "+character.getMovePoints(), 100, hc-45);
+		context.drawString("Attaque/Défense : "+character.getAttack()+"/"+character.getDefense(), 100, hc-30);
 	}
 
 }
