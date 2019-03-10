@@ -8,54 +8,44 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import waterSymbol.Character;
-import waterSymbol.board.cases.*;
 
 public class Board {
 	private Case[][] cases;
-	private int nbCol, nbLig;
 	private HashMap<Case,Integer> traitees;
 	private ArrayList<Case> accessibles;
 
 	// Pour la gestion des clics :
-	private int x, y;
 	private int height, width;
 
-	public Board(Case[][] cases, int nbLig, int nbCol, int width, int height) {
-		this.nbLig = nbLig;
-		this.nbCol = nbCol;
+	public Board(Case[][] cases, int height, int width) {
 		this.cases = cases;
-
 		this.height = height;
 		this.width = width;
-		this.x = 0;
-		this.y = 0;
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		for(int i=0; i<nbLig; i++) {
-			for(int j=0; j<nbCol; j++) {
+		for(int i=0; i<this.height; i++) {
+			for(int j=0; j<this.width; j++) {
 				cases[i][j].update(container, game, delta);
 			}
 		}
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		for(int i=0; i<nbLig; i++) {
-			for(int j=0; j<nbCol; j++) {
-				cases[i][j].render(container, game, context);
+		float screenWidth = container.getWidth();
+		float screenHeight = container.getHeight();
+		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
+		float caseHeight = 1080f / this.height * ratio;
+		float caseWidth = 1920f / this.width * ratio;
+		for(int i=0; i<this.height; i++) {
+			for(int j=0; j<this.width; j++) {
+				cases[i][j].render(container, game, context, caseHeight, caseWidth);
 			}
 		}
 	}
-	public int getX() {
-		return x;
-	}
 
-	public int getY() {
-		return y;
-	}
-
-	public int getHeight() {
-		return height;
+	public int[] getSize() {
+		return new int[]{this.height, this.width};
 	}
 
 	private boolean find (List <Case> path, Case end, int remainder) {
@@ -69,9 +59,9 @@ public class Board {
 			for (int k = 0; k < 4; k++) {
 				int i = pos [0] + (k == 1 ? 1 : 0) - (k == 3 ? 1 : 0);
 				int j = pos [1] + (k == 2 ? 1 : 0) - (k == 0 ? 1 : 0);
-				if (0 <= i && i < nbLig && 0 <= j && j < nbCol) {
+				if (0 <= i && i < this.height && 0 <= j && j < this.width) {
 					Case next = this.cases [i] [j];
-					if (next instanceof Floor && next.getCharacter () == null && !path.contains (next)) {
+					if (next.getType().equals("floor") && next.getCharacter () == null && !path.contains (next)) {
 						path.add (next);
 						if (find (path, end, remainder)) {
 							return true;
@@ -83,7 +73,7 @@ public class Board {
 		}
 		return false;
 	}
-	
+
 	/*public List<Case> find2 (Character character, Case end) {
 		List <Case> path = new ArrayList<Case>();
 		Case start = character.getCase ();
@@ -106,7 +96,7 @@ public class Board {
 			if(modJ) {
 				path.add(current);
 			}
-			
+
 			if (end.getI() - current.getI() > 0) {
 				if ( cases[current.getI()+1][current.getJ()].isFloor() ){
 					current = cases[current.getI()+1][current.getJ()];
@@ -127,7 +117,7 @@ public class Board {
 		return path;
 	}
 	*/
-	
+
 	public List <Case> connect (Character character, Case end) {
 		Case start = character.getCase ();
 		if (start != null && end != null) {
@@ -168,37 +158,37 @@ public class Board {
 		}
 	}*/
 
-	public int getWidth() {
-		return width;
-	}
-
-	public Case[][] getCases(){
-		return cases;
-	}
-
-	public float getWidthCase() {
-		if (cases.length != 0) {
-			return cases[0][0].getWidth();
-		}else {
-			return -1;
+	public Case getCase(int[] pos){
+		if (pos.length < 2 || pos[0] < 0 || pos[0] >= this.height || pos[1] < 0 || pos[1] >= this.width) {
+			return null;
+		} else {
+			return this.cases[pos[0]][pos[1]];
 		}
 	}
 
-	public float getHeightCase() {
-		if (cases.length != 0) {
-			return cases[0][0].getHeight();
-		}else {
-			return -1;
-		}
-	}
+	// public float getWidthCase() {
+	// 	if (cases.length != 0) {
+	// 		return cases[0][0].getWidth();
+	// 	}else {
+	// 		return -1;
+	// 	}
+	// }
+	//
+	// public float getHeightCase() {
+	// 	if (cases.length != 0) {
+	// 		return cases[0][0].getHeight();
+	// 	}else {
+	// 		return -1;
+	// 	}
+	// }
 
-	public Case getCase(int x, int y){
-		// Renvoit la case qui posède le point (x,y) (x et y en pixels !)
-		int j = x / (int) getWidthCase();
-		int i = y / (int) getHeightCase();
-
-		return (getCases())[i][j];
-	}
+	// public Case getCase(int x, int y){
+	// 	// Renvoit la case qui posède le point (x,y) (x et y en pixels !)
+	// 	int j = x / (int) getWidthCase();
+	// 	int i = y / (int) getHeightCase();
+	//
+	// 	return (getCases())[i][j];
+	// }
 
 	public void showPossibleMove(Character character) {
 		int [] pos = character.getCase().getPos();
@@ -235,7 +225,7 @@ public class Board {
 			if (x!=cases.length-1 && (traitees.containsKey(cases[x+1][y]) && traitees.get(cases[x+1][y])<move || !traitees.containsKey(cases[x+1][y])) && cases[x+1][y].isAccessible()) {
 				parcourt(x+1,y,move-1);
 			}
-			if (y!=cases.length-1 && (traitees.containsKey(cases[x][y+1]) && traitees.get(cases[x][y+1])<move || !traitees.containsKey(cases[x][y+1])) && cases[x][y+1].isAccessible()) {
+			if (y!=cases[0].length-1 && (traitees.containsKey(cases[x][y+1]) && traitees.get(cases[x][y+1])<move || !traitees.containsKey(cases[x][y+1])) && cases[x][y+1].isAccessible()) {
 				parcourt(x,y+1,move-1);
 			}
 		}
