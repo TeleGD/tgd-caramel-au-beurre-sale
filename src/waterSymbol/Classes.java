@@ -2,8 +2,8 @@ package waterSymbol;
 
 public enum Classes {
 	RANGER,
-	HEALER,
 	KNIGHT,
 	NINJA,
-	WARRIOR
+	WARRIOR,
+	VENDEUR
 }

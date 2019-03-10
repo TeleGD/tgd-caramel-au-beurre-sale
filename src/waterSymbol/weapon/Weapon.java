@@ -15,6 +15,8 @@ public abstract class Weapon {
 	
 	public abstract int getTypeId();
 	
+	public abstract String getType();
+	
 	public abstract int getEffectValue();
 
 }

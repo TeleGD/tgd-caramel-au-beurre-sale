@@ -17,6 +17,10 @@ public class DrinkingWeapon extends Weapon {
 		return this.typeId;
 	}
 	
+	public String getType() {
+		return "";
+	}
+	
 	@Override
 	public int getEffectValue() {
 		return this.effectValue;
