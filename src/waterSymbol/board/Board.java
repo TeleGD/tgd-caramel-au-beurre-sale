@@ -165,8 +165,15 @@ public class Board {
 	}
 
 	public void showPossibleMove(Character character) {
+		int movePoints;
+		if (character.getPA()>=2){  //Check si le character a assez de PA pour bouger
+			movePoints = character.getMovePoints()+1;
+		} else if (character.getPA()==1){ // S'il n'a pas assez de PA : on lui laisse de quoi voir ses voisins (avec le filtre rouge)
+			movePoints = 1;
+		} else{ // S'il n'a plus de PA, il ne peut rien faire, on n'affiche rien
+			return;
+		}
 		int [] pos = character.getCase().getPos();
-		int movePoints = character.getMovePoints()+1;
 		traitees = new HashMap<Case,Integer>();
 		accessibles = new ArrayList<Case>();
 		parcourt(pos[0],pos[1],movePoints);

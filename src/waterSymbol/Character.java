@@ -40,6 +40,9 @@ public class Character {
 	private List<Case> path;
 	private int[] vector;
 
+	private int PAMax;
+	private int PA;
+
 	private int k;
 
 	private boolean cible_ok;
@@ -52,7 +55,7 @@ public class Character {
 	 */
 	public Character(Player player) throws SlickException {
 		this.name = generateName();
-		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length)];
+		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length-1)];
 		switch ((int) (Math.random()*3)) {
 		case 0:
 			weapon = new GreasyWeapon(1, 1);
@@ -77,6 +80,9 @@ public class Character {
 
 		initAnim();
 
+		this.PAMax = 2;
+		this.PA = PAMax;
+
 		this.player = player;
 	}
 
@@ -90,7 +96,7 @@ public class Character {
 
 		initAnim();
 	}
-	
+
 	public Character(Classes classe, PlayerVendeur player) throws SlickException {
 		this.name = generateName();
 		this.classe = classe;
@@ -102,12 +108,12 @@ public class Character {
 		this.dead = false;
 		this.ownPoint = 0;
 		this.path = new ArrayList<Case>();
-		
+
 		generateStat();
 
 		initAnim();
 	}
-	
+
 	public void initAnim(){
 		
 		String path = "/images/characters/"; 
@@ -123,10 +129,7 @@ public class Character {
 			path += "NINJA";
 			break;
 		case RANGER:
-			path += "WARRIOR";
-			break;
-		case HEALER:
-			path += "WARRIOR"; // TODO
+			path += "RANGER";
 			break;
 		default:
 			break;
@@ -229,18 +232,11 @@ public class Character {
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 	    return randomNum;
 	}
-	
-	
+
+
 
 	public void generateStat() {
 		switch (classe) {
-		case HEALER:
-			this.movePoints = 4 ;
-			this.attack = randInt(10, 25) ;
-			this.defense = randInt(20, 50) ;
-			this.initiative = randInt(45, 65) ;
-			this.agility = randInt(50, 70) ;
-			break;
 		case RANGER:
 			this.movePoints = 4 ;
 			this.attack = randInt(25, 45) ;
@@ -284,6 +280,17 @@ public class Character {
 		if (this.health <= 0) {
 			this.dead = true;
 		}
+	}
+
+	public void attack(Character c){
+		if (PA >= 1){   // Check si le character a assez de PA
+			return;
+		}
+		c.takeDamage(this);
+		if(this.classe == Classes.NINJA){   //Le ninja peut potentiellement attaquer deux fois de suite
+			decrementPA(1);
+		}
+		PA=0;
 	}
 
 	public void takeDamage(Character c) {
@@ -371,11 +378,15 @@ public class Character {
 	}
 
 	public void move(List<Case> path) {
+		if (PA < 2){   // Check si le character n'a pas assez de PA
+			return;
+		}
 		this.path.addAll(path);
+		decrementPA(1);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
+
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
@@ -396,11 +407,11 @@ public class Character {
 				k += moveDuration;
 			}
 		}
-		
+
 	}
-	
+
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
-		if(classe.toString().equals("VENDEUR")){
+		if(classe == Classes.VENDEUR) {
 			cible_ok = false;
 			for(int i = 0; i < 5;i++) {
 				for(int j = 0; j < 5;j++) {
@@ -421,7 +432,7 @@ public class Character {
 					}
 				}
 			}
-			if(!cible_ok) {		
+			if(!cible_ok) {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}
 		}
@@ -449,10 +460,22 @@ public class Character {
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
-
 		float dj = j - (k*width*vector[1])/moveDuration ;
 		float di = i - (k*height*vector[0])/moveDuration ;
 		context.drawImage(this.sprites[direction], dj, di, dj + width, di + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
+	}
+
+	public int getPA(){
+		return PA;
+	}
+
+	public void resetPA(){
+		PA = PAMax;
+	}
+
+	public void decrementPA(int costPA){
+		PA -= costPA;
+		PA = Math.max(0,PA);
 	}
 
 }

@@ -26,7 +26,7 @@ public class World extends BasicGameState {
 	private PlayerVendeur vendeurs;
 	private TeamBuilder builder;
 	private Board board;
-	private Player playerActif;
+	private int playerActifIndex;
 	private List<Player> players;
 	private Case caseSelected1;
 	private Case caseSelected2;
@@ -147,18 +147,14 @@ public class World extends BasicGameState {
 			board.update(container, game, delta);
 			vendeurs.update(container, game, delta, board);
 			
+
 			if (a) {
 				a = false;
 				
 				
 				for (Player player : players) {
 					placeCharacters(player);
-				}
-				/*Character character = players.get(0).getTeam().get(0);
-				//board.moveCharacter(character, board.getCases () [0] [0]);
-				board.showPossibleMove(character);
-				System.out.println(board.connect(character, board.getCase(new int[]{2, 2})));
-			*/}
+				}}
 		}
 	}
 
@@ -221,12 +217,14 @@ public class World extends BasicGameState {
 	public void mousePressed(int button, int x, int y) {
 		this.mouse = new int[]{button, x, y};
 	}
+
 	public void click(GameContainer container, int button, int x, int y) {  //TODO : gérer la boucle de jeu pour faire jouer les deux joueurs !!
 		if (!builder.areTeamsReady()) {
 			return;
 		}
 		// Rencentre x et y dans le cadre du board
 		int[] size = board.getSize();
+		board.hidePossibleMove();   // Efface l'affichage des mouvements possibles
 		float screenWidth = container.getWidth();
 		float screenHeight = container.getHeight();
 		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
@@ -245,9 +243,8 @@ public class World extends BasicGameState {
 				if (characterSelected1 == null) {
 					// Si le joueur ne selectionne pas un character, on annule la selection
 					caseSelected1 = null;
-					board.hidePossibleMove();
 					return;
-				} else if (characterSelected1.getPlayer() != playerActif) {
+				} else if (characterSelected1.getPlayer() != players.get(playerActifIndex)) {
 					// Si le joueur selectionne un character de son adversaire, on annule la selection
 					caseSelected1 = null;
 					characterSelected1 = null;
@@ -272,10 +269,10 @@ public class World extends BasicGameState {
 						System.out.println("Je me déplace en case : i = " + pos2[0] + " j = " + pos2[1]);
 					} else if (distance == 1) {    // La case a un character ou shelf dessus, on n'interragit avec que s'ils sont à côté du character1
 						if (characterSelected2 != null) {    // La case de destination a un character dessus
-							if (characterSelected2.getPlayer() != playerActif) {    // Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
+							if (characterSelected2.getPlayer() != players.get(playerActifIndex)) {    // Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
 								//TODO : BASTON
 								System.out.println("ATTAQUE !");
-							} else if (characterSelected2.getPlayer() == playerActif) {     // Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
+							} else if (characterSelected2.getPlayer() == players.get(playerActifIndex)) {     // Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
 								// TODO : SOINS du character soigné
 								System.out.println("HEAL un character de la team");
 							}
@@ -286,12 +283,42 @@ public class World extends BasicGameState {
 					}
 				}
 				// Réinitialisation des selections :
-				caseSelected2 = null;
-				characterSelected2 = null;
-				caseSelected1 = null;
-				characterSelected1=null;
-				board.hidePossibleMove();
+				resetSelections();
 			}
+		}
+		manageTurn(false);   // Vérifie si le joueur à épuisé tous les PA de ses character
+	}
+
+	public boolean checkEndTurn(){
+		// Vérifie si players.get(playerActifIndex) a encore des characters ayant des PA
+		for (Character character : players.get(playerActifIndex).getTeam()){
+			if (character.getPA() > 0){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void resetSelections(){
+		board.hidePossibleMove();
+		characterSelected1=null;
+		characterSelected2=null;
+		caseSelected2= null;
+		caseSelected1=null;
+	}
+
+	public void manageTurn(boolean forceEndTurn){
+		if (forceEndTurn || checkEndTurn()){    // Fin du tour du playerActif
+			resetSelections();
+			int newIndex = (playerActifIndex + 1) % players.size();
+			playerActifIndex = newIndex;
+			players.get(playerActifIndex).resetPACharacter();   // On reset les PA des characters du player à qui c'est maintenant le tour
+		}
+	}
+
+	public void keyPressed(int key, char c) {
+		if (key==Input.KEY_SPACE){
+			manageTurn(true);   // Force la fin du tour du playerActif
 		}
 	}
 

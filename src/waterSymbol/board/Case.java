@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import app.AppLoader;
 
 import waterSymbol.Character;
+import waterSymbol.Classes;
 
 public class Case {
 	private static Random rng;
@@ -94,12 +95,15 @@ public class Case {
 		filter = new Color(255,255,255,255);
 	}
 
-	public void collect(Character player) {
-		if(character.getClasse().toString().equals("VENDEUR")) {
-			
+	public void collect(Character character) {
+		if(character.getClasse() == Classes.VENDEUR) {
+
 		} else if(type.equals("sale") || type.equals("mega_sale")) {
-			player.addPoint(this.points);
-			this.setType("shelf");
+			if (character.getPA()>=1){  // Check si le character a assez de PA
+				character.addPoint(this.points);
+				this.setType("shelf");
+				character.decrementPA(1);
+			}
 		}
 	}
 
