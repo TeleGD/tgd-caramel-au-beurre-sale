@@ -48,8 +48,8 @@ public class PlayerVendeur {
 
 	public void update (GameContainer container, StateBasedGame game, int delta, Board board) {
 		
-		for (Character character : team) {
+/*		for (Character character : team) {
 			character.update(container, game, delta, board);
-		}
+		}*/
 	}
 }

@@ -96,7 +96,7 @@ public class Character {
 
 		initAnim();
 	}
-	
+
 	public Character(Classes classe, PlayerVendeur player) throws SlickException {
 		this.name = generateName();
 		this.classe = classe;
@@ -108,12 +108,12 @@ public class Character {
 		this.dead = false;
 		this.ownPoint = 0;
 		this.path = new ArrayList<Case>();
-		
+
 		generateStat();
 
 		initAnim();
 	}
-	
+
 	public void initAnim(){
 		
 		String path = "/images/characters/"; 
@@ -235,8 +235,8 @@ public class Character {
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 	    return randomNum;
 	}
-	
-	
+
+
 
 	public void generateStat() {
 		switch (classe) {
@@ -396,7 +396,7 @@ public class Character {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
+
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
@@ -417,9 +417,9 @@ public class Character {
 				k += moveDuration;
 			}
 		}
-		
+
 	}
-	
+
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
 		if(classe.toString().equals("VENDEUR")){
 			cible_ok = false;
@@ -431,7 +431,7 @@ public class Character {
 					}
 				}
 			}
-			if(!cible_ok) {		
+			if(!cible_ok) {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}
 		}
