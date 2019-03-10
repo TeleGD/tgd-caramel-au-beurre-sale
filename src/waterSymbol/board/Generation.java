@@ -33,10 +33,10 @@ public class Generation {
 			int ran = width-3 - (int)(Math.random()*(width/4))-(width/8>=1?width/8:1);
 			int ran2 = 2+(int)(Math.random()*(width/4))+(width/8>=1?width/8:1);
 
-			if(cases[0][ran-1].getType().equals("wall") || cases[0][ran+1].getType().equals("wall") ) k--;
+			if(cases[0][ran-1].getType().equals("wall") || cases[0][ran+1].getType().equals("wall") );
 			else generateVerticalWall(cases, ran, height);
 			
-			if(cases[0][ran2-1].getType().equals("wall") || cases[0][ran2+1].getType().equals("wall") ) k--;
+			if(cases[0][ran2-1].getType().equals("wall") || cases[0][ran2+1].getType().equals("wall") );
 			else generateVerticalWall(cases, ran2, height);
 		}
 

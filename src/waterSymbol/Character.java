@@ -411,7 +411,7 @@ public class Character {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
-		/*if(classe == Classes.VENDEUR) {
+		if(classe == Classes.VENDEUR) {
 			cible_ok = false;
 			for(int i = 0; i < 8;i++) {
 				for(int j = 0; j < 8;j++) {
@@ -424,7 +424,7 @@ public class Character {
 			if(!cible_ok) {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}
-		}*/
+		}
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
