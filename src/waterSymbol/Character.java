@@ -120,7 +120,7 @@ public class Character {
 			path += "KNIGHT";
 			break;
 		case NINJA:
-			path += "WARRIOR";
+			path += "NINJA";
 			break;
 		case RANGER:
 			path += "WARRIOR";

@@ -18,6 +18,11 @@ public class SaltedWeapon extends Weapon {
 	}
 	
 	@Override
+	public String getType() {
+		return "Lance au cristal de sel";
+	}
+	
+	@Override
 	public int getEffectValue() {
 		return this.effectValue;
 	}

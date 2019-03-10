@@ -1,30 +1,43 @@
 package waterSymbol.board;
 
 public class Generation {
-	public static Board generate() {
-		int width = 35;
-		int height = 20;
+	
+	/**
+	 * Génère un nouveau plateau de taille width*height
+	 * 
+	 * @param height
+	 * @param width
+	 * @return nouveau board
+	 */
+	public static Board generate(int height, int width) {
 
+		// Initialisation : uniquement le sol, on montera les murs plus tard
 		Case[][] cases = new Case[height][width];
-
+		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				cases[i][j] = new Case(i, j, "floor");
 			}
 		}
 
+		
+		// Il faut des points de départ pour les équipes, comment elles entrent sinon (non pas par la porte, il n'y en a pas
 		cases[0][0] = new Case(0, 0, "teamO");
 
 		cases[height-1][width-1] = new Case(height-1, width-1, "teamV");
-		int nbObstacles = 13;
+		int nbObstacles = width/2;
 
-		int r = (int)(Math.random()*5+4);
+		int r = (int)(Math.random()*width/4+width/8);
 
 		for(int k=0; k<r; k++) {
-			int ran = (int)(Math.random()*(width-6)+3);
+			int ran = width-1 - (int)(Math.random()*(width/4))-(width/8>=1?width/8:1);
+			int ran2 = (int)(Math.random()*(width/4))+(width/8>=1?width/8:1);
 
 			if(cases[0][ran-1].getType().equals("wall") || cases[0][ran+1].getType().equals("wall") ) k--;
 			else generateVerticalWall(cases, ran, height);
+			
+			if(cases[0][ran2-1].getType().equals("wall") || cases[0][ran2+1].getType().equals("wall") ) k--;
+			else generateVerticalWall(cases, ran2, height);
 		}
 
 		for(int k=r; k<nbObstacles; k++) {
@@ -38,7 +51,7 @@ public class Generation {
 		generateShelves(cases, height, width);
 		generateSales(cases, height, width);
 
-		createPath(cases, (int) (Math.random() * (height - 10)) + 5, 1, height, width);
+		createPath(cases, (int) (Math.random() * (height - height/2)) + height/4, 1, height, width);
 
 		return new Board(cases);
 	}
@@ -103,7 +116,7 @@ public class Generation {
 			else cases[i][j] = new Case(i, j, "mega_sale");
 		}
 	}
-
+	
 	private static void createPath(Case[][] cases, int i, int j, int height, int width) {
 		if(j<width) {
 			cases[i][j] = new Case(i, j, "floor");
