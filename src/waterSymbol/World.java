@@ -269,7 +269,7 @@ public class World extends BasicGameState {
 					} else if (distance == 1) {    // La case a un character ou shelf dessus, on n'interragit avec que s'ils sont à côté du character1
 						if (characterSelected2 != null) {    // La case de destination a un character dessus
 							if (characterSelected2.getPlayer() != players.get(playerActifIndex)) {    // Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
-								//TODO : BASTON
+								characterSelected1.attack(characterSelected2);  //TODO : débuguer
 								System.out.println("ATTAQUE !");
 							} else if (characterSelected2.getPlayer() == players.get(playerActifIndex)) {     // Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
 								// TODO : SOINS du character soigné

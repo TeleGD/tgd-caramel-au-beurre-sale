@@ -283,14 +283,15 @@ public class Character {
 	}
 
 	public void attack(Character c){
-		if (PA >= 1){   // Check si le character a assez de PA
+		if (PA < 1){   // Check si le character a assez de PA
 			return;
 		}
 		c.takeDamage(this);
 		if(this.classe == Classes.NINJA){   //Le ninja peut potentiellement attaquer deux fois de suite
 			decrementPA(1);
+		}else{
+			PA=0;
 		}
-		PA=0;
 	}
 
 	public void takeDamage(Character c) {
@@ -378,7 +379,7 @@ public class Character {
 	}
 
 	public void move(List<Case> path) {
-		if (PA < 2){   // Check si le character n'a pas assez de PA
+		if (PA < 2 && classe != Classes.RANGER){   // Check si le character n'a pas assez de PA
 			return;
 		}
 		this.path.addAll(path);
