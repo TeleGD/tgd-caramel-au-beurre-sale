@@ -18,11 +18,11 @@ public class Interface {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		// Affichage du score
-		context.setColor(Color.orange);
-		context.drawString("Nom : "+character.getName()+"\n", 100, container.getHeight()-100);
-//			g.drawString("Score de "+p.getName()+ " : " + p.getScore(), 399, 10);
-//			g.drawString("Nombre de points de Gravité restants à " + p.getName()+ " : " + p.getGravityPoint(), 700, 10);
+		float hc = container.getHeight();
+		context.setColor(Color.black);
+		context.drawString("Nom : "+character.getName(), 100, hc-100);
+		context.drawString("Equipe du joueur : "+character.getPlayer().getId(), 100, hc-80);
+		context.drawString("Classe : "+character.getClasse(), 100, hc-60);
 	}
 
 }
