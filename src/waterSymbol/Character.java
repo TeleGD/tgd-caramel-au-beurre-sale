@@ -53,7 +53,7 @@ public class Character {
 	 * @param player
 	 * @throws SlickException
 	 */
-	public Character(Player player) throws SlickException {
+	public Character(Player player) {
 		this.name = generateName();
 		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length-1)];
 		switch ((int) (Math.random()*3)) {
@@ -86,20 +86,11 @@ public class Character {
 		this.player = player;
 	}
 
-	public Character(String name, Classes classe, Weapon weapon, Player player) throws SlickException {
-		this(player);
+	public Character(String name, Classes classe, Weapon weapon, Player player) {
 		this.name = name;
 		this.classe = classe;
 		this.weapon = weapon;
 		
-		generateStat();
-
-		initAnim();
-	}
-
-	public Character(Classes classe, PlayerVendeur player) throws SlickException {
-		this.name = generateName();
-		this.classe = classe;
 		this.host = null;
 		this.vector = new int[] {0,0};
 		k = moveDuration;
@@ -112,6 +103,8 @@ public class Character {
 		generateStat();
 
 		initAnim();
+		
+		this.player = player;
 	}
 
 	public void initAnim(){
@@ -131,18 +124,19 @@ public class Character {
 		case RANGER:
 			path += "RANGER";
 			break;
+		case VENDEUR:
+			path += "VENDEUR";
+			break;
 		default:
 			break;
 		}
 		
-		path += "_";
-		
 		if (weapon instanceof GreasyWeapon) {
-			path += "GREASY";
+			path += "_GREASY";
 		} else if (weapon instanceof SaltedWeapon) {
-			path += "SALTED";
+			path += "_SALTED";
 		} else if (weapon instanceof SweetWeapon) {
-			path += "SWEET";
+			path += "_SWEET";
 		}
 		
 		path += ".png";
@@ -299,6 +293,7 @@ public class Character {
 			delta = 2;
 		}
 		if (randInt(0,100) < this.agility) {
+			// TODO Refaire les dégats selon les types d'arme
 			int damage = c.attack + c.weapon.getEffectValue();
 			if ((this.weapon.getTypeId() - c.weapon.getTypeId())%3 == 1) {
 				this.health -= (int) 1.2*damage*delta - this.defense;
@@ -413,7 +408,7 @@ public class Character {
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
 		if(classe == Classes.VENDEUR) {
 			cible_ok = false;
-			for(int i = 0; i < 8;i++) {
+			/*for(int i = 0; i < 8;i++) {
 				for(int j = 0; j < 8;j++) {
 					if(board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]}).getType().equals("shelf")) {
 						move(board.connect(this,board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]})));
@@ -423,7 +418,7 @@ public class Character {
 			}
 			if(!cible_ok) {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
-			}
+			}*/
 		}
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;

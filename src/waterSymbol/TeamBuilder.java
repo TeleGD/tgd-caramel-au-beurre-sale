@@ -8,9 +8,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
-import waterSymbol.weapon.GreasyWeapon;
-import waterSymbol.weapon.SaltedWeapon;
-import waterSymbol.weapon.SweetWeapon;
 
 public class TeamBuilder {
 
@@ -47,12 +44,7 @@ public class TeamBuilder {
 
 		characters = new Character[4];
 
-		try {
-			resetCharacters();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		resetCharacters();
 
 		compt = 0;
 		max = teamSize;
@@ -90,14 +82,10 @@ public class TeamBuilder {
 		context.setColor(Color.black);
 		context.drawImage(image, xmin, ymin, xmax, ymax, 0, 0, image.getWidth(), image.getHeight());
 
-		//context.drawRect(x1, y1, charSize, charSize);
 		context.drawImage(this.characters[0].getSprite(), x1, y1, x1+charSize, y1+charSize, 0, 0, 64, 64);
 		context.drawImage(this.characters[1].getSprite(), x2, y1, x2+charSize, y1+charSize, 0, 0, 64, 64);
 		context.drawImage(this.characters[2].getSprite(), x1, y2, x1+charSize, y2+charSize, 0, 0, 64, 64);
 		context.drawImage(this.characters[3].getSprite(), x2, y2, x2+charSize, y2+charSize, 0, 0, 64, 64);
-//		context.drawRect(x2, y1, charSize, charSize);
-//		context.drawRect(x1, y2, charSize, charSize);
-//		context.drawRect(x2, y2, charSize, charSize);
 	}
 
 	private void onClickAction(GameContainer container) {
@@ -108,12 +96,7 @@ public class TeamBuilder {
 				activePlayer.ajouter(characters[choice-1]);
 				activePlayer = activePlayer==player1 ? player2 : player1;
 				compt = activePlayer==player1?compt+1:compt;
-				try {
-					resetCharacters();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				resetCharacters();	
 			}
 		}
 	}
@@ -122,7 +105,7 @@ public class TeamBuilder {
 		return compt>=max;
 	}
 
-	private void resetCharacters() throws Exception {
+	private void resetCharacters() {
 		characters[0] = new Character(activePlayer);
 		characters[1] = new Character(activePlayer);
 		characters[2] = new Character(activePlayer);

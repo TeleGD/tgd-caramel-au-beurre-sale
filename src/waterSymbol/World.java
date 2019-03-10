@@ -15,8 +15,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
-import waterSymbol.weapon.SweetWeapon;
-import waterSymbol.weapon.Weapon;
+import waterSymbol.weapon.DrinkingWeapon;
 import waterSymbol.board.Case;
 
 public class World extends BasicGameState {
@@ -66,10 +65,14 @@ public class World extends BasicGameState {
 			mirror = 1;
 			offsetWidth = 0;
 			offsetHeight = 0;
-		} else {
+		} else if (player == players.get(1)) {
 			mirror = -1;
 			offsetWidth = board.getSize()[1] - 1;
 			offsetHeight = board.getSize()[0] - 1;
+		} else {
+			mirror = -1;
+			offsetWidth = board.getSize()[1]/2;
+			offsetHeight = board.getSize()[0]/2;
 		}
 			
 		
@@ -150,7 +153,9 @@ public class World extends BasicGameState {
 				a = false;
 				for (Player player : players) {
 					placeCharacters(player);
-				}}
+				}
+				placeCharacters(vendeurs);
+			}
 		}
 	}
 
@@ -179,7 +184,7 @@ public class World extends BasicGameState {
 		players.add(new Player("Axel"));
 		vendeurs = new PlayerVendeur("vendeur");
 
-		Character v = new Character(Classes.VENDEUR, vendeurs);
+		Character v = new Character("Zhan",Classes.VENDEUR,new DrinkingWeapon(1, 1), vendeurs);
 		vendeurs.ajouter(v);
 
 		playerActifIndex = 0;
