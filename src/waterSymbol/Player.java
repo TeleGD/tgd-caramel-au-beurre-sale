@@ -41,13 +41,6 @@ public class Player {
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		if(id.equals("Tristan")) {
-			filter = new Color(Color.orange);
-			context.drawString("score : "+score, 50, 25);
-		} else {
-			filter = new Color(Color.magenta);
-			context.drawString("score : "+score, container.getScreenHeight()-20, 600 );
-		}
 		
 	}
 
