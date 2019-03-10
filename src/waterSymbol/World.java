@@ -34,13 +34,13 @@ public class World extends BasicGameState {
 	private Case caseSelected2;
 	private Character characterSelected1;
 	private Character characterSelected2;
-	private Interface infos = new Interface(null);
+	private Interface infos;
 	private boolean a;
 	private static Audio lifelight;
 	private static float lifelightPos;
 	private int[] mouse;
 	static {
-		// World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		//World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
 		World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
 		World.lifelightPos = 0;
 	}
@@ -168,9 +168,7 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
-			if (infos.getCharacter()!=null) {
-				infos.render(container, game, context);
-			}
+			infos.render(container, game, context);
 		}
 	}
 
@@ -180,14 +178,16 @@ public class World extends BasicGameState {
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
 
-		players.add(new Player("Tristan"));
-		players.add(new Player("Axel"));
+		players.add(new Player());
+		players.add(new Player());
 		vendeurs = new PlayerVendeur("vendeur");
 
 		Character v = new Character("Zhan",Classes.VENDEUR,new DrinkingWeapon(1, 1), vendeurs);
 		vendeurs.ajouter(v);
 
 		playerActifIndex = 0;
+		
+		infos = new Interface(null);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
 		board = Generation.generate(20,35);
