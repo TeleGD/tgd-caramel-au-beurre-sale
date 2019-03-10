@@ -52,7 +52,7 @@ public class Character {
 	 */
 	public Character(Player player) throws SlickException {
 		this.name = generateName();
-		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length)];
+		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length-1)];
 		switch ((int) (Math.random()*3)) {
 		case 0:
 			weapon = new GreasyWeapon(1, 1);
@@ -123,10 +123,7 @@ public class Character {
 			path += "NINJA";
 			break;
 		case RANGER:
-			path += "WARRIOR";
-			break;
-		case HEALER:
-			path += "WARRIOR"; // TODO
+			path += "RANGER";
 			break;
 		default:
 			break;
@@ -234,13 +231,6 @@ public class Character {
 
 	public void generateStat() {
 		switch (classe) {
-		case HEALER:
-			this.movePoints = 4 ;
-			this.attack = randInt(10, 25) ;
-			this.defense = randInt(20, 50) ;
-			this.initiative = randInt(45, 65) ;
-			this.agility = randInt(50, 70) ;
-			break;
 		case RANGER:
 			this.movePoints = 4 ;
 			this.attack = randInt(25, 45) ;
@@ -400,7 +390,7 @@ public class Character {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
-		if(classe.toString().equals("VENDEUR")){
+		/*if(classe == Classes.VENDEUR) {
 			cible_ok = false;
 			for(int i = 0; i < 8;i++) {
 				for(int j = 0; j < 8;j++) {
@@ -413,7 +403,7 @@ public class Character {
 			if(!cible_ok) {		
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}
-		}
+		}*/
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}

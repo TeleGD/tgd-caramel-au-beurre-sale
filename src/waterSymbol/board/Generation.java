@@ -30,8 +30,8 @@ public class Generation {
 		int r = (int)(Math.random()*width/4+width/8);
 
 		for(int k=0; k<r; k++) {
-			int ran = width-1 - (int)(Math.random()*(width/4))-(width/8>=1?width/8:1);
-			int ran2 = (int)(Math.random()*(width/4))+(width/8>=1?width/8:1);
+			int ran = width-3 - (int)(Math.random()*(width/4))-(width/8>=1?width/8:1);
+			int ran2 = 2+(int)(Math.random()*(width/4))+(width/8>=1?width/8:1);
 
 			if(cases[0][ran-1].getType().equals("wall") || cases[0][ran+1].getType().equals("wall") ) k--;
 			else generateVerticalWall(cases, ran, height);
