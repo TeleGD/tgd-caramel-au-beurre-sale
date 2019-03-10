@@ -72,6 +72,9 @@ public class Case {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
+		if (this.character != null){
+			this.character.update(container,game,delta);
+		}
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float height, float width) {

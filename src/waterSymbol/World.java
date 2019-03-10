@@ -234,6 +234,8 @@ public class World extends BasicGameState {
 					caseSelected1 = null;
 					characterSelected1 = null;
 					return;
+				} else {
+					board.showPossibleMove(characterSelected1);
 				}
 			}
 			else if (button == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
