@@ -47,9 +47,11 @@ public class Case {
 			}
 			case "sale": {
 				this.points = Case.scale[Case.rng.nextInt(3)] * 10;
+				break;
 			}
 			case "mega_sale": {
 				this.points = Case.scale[Case.rng.nextInt(3)] * 100;
+				break;
 			}
 		}
 		this.sprite = AppLoader.loadPicture("/images/" + type + ".png");
