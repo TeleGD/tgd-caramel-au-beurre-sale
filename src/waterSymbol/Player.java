@@ -35,7 +35,7 @@ public class Player {
 		this.team.add(c);
 	}
 	
-	private String generateName() {
+	protected String generateName() {
 		ArrayList<String> firstnames = new ArrayList<String>(Arrays.asList("Amos","Axel","David","Fabien","Frantz","Frédéric","Lucas","Maxime","Nathan","Océane","Quentin","Tristan","Xavier"));
 		ArrayList<String> lastnames = new ArrayList<String>(Arrays.asList("George","Pontet","Forlen","Bernier","Darbon","Venier","Thomas","Botreau-Roussel-Bonneterre","Barloy","Chazé","Charrier","Le Godais","Indice"));
 

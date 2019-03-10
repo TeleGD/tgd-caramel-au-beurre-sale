@@ -180,7 +180,7 @@ public class World extends BasicGameState {
 
 		players.add(new Player());
 		players.add(new Player());
-		vendeurs = new PlayerVendeur("vendeur");
+		vendeurs = new PlayerVendeur();
 
 		Character v = new Character("Zhan",Classes.VENDEUR,new DrinkingWeapon(1, 1), vendeurs);
 		vendeurs.ajouter(v);

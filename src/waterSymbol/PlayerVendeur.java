@@ -13,6 +13,12 @@ public class PlayerVendeur extends Player {
 	private String id;
 	private ArrayList<Character> team;
 
+	public PlayerVendeur() {
+		super();
+		this.id = super.generateName();
+		this.team = new ArrayList<Character>();
+	}
+	
 	public PlayerVendeur(String id) {
 		super(id);
 		this.id = id;
