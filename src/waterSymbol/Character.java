@@ -277,14 +277,15 @@ public class Character {
 	}
 
 	public void attack(Character c){
-		if (PA >= 1){   // Check si le character a assez de PA
+		if (PA < 1){   // Check si le character a assez de PA
 			return;
 		}
 		c.takeDamage(this);
 		if(this.classe == Classes.NINJA){   //Le ninja peut potentiellement attaquer deux fois de suite
 			decrementPA(1);
+		}else{
+			PA=0;
 		}
-		PA=0;
 	}
 
 	public void takeDamage(Character c) {
@@ -373,7 +374,7 @@ public class Character {
 	}
 
 	public void move(List<Case> path) {
-		if (PA < 2){   // Check si le character n'a pas assez de PA
+		if (PA < 2 && classe != Classes.RANGER){   // Check si le character n'a pas assez de PA
 			return;
 		}
 		this.path.addAll(path);
@@ -408,11 +409,23 @@ public class Character {
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
 		if(classe == Classes.VENDEUR) {
 			cible_ok = false;
-			/*for(int i = 0; i < 8;i++) {
-				for(int j = 0; j < 8;j++) {
-					if(board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]}).getType().equals("shelf")) {
-						move(board.connect(this,board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]})));
-						cible_ok = true;
+			/*
+			for(int i = 0; i < 5;i++) {
+				for(int j = 0; j < 5;j++) {
+					int[] pos = new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]};
+					if(pos[0] <= 20 && pos[0] >= 0 && pos[1] <= 35 && pos[1] >= 0) {
+						if(board.getCase(pos).getType().equals("shelf")) {
+							move(board.connect(this,board.getCase(pos)));
+							cible_ok = true;
+						}
+					} else {
+						pos = new int[] {-1*i+getCase().getPos()[0],-1*j+getCase().getPos()[1] };
+						if(pos[0] <= 20 && pos[0] >= 0 && pos[1] <= 35 && pos[1] >= 0) {
+							if(board.getCase(pos).getType().equals("shelf")) {
+								move(board.connect(this,board.getCase(pos)));
+								cible_ok = true;
+							}
+						}
 					}
 				}
 			}
