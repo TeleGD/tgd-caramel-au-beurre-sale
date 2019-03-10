@@ -17,6 +17,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import app.AppLoader;
 
 public class Character {
+	
+	static int moveDuration = 200;
 
 	private String name;
 	private Classes classe;
@@ -34,6 +36,10 @@ public class Character {
 	private Player player;
 	private Case host;
 	private int ownPoint;
+	private List<Case> path;
+	private int[] vector;
+
+	private int k;
 
 	/**
 	 * Create a random charactere
@@ -57,6 +63,8 @@ public class Character {
 		}
 
 		this.host = null;
+		this.vector = new int[] {0,0};
+		k = moveDuration;
 		this.maxHealth = 100;
 		this.health = maxHealth;
 		this.dead = false;
@@ -78,6 +86,7 @@ public class Character {
 		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
+		this.path = new ArrayList<Case>();
 		generateStat();
 
 		initAnim();
@@ -114,7 +123,7 @@ public class Character {
 		if (weapon instanceof GreasyWeapon) {
 			path += "GREASY";
 		} else if (weapon instanceof SaltedWeapon) {
-			path += "SALTY";
+			path += "SALTED";
 		} else if (weapon instanceof SweetWeapon) {
 			path += "SWEET";
 		}
@@ -124,7 +133,7 @@ public class Character {
 		Image im = AppLoader.loadPicture(path);
 		sprites = new Image[4];
 		for (int i=0 ; i<sprites.length ; i++) {
-			sprites[i] = im.getSubImage(i*64, 0, 64, 64);
+			sprites[i] = im.getSubImage(0, i*64, 64, 64);
 		}
 		
 		direction = 2;
@@ -309,27 +318,56 @@ public class Character {
 		int[] cPos = c.getPos();
 		if(hostPos[0] - cPos[0] > 0) {
 			/* haut */
-			setCase(c);
+			direction = 0;
+			vector[0] = -1;
+			vector[1] = 0;
 		} else if(hostPos[0] - cPos[0] < 0) {
 			/* bas */
-			setCase(c);
+			direction = 2;
+			vector[0] = 1;
+			vector[1] = 0;
 		} else if(hostPos[1] - cPos[1] > 0) {
 			/* gauche */
-			setCase(c);
+			direction = 1;
+			vector[0] = 0;
+			vector[1] = -1;
 		} else if(hostPos[1] - cPos[1] < 0) {
 			/* droite */
-			setCase(c);
+			direction = 3;
+			vector[0] = 0;
+			vector[1] = 1;
 		}
+		setCase(c);
 	}
 
 	public void move(List<Case> path) {
-		for (Case c : path) {
-			moveAnim(c);
+		this.path.addAll(path);
+	}
+	
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+
+		if(k > 0 || path.size() != 0) {
+			k -= delta ;
 		}
+		while (k <= 0 && path.size() != 0) {
+			moveAnim(path.get(0));
+			path.remove(0);
+			if(path.size() == 0) {
+				k = 0;
+				vector[0] = 0;
+				vector[1] = 0;
+			} else {
+				k += moveDuration;
+			}
+		}
+		
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
-		context.drawImage(this.sprites[direction], j, i, j + width, i + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
+
+		float dj = j - (k*width*vector[1])/moveDuration ;
+		float di = i - (k*height*vector[0])/moveDuration ;
+		context.drawImage(this.sprites[direction], dj, di, dj + width, di + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
 	}
 
 }
