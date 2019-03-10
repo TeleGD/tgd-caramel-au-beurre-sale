@@ -8,21 +8,20 @@ import java.util.Random;
 import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.SpriteSheet;
+
+import app.AppLoader;
 
 public class Character {
 
 	private String name;
 	private Classes classe;
-	private Image sprite;
-	private SpriteSheet spsh;
-	private Animation[] anim;
+	private Image sprites[];
+	private int direction;
 	private int health;
 	private int maxHealth;
 	private int movePoints;
@@ -121,23 +120,15 @@ public class Character {
 		}
 		
 		path += ".png";
-			
-		try {
-			this.spsh = new SpriteSheet(new Image(path), 64, 64);
-		} catch (SlickException e) {
-			e.printStackTrace();
+		
+		Image im = AppLoader.loadPicture(path);
+		sprites = new Image[4];
+		for (int i=0 ; i<sprites.length ; i++) {
+			sprites[i] = im.getSubImage(i*64, 0, 64, 64);
 		}
-		this.sprite = this.spsh.getSprite(2, 3);
-		this.anim = new Animation[8];
-
-		this.anim[0] = loadAnimation(this.spsh,0,1,8);
-		this.anim[1] = loadAnimation(this.spsh,0,1,9);
-		this.anim[2] = loadAnimation(this.spsh,0,1,10);
-		this.anim[3] = loadAnimation(this.spsh,0,1,11);
-		this.anim[4] = loadAnimation(this.spsh,1,9,8);
-		this.anim[5] = loadAnimation(this.spsh,1,9,9);
-		this.anim[6] = loadAnimation(this.spsh,1,9,10);
-		this.anim[7] = loadAnimation(this.spsh,1,9,11);
+		
+		direction = 2;
+		
 	}
 
 	private String generateName() {
@@ -155,7 +146,7 @@ public class Character {
 	}
 
 	public Image getSprite() {
-		return this.sprite;
+		return this.sprites[direction];
 	}
 
 	public int getHealth() {
@@ -337,16 +328,8 @@ public class Character {
 		}
 	}
 
-	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
-		Animation animation = new Animation();
-		for (int x = startX;x<endX; x++) {
-			animation.addFrame(spriteSheet.getSprite(x, y), 100);
-		}
-		return animation;
-	}
-
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
-		context.drawImage(this.sprite, j, i, j + width, i + height, 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
+		context.drawImage(this.sprites[direction], j, i, j + width, i + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
 	}
 
 }
