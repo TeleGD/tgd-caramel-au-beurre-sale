@@ -5,5 +5,6 @@ public enum Classes {
 	HEALER,
 	KNIGHT,
 	NINJA,
-	WARRIOR
+	WARRIOR,
+	VENDEUR
 }

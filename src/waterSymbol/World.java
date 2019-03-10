@@ -15,12 +15,15 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
+import waterSymbol.weapon.SweetWeapon;
+import waterSymbol.weapon.Weapon;
 import waterSymbol.board.Case;
 
 public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
+	private PlayerVendeur vendeurs;
 	private TeamBuilder builder;
 	private Board board;
 	private Player playerActif;
@@ -35,7 +38,8 @@ public class World extends BasicGameState {
 	private int[] mouse;
 	static {
 		try {
-			lifelight = new Music("res/musics/purgatoire.ogg");
+			//lifelight = new Music("res/musics/purgatoire.ogg");
+			lifelight = new Music("res/musics/ZOT.ogg");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -99,7 +103,12 @@ public class World extends BasicGameState {
 	public void enter (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée à l'apparition de la page */
 		if (this.state == 0) {
-			this.play (container, game);
+			try {
+				this.play (container, game);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (this.state == 2) {
 			this.resume (container, game);
 		}
@@ -118,6 +127,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update (GameContainer container, StateBasedGame game, int delta) {
+		vendeurs.update(container, game, delta);
 		/* Méthode exécutée environ 60 fois par seconde */
 		Input input = container.getInput ();
 		if (input.isKeyDown (Input.KEY_ESCAPE)) {
@@ -135,6 +145,7 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
+			
 			if (a) {
 				a = false;
 				for (Player player : players) {
@@ -163,7 +174,7 @@ public class World extends BasicGameState {
 		}
 	}
 
-	public void play (GameContainer container, StateBasedGame game) {
+	public void play (GameContainer container, StateBasedGame game) throws SlickException {
 		/* Méthode exécutée une unique fois au début du jeu */
 		lifelight.loop(1, (float) 0.4);
 		players = new ArrayList<Player>();
@@ -171,7 +182,10 @@ public class World extends BasicGameState {
 
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
-
+		vendeurs = new PlayerVendeur("vendeur");
+		
+		Character v = new Character(Classes.VENDEUR, vendeurs);
+		vendeurs.ajouter(v);
 		playerActif = players.get(0);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));

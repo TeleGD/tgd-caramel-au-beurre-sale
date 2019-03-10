@@ -95,9 +95,12 @@ public class Case {
 	}
 
 	public void collect(Character player) {
-		if(type.equals("sale") || type.equals("mega_sale"))
-		player.addPoint(this.points);
-		this.setType("shelf");
+		if(character.getClasse().toString().equals("VENDEUR")) {
+			
+		} else if(type.equals("sale") || type.equals("mega_sale")) {
+			player.addPoint(this.points);
+			this.setType("shelf");
+		}
 	}
 
 	public boolean isAccessible() {
