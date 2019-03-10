@@ -70,6 +70,7 @@ public class Character {
 		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
+		this.path = new ArrayList<Case>();
 		generateStat();
 
 		initAnim();
@@ -78,21 +79,14 @@ public class Character {
 	}
 
 	public Character(String name, Classes classe, Weapon weapon, Player player) throws SlickException {
+		this(player);
 		this.name = name;
 		this.classe = classe;
 		this.weapon = weapon;
-
-		this.host = null;
-		this.maxHealth = 100;
-		this.health = maxHealth;
-		this.dead = false;
-		this.ownPoint = 0;
-		this.path = new ArrayList<Case>();
+		
 		generateStat();
 
 		initAnim();
-		
-		this.player = player;
 	}
 
 	public void initAnim(){
