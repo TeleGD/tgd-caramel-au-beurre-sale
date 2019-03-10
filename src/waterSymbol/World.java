@@ -127,7 +127,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		vendeurs.update(container, game, delta);
+		vendeurs.update(container, game, delta, board);
 		/* Méthode exécutée environ 60 fois par seconde */
 		Input input = container.getInput ();
 		if (input.isKeyDown (Input.KEY_ESCAPE)) {

@@ -7,6 +7,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import waterSymbol.board.Board;
+
 public class PlayerVendeur {
 
 	private String id;
@@ -44,10 +46,10 @@ public class PlayerVendeur {
 		
 	}
 
-	public void update (GameContainer container, StateBasedGame game, int delta) {
+	public void update (GameContainer container, StateBasedGame game, int delta, Board board) {
 		
 		for (Character character : team) {
-			character.update(container, game, delta);
+			character.update(container, game, delta, board);
 		}
 	}
 }

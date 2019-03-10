@@ -374,6 +374,31 @@ public class Character {
 		this.path.addAll(path);
 	}
 	
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		
+		if(k > 0 || path.size() != 0) {
+			k -= delta ;
+		}
+		while (k <= 0 && path.size() != 0) {
+			moveAnim(path.get(0));
+			path.remove(0);
+			if(path.size() == 0) {
+				k = 0;
+				vector[0] = 0;
+				vector[1] = 0;
+				if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")){
+					teamPoint();
+				}
+				if(host.getType().equals("teamV")&& getPlayer().getId().equals("Axel")){
+					teamPoint();
+				}
+			} else {
+				k += moveDuration;
+			}
+		}
+		
+	}
+	
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
 		if(classe.toString().equals("VENDEUR")){
 			cible_ok = false;
