@@ -175,7 +175,7 @@ public class World extends BasicGameState {
 		playerActif = players.get(0);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
-		board = Generation.generate();
+		board = Generation.generate(20,35);
 		a = true;
 	}
 
