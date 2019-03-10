@@ -29,6 +29,7 @@ public class World extends BasicGameState {
 	private Case caseSelected2;
 	private Character characterSelected1;
 	private Character characterSelected2;
+	private Interface infos = new Interface(null);
 	private boolean a;
 	private static Music lifelight;
 	private int[] mouse;
@@ -156,6 +157,9 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
+			if (infos.getCharacter()!=null) {
+				infos.render(container, game, context);
+			}
 		}
 	}
 
@@ -220,6 +224,7 @@ public class World extends BasicGameState {
 			if (button == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;
 				characterSelected1 = caseSelected1.getCharacter();	// Récupère le character présent sur la case (s'il y en a un)
+				infos = new Interface(characterSelected1);
 				int[] pos1 = caseSelected1.getPos();
 				System.out.println("Case selectionnée : i = "+ pos1[0] + " j = " + pos1[1]);
 				if (characterSelected1 == null) {
