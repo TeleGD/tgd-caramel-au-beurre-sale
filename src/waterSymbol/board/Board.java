@@ -59,7 +59,7 @@ public class Board {
 				int j = pos [1] + (k == 2 ? 1 : 0) - (k == 0 ? 1 : 0);
 				if (0 <= i && i < this.height && 0 <= j && j < this.width) {
 					Case next = this.cases [i] [j];
-					if (next.getType().equals("floor") && next.getCharacter () == null && !path.contains (next)) {
+					if (next.getType().equals("floor") || next.getType().equals("teamV") || next.getType().equals("teamO") && next.getCharacter () == null && !path.contains (next)) {
 						path.add (next);
 						if (find (path, end, remainder)) {
 							return true;
