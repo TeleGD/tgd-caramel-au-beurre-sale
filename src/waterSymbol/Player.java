@@ -47,4 +47,10 @@ public class Player {
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 	}
 
+	public void resetPACharacter(){
+		for(Character character : team){
+			character.resetPA();
+		}
+	}
+
 }

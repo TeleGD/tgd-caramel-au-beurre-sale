@@ -39,6 +39,9 @@ public class Character {
 	private List<Case> path;
 	private int[] vector;
 
+	private int PAMax;
+	private int PA;
+
 	private int k;
 
 	/**
@@ -73,6 +76,9 @@ public class Character {
 		generateStat();
 
 		initAnim();
+
+		this.PAMax = 2;
+		this.PA = PAMax;
 
 		this.player = player;
 	}
@@ -257,6 +263,17 @@ public class Character {
 		}
 	}
 
+	public void attack(Character c){
+		if (PA >= 1){   // Check si le character a assez de PA
+			return;
+		}
+		c.takeDamage(this);
+		if(this.classe == Classes.NINJA){   //Le ninja peut potentiellement attaquer deux fois de suite
+			decrementPA(1);
+		}
+		PA=0;
+	}
+
 	public void takeDamage(Character c) {
 		int delta = 1;
 		if (randInt(0,100) <= 5) {
@@ -342,7 +359,11 @@ public class Character {
 	}
 
 	public void move(List<Case> path) {
+		if (PA < 2){   // Check si le character n'a pas assez de PA
+			return;
+		}
 		this.path.addAll(path);
+		decrementPA(1);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -371,10 +392,22 @@ public class Character {
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
-
 		float dj = j - (k*width*vector[1])/moveDuration ;
 		float di = i - (k*height*vector[0])/moveDuration ;
 		context.drawImage(this.sprites[direction], dj, di, dj + width, di + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
+	}
+
+	public int getPA(){
+		return PA;
+	}
+
+	public void resetPA(){
+		PA = PAMax;
+	}
+
+	public void decrementPA(int costPA){
+		PA -= costPA;
+		PA = Math.max(0,PA);
 	}
 
 }
