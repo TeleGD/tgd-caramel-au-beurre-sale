@@ -173,7 +173,7 @@ public class World extends BasicGameState {
 		float caseWidth = 1920f / size[1] * ratio;
 		int i = (int) Math.floor(y / caseHeight);
 		int j = (int) Math.floor(x / caseWidth);
-		if (i >= 0 && j < size[0] && j >= 0 && j < size[1]) { // Si on clique dans le board
+		if (i >= 0 && i < size[0] && j >= 0 && j < size[1]) { // Si on clique dans le board
 			Case caseSelected = board.getCase(new int[]{i, j});
 			if (button == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;
