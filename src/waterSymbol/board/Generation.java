@@ -1,18 +1,14 @@
 package waterSymbol.board;
 
 public class Generation {
-	private static int width, height;
-	private static Case[][] cases;
-
 	public static Board generate() {
-		width = 35;
-		height = 20;
+		int width = 35;
+		int height = 20;
 
-		cases = new Case[height][width];
+		Case[][] cases = new Case[height][width];
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-
 				cases[i][j] = new Case(i, j, "floor");
 			}
 		}
@@ -28,7 +24,7 @@ public class Generation {
 			int ran = (int)(Math.random()*(width-6)+3);
 
 			if(cases[0][ran-1].getType().equals("wall") || cases[0][ran+1].getType().equals("wall") ) k--;
-			else generateVerticalWall(ran);
+			else generateVerticalWall(cases, ran, height);
 		}
 
 		for(int k=r; k<nbObstacles; k++) {
@@ -36,18 +32,18 @@ public class Generation {
 			int j = (int)(Math.random()*(width-2))+1;
 
 			if(cases[0][j].getType().equals("wall")) k--;
-			else generateWallBlock(i,j,0);
+			else generateWallBlock(cases, i, j, height, width, 0);
 		}
 
-		generateShelves();
-		generateSales();
+		generateShelves(cases, height, width);
+		generateSales(cases, height, width);
 
-		createPath((int)(Math.random()*(height-10))+5,1);
+		createPath(cases, (int) (Math.random() * (height - 10)) + 5, 1, height, width);
 
-		return new Board(cases, height, width);
+		return new Board(cases);
 	}
 
-	private static void generateVerticalWall(int j) {
+	private static void generateVerticalWall(Case[][] cases, int j, int height) {
 		int r = (int)(Math.random()*10+5);
 		for(int i=0; i<r ; i++) {
 			cases[i][j] = new Case(i, j, "wall");
@@ -60,18 +56,18 @@ public class Generation {
 		}
 	}
 
-	private static void generateWallBlock(int i, int j, int iteration) {
+	private static void generateWallBlock(Case[][] cases, int i, int j, int height, int width, int iteration) {
 		if(iteration<Math.random()*3+2) {
 			cases[i][j] = new Case(i, j, "wall");
 
-			if(j-1>0 && !(cases[0][j-1].getType().equals("wall")) && !(cases[i][j-1].getType().equals("wall"))) generateWallBlock(i,j-1, iteration+1);
-			if(j+1<width-1 && !(cases[0][j+1].getType().equals("wall")) && !(cases[i][j+1].getType().equals("wall"))) generateWallBlock(i,j+1, iteration+1);
-			if(i-1>=0 && !(cases[i-1][j].getType().equals("wall"))) generateWallBlock(i-1,j, iteration+1);
-			if(i+1<height && !(cases[i+1][j].getType().equals("wall"))) generateWallBlock(i+1,j, iteration+1);
+			if(j-1>0 && !(cases[0][j-1].getType().equals("wall")) && !(cases[i][j-1].getType().equals("wall"))) generateWallBlock(cases, i, j-1, height, width, iteration+1);
+			if(j+1<width-1 && !(cases[0][j+1].getType().equals("wall")) && !(cases[i][j+1].getType().equals("wall"))) generateWallBlock(cases, i, j+1, height, width, iteration+1);
+			if(i-1>=0 && !(cases[i-1][j].getType().equals("wall"))) generateWallBlock(cases, i-1, j, height, width, iteration+1);
+			if(i+1<height && !(cases[i+1][j].getType().equals("wall"))) generateWallBlock(cases, i+1, j, height, width, iteration+1);
 		}
 	}
 
-	private static void generateShelves() {
+	private static void generateShelves(Case[][] cases, int height, int width) {
 		for(int i=0; i<height; i++) {
 			for(int j=0; j<width; j++) {
 				if(cases[i][j].getType().equals("wall") && (int)(Math.random()*8)==0) cases[i][j] = new Case(i, j, "shelf");
@@ -87,7 +83,7 @@ public class Generation {
 		}
 	}
 
-	private static void generateSales() {
+	private static void generateSales(Case[][] cases, int height, int width) {
 		for(int i=0; i<height; i++) {
 			for(int j=0; j<width; j++) {
 				int rand = (int)(Math.random()*2);
@@ -108,16 +104,16 @@ public class Generation {
 		}
 	}
 
-	private static void createPath(int i, int j) {
+	private static void createPath(Case[][] cases, int i, int j, int height, int width) {
 		if(j<width) {
 			cases[i][j] = new Case(i, j, "floor");
-			if(i-1>0) cases[i-1][j] = new Case(j,i-1,"floor");
-			if(i+1<height-1) cases[i+1][j] = new Case(j,i+1,"floor");
+			if(i-1>0) cases[i-1][j] = new Case(i-1,j,"floor");
+			if(i+1<height-1) cases[i+1][j] = new Case(i+1,j,"floor");
 
 			int r = (int)(Math.random()*5);
-			if(r==4 && i>=2) createPath(i-1,j);
-			else if(r==3 && i<height-2) createPath(i+1,j);
-			else createPath(i,j+1);
+			if(r==4 && i>=2) createPath(cases, i-1,j, height, width);
+			else if(r==3 && i<height-2) createPath(cases, i+1,j, height, width);
+			else createPath(cases, i,j+1, height, width);
 		}
 	}
 }
