@@ -19,7 +19,7 @@ public class Generation {
 
 		cases[0][0] = new Case(0, 0, "teamO");
 
-		cases[height-1][width-1] = new Case(width-1, height-1, "teamV");
+		cases[height-1][width-1] = new Case(height-1, width-1, "teamV");
 		int nbObstacles = 13;
 
 		int r = (int)(Math.random()*5+4);

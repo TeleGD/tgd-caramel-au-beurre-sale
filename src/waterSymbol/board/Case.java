@@ -37,15 +37,12 @@ public class Case {
 		this.type = type;
 		this.points = 0;
 		switch (type) {
-			case "floor": {
-				break;
-			}
 			case "wall": {
-				type = "wall" + (Case.rng.nextInt(2) + 1);
+				type = "wall" + (Case.rng.nextInt(2)+1);
 				break;
 			}
 			case "shelf": {
-				type = "shelf" + (Case.rng.nextInt(3) + 1);
+				type = "shelf" + (Case.rng.nextInt(3)+1);
 				break;
 			}
 			case "sale": {
