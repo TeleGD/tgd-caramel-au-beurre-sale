@@ -241,4 +241,11 @@ public class Board {
 		}
 	}
 
+	public static int manhattanDistance(Case case1, Case case2){
+		return Math.abs(case1.getI()-case2.getI()) + Math.abs(case1.getJ()-case2.getJ());
+	}
+
+	public ArrayList<Case> getAccessibles() {
+		return accessibles;
+	}
 }

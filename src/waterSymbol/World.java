@@ -186,33 +186,36 @@ public class World extends BasicGameState {
 			else if (arg0 == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
 				caseSelected2 = caseSelected;
 				characterSelected2 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
-				if (caseSelected1 == caseSelected2) {	// Si le joueur selectionne la même case qu'avant
+				int distance = Board.manhattanDistance(caseSelected1,caseSelected2);    // Calcul de la distance entre les deux cases : ce n'est pas la distance qui sera réellement parcourue !
+				if (distance == 0) {	// Si le joueur selectionne la même case qu'avant
 					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
 					System.out.println("Action sur moi-même");
-				} else if (caseSelected2.isAccessible()) {	// La case est vide : on peut s'y déplacer
-					board.showPossibleMove(characterSelected1);
-					System.out.println("Je veux me déplacer en case : i = " + caseSelected2.getI() + " j = " + caseSelected2.getJ());
-					//TODO : Faire le déplacement
-				} else if (characterSelected2 != null) {    // La case de destination a un character dessus
-					if (characterSelected2.getPlayer() != playerActif) {
-						// Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
-						//TODO : BASTON
-						System.out.println("ATTAQUE !");
-					} else if (characterSelected2.getPlayer() == playerActif) {
-						// Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
-						// TODO : SOINS du character soigné
-						System.out.println("HEAL un character de la team");
+				} else {    // Le joueur selectionne une autre case
+					if (caseSelected2.isAccessible() && board.getAccessibles().contains(caseSelected2)) {	// La case est vide et on peut s'y déplacer
+						board.showPossibleMove(characterSelected1);
+						List<Case> pathToFollow = board.connect(characterSelected1, caseSelected2);   // Construction du chemin à emprunter
+						characterSelected1.move(pathToFollow);  // Character se déplace en suivant le chemin
+						System.out.println("Je me déplace en case : i = " + caseSelected2.getI() + " j = " + caseSelected2.getJ());
+					} else if (distance == 1) {    // La case a un character ou shelf dessus, on n'interragit avec que s'ils sont à côté du character1
+						if (characterSelected2 != null) {    // La case de destination a un character dessus
+							if (characterSelected2.getPlayer() != playerActif) {    // Si le joueur selectionne un character de son adversaire, son déplacement est une attaque
+								//TODO : BASTON
+								System.out.println("ATTAQUE !");
+							} else if (characterSelected2.getPlayer() == playerActif) {     // Si le joueur selectionne un de ses character comme destination, il effectue une action amicale : soin, item ...
+								// TODO : SOINS du character soigné
+								System.out.println("HEAL un character de la team");
+							}
+						} else if (caseSelected2.getType().equals("sale") || caseSelected2.getType().equals("mega_sale") ) { //La case de destination est un shelf collectable
+							caseSelected2.collect(characterSelected2);
+							System.out.println("Collect un shelf");
+						}
 					}
-				} else { //La case de destination est un shelf //TODO : utiliser caseSelected2.getType()
-					 //TODO : gérer collect()
-					System.out.println("Collect un shelf");
 				}
 				// Réinitialisation des selections :
 				caseSelected2 = null;
 				characterSelected2 = null;
 				caseSelected1 = null;
 				characterSelected1=null;
-				
 			}
 		}
 	}
