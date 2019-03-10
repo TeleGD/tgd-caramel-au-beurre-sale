@@ -357,6 +357,12 @@ public class Character {
 				k = 0;
 				vector[0] = 0;
 				vector[1] = 0;
+				if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")){
+					teamPoint();
+				}
+				if(host.getType().equals("teamV")&& getPlayer().getId().equals("Axel")){
+					teamPoint();
+				}
 			} else {
 				k += moveDuration;
 			}
