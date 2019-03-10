@@ -182,8 +182,6 @@ public class World extends BasicGameState {
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
 		vendeurs = new PlayerVendeur("vendeur");
-		
-		playerActif = players.get(0);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
 		board = Generation.generate(20,35);
