@@ -156,6 +156,9 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
+			for (Player p : players) {
+				p.render(container,game, context);
+			}
 		}
 	}
 

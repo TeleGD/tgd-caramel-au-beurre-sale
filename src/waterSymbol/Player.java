@@ -2,6 +2,7 @@ package waterSymbol;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -10,6 +11,7 @@ public class Player {
 
 	private String id;
 	private int score;
+	private Color filter;
 	private ArrayList<Character> team;
 
 	public Player(String id) {
@@ -39,6 +41,14 @@ public class Player {
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
+		if(id.equals("Tristan")) {
+			filter = new Color(Color.orange);
+			context.drawString("score : "+score, 50, 25);
+		} else {
+			filter = new Color(Color.magenta);
+			context.drawString("score : "+score, container.getScreenHeight()-20, 600 );
+		}
+		
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
