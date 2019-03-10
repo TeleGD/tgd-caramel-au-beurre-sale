@@ -127,6 +127,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update (GameContainer container, StateBasedGame game, int delta) {
+		
 		/* Méthode exécutée environ 60 fois par seconde */
 		Input input = container.getInput ();
 		if (input.isKeyDown (Input.KEY_ESCAPE)) {
@@ -145,9 +146,12 @@ public class World extends BasicGameState {
 			//TODO en jeu
 			board.update(container, game, delta);
 			vendeurs.update(container, game, delta, board);
+			
 
 			if (a) {
 				a = false;
+				
+				
 				for (Player player : players) {
 					placeCharacters(player);
 				}}
@@ -178,11 +182,8 @@ public class World extends BasicGameState {
 		players.add(new Player("Tristan"));
 		players.add(new Player("Axel"));
 		vendeurs = new PlayerVendeur("vendeur");
-
-		Character v = new Character(Classes.VENDEUR, vendeurs);
-		vendeurs.ajouter(v);
-
-		playerActifIndex = 0;
+		
+		playerActif = players.get(0);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
 		board = Generation.generate(20,35);

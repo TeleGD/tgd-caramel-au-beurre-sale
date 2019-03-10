@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import waterSymbol.board.Board;
@@ -40,6 +41,22 @@ public class PlayerVendeur {
 
 	public ArrayList<Character> getTeam() {
 		return this.team;
+	}
+	
+	public void createCharacter(Board board) {
+		Character v;
+		try {
+			v = new Character(Classes.VENDEUR, this);
+			this.ajouter(v);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int[] pos = new int[] { 0, 10}; 
+		while(board.connect(team.get(0), board.getCase(pos)) == null) {
+			pos[1] += 1;
+		}
+		team.get(0).setCase(board.getCase(pos));
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {

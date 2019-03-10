@@ -412,20 +412,31 @@ public class Character {
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
-		/*if(classe == Classes.VENDEUR) {
+		if(classe == Classes.VENDEUR) {
 			cible_ok = false;
-			for(int i = 0; i < 8;i++) {
-				for(int j = 0; j < 8;j++) {
-					if(board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]}).getType().equals("shelf")) {
-						move(board.connect(this,board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]})));
-						cible_ok = true;
+			for(int i = 0; i < 5;i++) {
+				for(int j = 0; j < 5;j++) {
+					int[] pos = new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]};
+					if(pos[0] <= 20 && pos[0] >= 0 && pos[1] <= 35 && pos[1] >= 0) {
+						if(board.getCase(pos).getType().equals("shelf")) {
+							move(board.connect(this,board.getCase(pos)));
+							cible_ok = true;
+						}
+					} else {
+						pos = new int[] {-1*i+getCase().getPos()[0],-1*j+getCase().getPos()[1] };
+						if(pos[0] <= 20 && pos[0] >= 0 && pos[1] <= 35 && pos[1] >= 0) {
+							if(board.getCase(pos).getType().equals("shelf")) {
+								move(board.connect(this,board.getCase(pos)));
+								cible_ok = true;
+							}
+						}
 					}
 				}
 			}
 			if(!cible_ok) {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}
-		}*/
+		}
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
