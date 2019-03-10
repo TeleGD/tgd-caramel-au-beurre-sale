@@ -9,16 +9,16 @@ import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.SpriteSheet;
 
 public class Character {
+	
+	static int moveDuration = 200;
 
 	private String name;
 	private Classes classe;
@@ -37,6 +37,10 @@ public class Character {
 	private Player player;
 	private Case host;
 	private int ownPoint;
+	private List<Case> path;
+	private int[] vector;
+
+	private int k;
 
 	/**
 	 * Create a random charactere
@@ -47,22 +51,21 @@ public class Character {
 	public Character(Player player) throws SlickException {
 		this.name = generateName();
 		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length)];
-		switch ((int) (Math.random()*4)) {
+		switch ((int) (Math.random()*3)) {
 		case 0:
-			weapon = new DrinkingWeapon(1, 1);
-			break;
-		case 1:
 			weapon = new GreasyWeapon(1, 1);
 			break;
-		case 2:
+		case 1:
 			weapon = new SaltedWeapon(1, 1);
 			break;
-		case 3:
+		case 2:
 			weapon = new SweetWeapon(1, 1);
 			break;
 		}
 
 		this.host = null;
+		this.vector = new int[] {0,0};
+		k = moveDuration;
 		this.maxHealth = 100;
 		this.health = maxHealth;
 		this.dead = false;
@@ -71,8 +74,6 @@ public class Character {
 
 		initAnim();
 
-		this.weapon = weapon;
-		generateStat();
 		this.player = player;
 	}
 
@@ -86,19 +87,50 @@ public class Character {
 		this.health = maxHealth;
 		this.dead = false;
 		this.ownPoint = 0;
+		this.path = new ArrayList<Case>();
 		generateStat();
 
 		initAnim();
-
-		this.maxHealth = 100;
-		this.weapon = weapon;
-		generateStat();
+		
 		this.player = player;
 	}
 
 	public void initAnim(){
-		// TODO animation selon la classe
-		String path = "res/images/characters/skeleton.png"; //TODO : CHANGER CE MAGIC STRING
+		
+		String path = "/images/characters/"; 
+		
+		switch (classe) {
+		case WARRIOR:
+			path += "WARRIOR";
+			break;
+		case KNIGHT:
+			path += "WARRIOR";
+			break;
+		case NINJA:
+			path += "WARRIOR";
+			break;
+		case RANGER:
+			path += "WARRIOR";
+			break;
+		case HEALER:
+			path += "WARRIOR"; // TODO
+			break;
+		default:
+			break;
+		}
+		
+		path += "_";
+		
+		if (weapon instanceof GreasyWeapon) {
+			path += "GREASY";
+		} else if (weapon instanceof SaltedWeapon) {
+			path += "SALTY";
+		} else if (weapon instanceof SweetWeapon) {
+			path += "SWEET";
+		}
+		
+		path += ".png";
+			
 		try {
 			this.spsh = new SpriteSheet(new Image(path), 64, 64);
 		} catch (SlickException e) {
@@ -295,23 +327,26 @@ public class Character {
 		int[] cPos = c.getPos();
 		if(hostPos[0] - cPos[0] > 0) {
 			/* haut */
-			setCase(c);
+			vector[0] = -1;
+			vector[1] = 0;
 		} else if(hostPos[0] - cPos[0] < 0) {
 			/* bas */
-			setCase(c);
+			vector[0] = 1;
+			vector[1] = 0;
 		} else if(hostPos[1] - cPos[1] > 0) {
 			/* gauche */
-			setCase(c);
+			vector[0] = 0;
+			vector[1] = -1;
 		} else if(hostPos[1] - cPos[1] < 0) {
 			/* droite */
-			setCase(c);
+			vector[0] = 0;
+			vector[1] = 1;
 		}
+		setCase(c);
 	}
 
 	public void move(List<Case> path) {
-		for (Case c : path) {
-			moveAnim(c);
-		}
+		this.path.addAll(path);
 	}
 
 	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
@@ -321,9 +356,31 @@ public class Character {
 		}
 		return animation;
 	}
+	
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+
+		if(k > 0 || path.size() != 0) {
+			k -= delta ;
+		}
+		while (k <= 0 && path.size() != 0) {
+			moveAnim(path.get(0));
+			path.remove(0);
+			if(path.size() == 0) {
+				k = 0;
+				vector[0] = 0;
+				vector[1] = 0;
+			} else {
+				k += moveDuration;
+			}
+		}
+		
+	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {
-		context.drawImage(this.sprite, j, i, j + width, i + height, 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
+
+		float dj = j - (k*width*vector[1])/moveDuration ;
+		float di = i - (k*height*vector[0])/moveDuration ;
+		context.drawImage(this.sprite, dj, di, dj + width, di + height, 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 }

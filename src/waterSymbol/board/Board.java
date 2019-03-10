@@ -13,14 +13,12 @@ public class Board {
 	private Case[][] cases;
 	private HashMap<Case,Integer> traitees;
 	private ArrayList<Case> accessibles;
-
-	// Pour la gestion des clics :
 	private int height, width;
 
-	public Board(Case[][] cases, int height, int width) {
+	public Board(Case[][] cases) {
 		this.cases = cases;
-		this.height = height;
-		this.width = width;
+		this.height = cases.length;
+		this.width = cases.length != 0 ? cases[0].length : 0;
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -165,30 +163,6 @@ public class Board {
 			return this.cases[pos[0]][pos[1]];
 		}
 	}
-
-	// public float getWidthCase() {
-	// 	if (cases.length != 0) {
-	// 		return cases[0][0].getWidth();
-	// 	}else {
-	// 		return -1;
-	// 	}
-	// }
-	//
-	// public float getHeightCase() {
-	// 	if (cases.length != 0) {
-	// 		return cases[0][0].getHeight();
-	// 	}else {
-	// 		return -1;
-	// 	}
-	// }
-
-	// public Case getCase(int x, int y){
-	// 	// Renvoit la case qui posède le point (x,y) (x et y en pixels !)
-	// 	int j = x / (int) getWidthCase();
-	// 	int i = y / (int) getHeightCase();
-	//
-	// 	return (getCases())[i][j];
-	// }
 
 	public void showPossibleMove(Character character) {
 		int [] pos = character.getCase().getPos();
