@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import app.AppLoader;
 
 public class Character {
-	
+
 	static int moveDuration = 200;
 
 	private String name;
@@ -70,7 +70,7 @@ public class Character {
 
 		this.host = null;
 		this.vector = new int[] {0,0};
-		k = moveDuration;
+		this.k = 0;
 		this.maxHealth = 100;
 		this.health = maxHealth;
 		this.dead = false;
@@ -90,10 +90,10 @@ public class Character {
 		this.name = name;
 		this.classe = classe;
 		this.weapon = weapon;
-		
+
 		this.host = null;
 		this.vector = new int[] {0,0};
-		k = moveDuration;
+		this.k = 0;
 		this.maxHealth = 100;
 		this.health = maxHealth;
 		this.dead = false;
@@ -103,14 +103,14 @@ public class Character {
 		generateStat();
 
 		initAnim();
-		
+
 		this.player = player;
 	}
 
 	public void initAnim(){
-		
-		String path = "/images/characters/"; 
-		
+
+		String path = "/images/characters/";
+
 		switch (classe) {
 		case WARRIOR:
 			path += "WARRIOR";
@@ -130,7 +130,7 @@ public class Character {
 		default:
 			break;
 		}
-		
+
 		if (weapon instanceof GreasyWeapon) {
 			path += "_GREASY";
 		} else if (weapon instanceof SaltedWeapon) {
@@ -138,17 +138,17 @@ public class Character {
 		} else if (weapon instanceof SweetWeapon) {
 			path += "_SWEET";
 		}
-		
+
 		path += ".png";
-		
+
 		Image im = AppLoader.loadPicture(path);
 		sprites = new Image[4];
 		for (int i=0 ; i<sprites.length ; i++) {
 			sprites[i] = im.getSubImage(0, i*64, 64, 64);
 		}
-		
+
 		direction = 2;
-		
+
 	}
 
 	private String generateName() {
@@ -380,27 +380,26 @@ public class Character {
 		this.path.addAll(path);
 		decrementPA(1);
 	}
-	
+
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 
-		if(k > 0 || path.size() != 0) {
+		if (k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
 		while (k <= 0 && path.size() != 0) {
 			moveAnim(path.get(0));
 			path.remove(0);
-			if(path.size() == 0) {
-				k = 0;
-				vector[0] = 0;
-				vector[1] = 0;
-				if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")){
-					teamPoint();
-				}
-				if(host.getType().equals("teamV")&& getPlayer().getId().equals("Axel")){
-					teamPoint();
-				}
-			} else {
-				k += moveDuration;
+			k += moveDuration;
+		}
+		if (k <= 0 && path.size() == 0) {
+			k = 0;
+			vector[0] = 0;
+			vector[1] = 0;
+			if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")) {
+				teamPoint();
+			}
+			if (host.getType().equals("teamV") && getPlayer().getId().equals("Axel")) {
+				teamPoint();
 			}
 		}
 
@@ -433,27 +432,20 @@ public class Character {
 				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
 			}*/
 		}
-		if(k > 0 || path.size() != 0) {
+		if (k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
 		while (k <= 0 && path.size() != 0) {
 			moveAnim(path.get(0));
 			path.remove(0);
-			if(path.size() == 0) {
-				k = 0;
-				vector[0] = 0;
-				vector[1] = 0;
-				if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")){
-					teamPoint();
-				}
-				if(host.getType().equals("teamV")&& getPlayer().getId().equals("Axel")){
-					teamPoint();
-				}
-			} else {
-				k += moveDuration;
-			}
+			k += moveDuration;
 		}
-		
+		if (k <= 0 && path.size() == 0) {
+			k = 0;
+			vector[0] = 0;
+			vector[1] = 0;
+		}
+
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context, float i, float j, float height, float width) {

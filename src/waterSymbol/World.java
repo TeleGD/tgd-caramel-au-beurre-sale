@@ -8,10 +8,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import app.AppLoader;
 
 import waterSymbol.board.Board;
 import waterSymbol.board.Generation;
@@ -33,15 +36,13 @@ public class World extends BasicGameState {
 	private Character characterSelected2;
 	private Interface infos = new Interface(null);
 	private boolean a;
-	private static Music lifelight;
+	private static Audio lifelight;
+	private static float lifelightPos;
 	private int[] mouse;
 	static {
-		try {
-			//lifelight = new Music("res/musics/purgatoire.ogg");
-			lifelight = new Music("res/musics/ZOT.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		// World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
+		World.lifelightPos = 0;
 	}
 
 	public World (int ID) {
@@ -53,14 +54,14 @@ public class World extends BasicGameState {
 	public int getID () {
 		return this.ID;
 	}
-	
+
 	public void placeCharacters(Player player) {
 		ArrayList<Character> team = new ArrayList<>(player.getTeam());
 		Case tile;
 		int i = 0; int j=0;
 		boolean found = false;
 		int mirror, offsetWidth, offsetHeight;
-		
+
 		if (player == players.get(0)) {
 			mirror = 1;
 			offsetWidth = 0;
@@ -74,8 +75,8 @@ public class World extends BasicGameState {
 			offsetWidth = board.getSize()[1]/2;
 			offsetHeight = board.getSize()[0]/2;
 		}
-			
-		
+
+
 		for(Character character : team) {
 			found = false;
 			j = 0;
@@ -94,7 +95,7 @@ public class World extends BasicGameState {
 				j++;
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -106,12 +107,7 @@ public class World extends BasicGameState {
 	public void enter (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée à l'apparition de la page */
 		if (this.state == 0) {
-			try {
-				this.play (container, game);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.play (container, game);
 		} else if (this.state == 2) {
 			this.resume (container, game);
 		}
@@ -130,7 +126,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		
+
 		/* Méthode exécutée environ 60 fois par seconde */
 		Input input = container.getInput ();
 		if (input.isKeyDown (Input.KEY_ESCAPE)) {
@@ -149,12 +145,12 @@ public class World extends BasicGameState {
 			//TODO en jeu
 			board.update(container, game, delta);
 			vendeurs.update(container, game, delta, board);
-			
+
 
 			if (a) {
 				a = false;
-				
-				
+
+
 				for (Player player : players) {
 					placeCharacters(player);
 				}
@@ -178,9 +174,9 @@ public class World extends BasicGameState {
 		}
 	}
 
-	public void play (GameContainer container, StateBasedGame game) throws SlickException {
+	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
-		lifelight.loop(1, (float) 0.4);
+		World.lifelight.playAsMusic(1, .4f, true);
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
 
@@ -200,17 +196,19 @@ public class World extends BasicGameState {
 
 	public void pause (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la mise en pause du jeu */
-		lifelight.pause();
+		World.lifelightPos = lifelight.getPosition();
+		World.lifelight.stop();
 	}
 
 	public void resume (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la reprise du jeu */
-		lifelight.resume();
+		World.lifelight.playAsMusic(1, .4f, true);
+		World.lifelight.setPosition(lifelightPos);
 	}
 
 	public void stop (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois à la fin du jeu */
-		lifelight.stop();
+		World.lifelight.stop();
 	}
 
 	public void setState (int state) {
