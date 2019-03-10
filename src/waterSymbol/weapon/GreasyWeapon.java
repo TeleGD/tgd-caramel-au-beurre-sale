@@ -18,6 +18,11 @@ public class GreasyWeapon extends Weapon {
 	}
 	
 	@Override
+	public String getType() {
+		return "Plaquette de beurre";
+	}
+	
+	@Override
 	public int getEffectValue() {
 		return this.effectValue;
 	}

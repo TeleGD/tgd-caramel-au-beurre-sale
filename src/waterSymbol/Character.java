@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import waterSymbol.board.Board;
 import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
@@ -43,6 +44,8 @@ public class Character {
 	private int PA;
 
 	private int k;
+
+	private boolean cible_ok;
 
 	/**
 	 * Create a random charactere
@@ -93,7 +96,24 @@ public class Character {
 
 		initAnim();
 	}
+	
+	public Character(Classes classe, PlayerVendeur player) throws SlickException {
+		this.name = generateName();
+		this.classe = classe;
+		this.host = null;
+		this.vector = new int[] {0,0};
+		k = moveDuration;
+		this.maxHealth = 100;
+		this.health = maxHealth;
+		this.dead = false;
+		this.ownPoint = 0;
+		this.path = new ArrayList<Case>();
+		
+		generateStat();
 
+		initAnim();
+	}
+	
 	public void initAnim(){
 		
 		String path = "/images/characters/"; 
@@ -106,7 +126,7 @@ public class Character {
 			path += "KNIGHT";
 			break;
 		case NINJA:
-			path += "WARRIOR";
+			path += "NINJA";
 			break;
 		case RANGER:
 			path += "WARRIOR";
@@ -215,6 +235,8 @@ public class Character {
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 	    return randomNum;
 	}
+	
+	
 
 	public void generateStat() {
 		switch (classe) {
@@ -250,6 +272,13 @@ public class Character {
 			this.movePoints = 3 ;
 			this.attack = randInt(70, 90) ;
 			this.defense = randInt(30, 50) ;
+			this.initiative = randInt(30, 50) ;
+			this.agility = randInt(20, 40) ;
+			break;
+		case VENDEUR:
+			this.movePoints = 15 ;
+			this.attack = randInt(70, 90) ;
+			this.defense = randInt(5, 10) ;
 			this.initiative = randInt(30, 50) ;
 			this.agility = randInt(20, 40) ;
 			break;
@@ -367,7 +396,45 @@ public class Character {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-
+		
+		if(k > 0 || path.size() != 0) {
+			k -= delta ;
+		}
+		while (k <= 0 && path.size() != 0) {
+			moveAnim(path.get(0));
+			path.remove(0);
+			if(path.size() == 0) {
+				k = 0;
+				vector[0] = 0;
+				vector[1] = 0;
+				if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")){
+					teamPoint();
+				}
+				if(host.getType().equals("teamV")&& getPlayer().getId().equals("Axel")){
+					teamPoint();
+				}
+			} else {
+				k += moveDuration;
+			}
+		}
+		
+	}
+	
+	public void update(GameContainer container, StateBasedGame game, int delta, Board board) {
+		if(classe.toString().equals("VENDEUR")){
+			cible_ok = false;
+			for(int i = 0; i < 8;i++) {
+				for(int j = 0; j < 8;j++) {
+					if(board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]}).getType().equals("shelf")) {
+						move(board.connect(this,board.getCase(new int[] {i+getCase().getPos()[0],j+getCase().getPos()[1]})));
+						cible_ok = true;
+					}
+				}
+			}
+			if(!cible_ok) {		
+				move(board.connect(this,board.getCase(new int[] {((int)Math.random()*5)+getCase().getPos()[0],((int)Math.random()*5)+getCase().getPos()[1]})));
+			}
+		}
 		if(k > 0 || path.size() != 0) {
 			k -= delta ;
 		}
