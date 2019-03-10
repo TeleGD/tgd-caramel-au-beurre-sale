@@ -202,7 +202,7 @@ public class World extends BasicGameState {
 	public void mousePressed(int button, int x, int y) {
 		this.mouse = new int[]{button, x, y};
 	}
-	public void click(GameContainer container, int button, int x, int y) {
+	public void click(GameContainer container, int button, int x, int y) {  //TODO : gérer la boucle de jeu pour faire jouer les deux joueurs !!
 		if (!builder.areTeamsReady()) {
 			return;
 		}
@@ -225,8 +225,9 @@ public class World extends BasicGameState {
 				if (characterSelected1 == null) {
 					// Si le joueur ne selectionne pas un character, on annule la selection
 					caseSelected1 = null;
+					board.hidePossibleMove();
 					return;
-				} else if (characterSelected1.getPlayer() == playerActif) {
+				} else if (characterSelected1.getPlayer() != playerActif) {
 					// Si le joueur selectionne un character de son adversaire, on annule la selection
 					caseSelected1 = null;
 					characterSelected1 = null;
@@ -238,7 +239,7 @@ public class World extends BasicGameState {
 			else if (button == 1 && (characterSelected1 != null)) {	// Clic droit avec un personnage déjà selectionné
 				caseSelected2 = caseSelected;
 				int[] pos2 = caseSelected2.getPos();
-				characterSelected2 = caseSelected1.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
+				characterSelected2 = caseSelected2.getCharacter();	// Récupère le charactère présent sur la case (s'il y en a un)
 				int distance = Board.manhattanDistance(caseSelected1,caseSelected2);    // Calcul de la distance entre les deux cases : ce n'est pas la distance qui sera réellement parcourue !
 				if (distance == 0) {	// Si le joueur selectionne la même case qu'avant
 					//TODO : Action sur le personnage selectionné (auto-soin, utiliser item...)
@@ -259,7 +260,7 @@ public class World extends BasicGameState {
 								System.out.println("HEAL un character de la team");
 							}
 						} else if (caseSelected2.getType().equals("sale") || caseSelected2.getType().equals("mega_sale") ) { //La case de destination est un shelf collectable
-							caseSelected2.collect(characterSelected2);
+							caseSelected2.collect(characterSelected1);
 							System.out.println("Collect un shelf");
 						}
 					}
@@ -269,6 +270,7 @@ public class World extends BasicGameState {
 				characterSelected2 = null;
 				caseSelected1 = null;
 				characterSelected1=null;
+				board.hidePossibleMove();
 			}
 		}
 	}

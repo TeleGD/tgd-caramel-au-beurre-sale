@@ -172,10 +172,12 @@ public class Board {
 		parcourt(pos[0],pos[1],movePoints);
 	}
 
-	public void hidePossibleMove(Character character) {
-		for(Entry<Case, Integer> entry : traitees.entrySet()) {
-		    Case c = entry.getKey();
-		    c.outlight();
+	public void hidePossibleMove() {
+		if (traitees != null){
+			for(Entry<Case, Integer> entry : traitees.entrySet()) {
+				Case c = entry.getKey();
+				c.outlight();
+			}
 		}
 		traitees = null;
 	}
