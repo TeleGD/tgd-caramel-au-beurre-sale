@@ -49,6 +49,45 @@ public class World extends BasicGameState {
 	public int getID () {
 		return this.ID;
 	}
+	
+	public void placeCharacters(Player player) {
+		ArrayList<Character> team = new ArrayList<>(player.getTeam());
+		Case tile;
+		int i = 0; int j=0;
+		boolean found = false;
+		int mirror, offsetWidth, offsetHeight;
+		
+		if (player == players.get(0)) {
+			mirror = 1;
+			offsetWidth = 0;
+			offsetHeight = 0;
+		} else {
+			mirror = -1;
+			offsetWidth = board.getSize()[1] - 1;
+			offsetHeight = board.getSize()[0] - 1;
+		}
+			
+		
+		for(Character character : team) {
+			found = false;
+			j = 0;
+			while(!found && j < board.getSize()[1]) {
+				i = 0;
+				while(!found && i < board.getSize()[0]){
+					int[] pos = {offsetHeight+i*mirror,offsetWidth+j*mirror};
+					System.out.println("i : "+pos[0]+" ; j : "+pos[1]);
+					tile = board.getCase(pos);
+					if (tile.isAccessible()) {
+						character.setCase(tile);
+						found = true;
+					}
+					i++;
+				}
+				j++;
+			}
+		}
+		
+	}
 
 	@Override
 	public void init (GameContainer container, StateBasedGame game) {
@@ -95,13 +134,16 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.update(container, game, delta);
-			/*if (a) {
+			if (a) {
 				a = false;
-				Character character = players.get(0).getTeam().get(0);
+				for (Player player : players) {
+					placeCharacters(player);
+				}
+				/*Character character = players.get(0).getTeam().get(0);
 				//board.moveCharacter(character, board.getCases () [0] [0]);
 				board.showPossibleMove(character);
 				System.out.println(board.connect(character, board.getCase(new int[]{2, 2})));
-			}*/
+			*/}
 		}
 	}
 
@@ -128,7 +170,7 @@ public class World extends BasicGameState {
 
 		playerActif = players.get(0);
 
-		builder = new TeamBuilder(1, container, players.get(0), players.get(1));
+		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
 		board = Generation.generate();
 		a = true;
 	}
@@ -173,7 +215,7 @@ public class World extends BasicGameState {
 		float caseWidth = 1920f / size[1] * ratio;
 		int i = (int) Math.floor(y / caseHeight);
 		int j = (int) Math.floor(x / caseWidth);
-		if (i >= 0 && j < size[0] && j >= 0 && j < size[1]) { // Si on clique dans le board
+		if (i >= 0 && i < size[0] && j >= 0 && j < size[1]) { // Si on clique dans le board
 			Case caseSelected = board.getCase(new int[]{i, j});
 			if (button == 0) {	// Clic gauche de la souris
 				caseSelected1 = caseSelected;

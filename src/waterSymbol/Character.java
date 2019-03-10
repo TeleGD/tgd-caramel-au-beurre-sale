@@ -8,13 +8,13 @@ import java.util.Random;
 import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.SpriteSheet;
+
+import app.AppLoader;
 
 public class Character {
 	
@@ -22,9 +22,8 @@ public class Character {
 
 	private String name;
 	private Classes classe;
-	private Image sprite;
-	private SpriteSheet spsh;
-	private Animation[] anim;
+	private Image sprites[];
+	private int direction;
 	private int health;
 	private int maxHealth;
 	private int movePoints;
@@ -118,29 +117,21 @@ public class Character {
 		if (weapon instanceof GreasyWeapon) {
 			path += "GREASY";
 		} else if (weapon instanceof SaltedWeapon) {
-			path += "SALTY";
+			path += "SALTED";
 		} else if (weapon instanceof SweetWeapon) {
 			path += "SWEET";
 		}
 		
 		path += ".png";
-			
-		try {
-			this.spsh = new SpriteSheet(new Image(path), 64, 64);
-		} catch (SlickException e) {
-			e.printStackTrace();
+		
+		Image im = AppLoader.loadPicture(path);
+		sprites = new Image[4];
+		for (int i=0 ; i<sprites.length ; i++) {
+			sprites[i] = im.getSubImage(0, i*64, 64, 64);
 		}
-		this.sprite = this.spsh.getSprite(2, 3);
-		this.anim = new Animation[8];
-
-		this.anim[0] = loadAnimation(this.spsh,0,1,8);
-		this.anim[1] = loadAnimation(this.spsh,0,1,9);
-		this.anim[2] = loadAnimation(this.spsh,0,1,10);
-		this.anim[3] = loadAnimation(this.spsh,0,1,11);
-		this.anim[4] = loadAnimation(this.spsh,1,9,8);
-		this.anim[5] = loadAnimation(this.spsh,1,9,9);
-		this.anim[6] = loadAnimation(this.spsh,1,9,10);
-		this.anim[7] = loadAnimation(this.spsh,1,9,11);
+		
+		direction = 2;
+		
 	}
 
 	private String generateName() {
@@ -158,7 +149,7 @@ public class Character {
 	}
 
 	public Image getSprite() {
-		return this.sprite;
+		return this.sprites[direction];
 	}
 
 	public int getHealth() {
@@ -203,7 +194,14 @@ public class Character {
 	}
 
 	public void setCase (Case host) {
+		if (this.host != null) {
+			// Si le personnage se deplace, retirer le personnnage de sa case de depart
+			this.host.setCharacter(null);
+		}
 		this.host = host;
+		this.host.setCharacter(this);
+		int[] pos = host.getPos();
+		System.out.println("i : "+pos[0]+" ; j : "+pos[1]);
 	}
 
 	public static int randInt(int min, int max) {
@@ -321,18 +319,22 @@ public class Character {
 		int[] cPos = c.getPos();
 		if(hostPos[0] - cPos[0] > 0) {
 			/* haut */
+			direction = 0;
 			vector[0] = -1;
 			vector[1] = 0;
 		} else if(hostPos[0] - cPos[0] < 0) {
 			/* bas */
+			direction = 2;
 			vector[0] = 1;
 			vector[1] = 0;
 		} else if(hostPos[1] - cPos[1] > 0) {
 			/* gauche */
+			direction = 1;
 			vector[0] = 0;
 			vector[1] = -1;
 		} else if(hostPos[1] - cPos[1] < 0) {
 			/* droite */
+			direction = 3;
 			vector[0] = 0;
 			vector[1] = 1;
 		}
@@ -341,14 +343,6 @@ public class Character {
 
 	public void move(List<Case> path) {
 		this.path.addAll(path);
-	}
-
-	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
-		Animation animation = new Animation();
-		for (int x = startX;x<endX; x++) {
-			animation.addFrame(spriteSheet.getSprite(x, y), 100);
-		}
-		return animation;
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -374,7 +368,7 @@ public class Character {
 
 		float dj = j - (k*width*vector[1])/moveDuration ;
 		float di = i - (k*height*vector[0])/moveDuration ;
-		context.drawImage(this.sprite, dj, di, dj + width, di + height, 0, 0, this.sprite.getWidth(), this.sprite.getHeight());
+		context.drawImage(this.sprites[direction], dj, di, dj + width, di + height, 0, 0, this.sprites[direction].getWidth(), this.sprites[direction].getHeight());
 	}
 
 }
