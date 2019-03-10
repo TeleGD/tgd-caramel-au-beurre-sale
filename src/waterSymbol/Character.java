@@ -200,7 +200,14 @@ public class Character {
 	}
 
 	public void setCase (Case host) {
+		if (this.host != null) {
+			// Si le personnage se deplace, retirer le personnnage de sa case de depart
+			this.host.setCharacter(null);
+		}
 		this.host = host;
+		this.host.setCharacter(this);
+		int[] pos = host.getPos();
+		System.out.println("i : "+pos[0]+" ; j : "+pos[1]);
 	}
 
 	public static int randInt(int min, int max) {
