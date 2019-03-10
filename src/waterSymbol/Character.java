@@ -9,12 +9,10 @@ import waterSymbol.board.Case;
 import waterSymbol.weapon.*;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.SpriteSheet;
 
@@ -47,17 +45,14 @@ public class Character {
 	public Character(Player player) throws SlickException {
 		this.name = generateName();
 		this.classe = Classes.values()[(int) (Math.random()*Classes.values().length)];
-		switch ((int) (Math.random()*4)) {
+		switch ((int) (Math.random()*3)) {
 		case 0:
-			weapon = new DrinkingWeapon(1, 1);
-			break;
-		case 1:
 			weapon = new GreasyWeapon(1, 1);
 			break;
-		case 2:
+		case 1:
 			weapon = new SaltedWeapon(1, 1);
 			break;
-		case 3:
+		case 2:
 			weapon = new SweetWeapon(1, 1);
 			break;
 		}
@@ -71,8 +66,6 @@ public class Character {
 
 		initAnim();
 
-		this.weapon = weapon;
-		generateStat();
 		this.player = player;
 	}
 
@@ -89,16 +82,46 @@ public class Character {
 		generateStat();
 
 		initAnim();
-
-		this.maxHealth = 100;
-		this.weapon = weapon;
-		generateStat();
+		
 		this.player = player;
 	}
 
 	public void initAnim(){
-		// TODO animation selon la classe
-		String path = "res/images/characters/skeleton.png"; //TODO : CHANGER CE MAGIC STRING
+		
+		String path = "/images/characters/"; 
+		
+		switch (classe) {
+		case WARRIOR:
+			path += "WARRIOR";
+			break;
+		case KNIGHT:
+			path += "WARRIOR";
+			break;
+		case NINJA:
+			path += "WARRIOR";
+			break;
+		case RANGER:
+			path += "WARRIOR";
+			break;
+		case HEALER:
+			path += "WARRIOR"; // TODO
+			break;
+		default:
+			break;
+		}
+		
+		path += "_";
+		
+		if (weapon instanceof GreasyWeapon) {
+			path += "GREASY";
+		} else if (weapon instanceof SaltedWeapon) {
+			path += "SALTY";
+		} else if (weapon instanceof SweetWeapon) {
+			path += "SWEET";
+		}
+		
+		path += ".png";
+			
 		try {
 			this.spsh = new SpriteSheet(new Image(path), 64, 64);
 		} catch (SlickException e) {
