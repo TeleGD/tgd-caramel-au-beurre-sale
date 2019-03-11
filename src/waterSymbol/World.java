@@ -183,9 +183,9 @@ public class World extends BasicGameState {
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
 
-		players.add(new Player());
-		players.add(new Player());
-		vendeurs = new PlayerVendeur();
+		players.add(new Player(1));
+		players.add(new Player(2));
+		vendeurs = new PlayerVendeur(3);
 
 		Character v = new Character("Zhan",Classes.VENDEUR,new DrinkingWeapon(1, 1), vendeurs);
 		vendeurs.ajouter(v);

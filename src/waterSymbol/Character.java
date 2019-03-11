@@ -395,10 +395,10 @@ public class Character {
 			k = 0;
 			vector[0] = 0;
 			vector[1] = 0;
-			if (host.getType().equals("teamO)") && getPlayer().getId().equals("Tristan")) {
+			if (host.getType().equals("teamO)") && getPlayer().getId()==1) {
 				teamPoint();
 			}
-			if (host.getType().equals("teamV") && getPlayer().getId().equals("Axel")) {
+			if (host.getType().equals("teamV") && getPlayer().getId()==2) {
 				teamPoint();
 			}
 		}

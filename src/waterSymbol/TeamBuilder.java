@@ -81,7 +81,7 @@ public class TeamBuilder {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		context.setColor(Color.black);
 		context.drawImage(image, xmin, ymin, xmax, ymax, 0, 0, image.getWidth(), image.getHeight());
-		context.drawString(activePlayer.getId()+", choisissez un personnage :", 30, 30);
+		context.drawString(activePlayer.getName()+", choisissez un personnage :", 30, 30);
 		context.drawImage(this.characters[0].getSprite(), x1, y1, x1+charSize, y1+charSize, 0, 0, 64, 64);
 		context.drawString(this.characters[0].getName(), x1+20,y1+charSize+10);
 		context.drawImage(this.characters[1].getSprite(), x2, y1, x2+charSize, y1+charSize, 0, 0, 64, 64);

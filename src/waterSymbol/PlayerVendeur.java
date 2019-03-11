@@ -10,18 +10,12 @@ import waterSymbol.board.Board;
 
 public class PlayerVendeur extends Player {
 
-	private String id;
+	private String name;
 	private ArrayList<Character> team;
-
-	public PlayerVendeur() {
-		super();
-		this.id = super.generateName();
-		this.team = new ArrayList<Character>();
-	}
 	
-	public PlayerVendeur(String id) {
+	public PlayerVendeur(int id) {
 		super(id);
-		this.id = id;
+		this.name = super.generateName();
 		this.team = new ArrayList<Character>();
 	}
 
@@ -33,8 +27,8 @@ public class PlayerVendeur extends Player {
 		this.team.add(c);
 	}
 
-	public String getId() {
-		return this.id;
+	public String getName() {
+		return this.name;
 	}
 
 	public ArrayList<Character> getTeam() {

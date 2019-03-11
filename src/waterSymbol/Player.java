@@ -10,20 +10,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Player {
 
-	private String id;
+	private int id;
+	private String name;
 	private int score;
 	private Color filter;
 	private ArrayList<Character> team;
-
-	public Player() {
-		this.score = 0;
-		this.id = generateName();
-		this.team = new ArrayList<Character>();
-	}
 	
-	public Player(String id) {
+	public Player(int id) {
 		this.score = 0;
 		this.id = id;
+		this.name = generateName();
 		this.team = new ArrayList<Character>();
 	}
 
@@ -42,8 +38,12 @@ public class Player {
 		return firstnames.get((int) (Math.random()*firstnames.size()))+" "+lastnames.get((int) (Math.random()*lastnames.size()));
 	}
 
-	public String getId() {
+	public int getId() {
 		return this.id;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 
 	public void addPoint(int p) {
