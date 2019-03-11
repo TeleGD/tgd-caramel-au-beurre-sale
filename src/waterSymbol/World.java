@@ -40,7 +40,7 @@ public class World extends BasicGameState {
 	private static float lifelightPos;
 	private int[] mouse;
 	static {
-		//World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
 		World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
 		World.lifelightPos = 0;
 	}
@@ -174,6 +174,11 @@ public class World extends BasicGameState {
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		if ((int)(Math.random()*2)==0) {
+			World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		} else {
+			World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
+		}
 		World.lifelight.playAsMusic(1, .4f, true);
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
