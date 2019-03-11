@@ -239,7 +239,7 @@ public class World extends BasicGameState {
 		float screenWidth = container.getWidth();
 		float screenHeight = container.getHeight();
 		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
-		float caseHeight = 1080f / size[0] * ratio;
+		float caseHeight = 1080f / (size[0]+4) * ratio;
 		float caseWidth = 1920f / size[1] * ratio;
 		int i = (int) Math.floor(y / caseHeight);
 		int j = (int) Math.floor(x / caseWidth);

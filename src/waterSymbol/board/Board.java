@@ -33,7 +33,7 @@ public class Board {
 		float screenWidth = container.getWidth();
 		float screenHeight = container.getHeight();
 		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
-		float caseHeight = 1080f / this.height * ratio;
+		float caseHeight = 1080f / (this.height+4) * ratio;
 		float caseWidth = 1920f / this.width * ratio;
 		for(int i=0; i<this.height; i++) {
 			for(int j=0; j<this.width; j++) {
