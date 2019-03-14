@@ -32,8 +32,8 @@ public class Player {
 	}
 	
 	protected String generateName() {
-		ArrayList<String> firstnames = new ArrayList<String>(Arrays.asList("Amos","Axel","David","Fabien","Frantz","Frédéric","Lucas","Maxime","Nathan","Océane","Quentin","Tristan","Xavier"));
-		ArrayList<String> lastnames = new ArrayList<String>(Arrays.asList("George","Pontet","Forlen","Bernier","Darbon","Venier","Thomas","Botreau-Roussel-Bonneterre","Barloy","Chazé","Charrier","Le Godais","Indice"));
+		ArrayList<String> firstnames = new ArrayList<String>(Arrays.asList("Amos","Axel","David","Fabien","Frantz","Frédéric","Lucas","Maxime","Océane","Quentin","Tristan","Xavier"));
+		ArrayList<String> lastnames = new ArrayList<String>(Arrays.asList("George","Pontet","Forlen","Bernier","Darbon","Venier","Thomas","Botreau-Roussel-Bonneterre","Chazé","Charrier","Le Godais","Indice"));
 
 		return firstnames.get((int) (Math.random()*firstnames.size()))+" "+lastnames.get((int) (Math.random()*lastnames.size()));
 	}
