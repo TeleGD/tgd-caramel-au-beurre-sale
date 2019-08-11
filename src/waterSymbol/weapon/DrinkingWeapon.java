@@ -18,7 +18,7 @@ public class DrinkingWeapon extends Weapon {
 	}
 	
 	public String getType() {
-		return "";
+		return "Sens des affaires";
 	}
 	
 	@Override

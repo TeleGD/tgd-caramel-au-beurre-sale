@@ -22,20 +22,26 @@ public class Interface {
 		float wc = container.getWidth();
 		Color violet = new Color(108,36,102);
 		Color orange = new Color(239,138,38);
-		if (character.getPlayer().getId() == "Axel") {
-			context.setColor(violet);
-		} else if (character.getPlayer().getId() == "Tristan") {
-			context.setColor(orange);
-		} else {
-			context.setColor(Color.blue);
+		if (character != null) {
+			if (character.getPlayer().getId() == 1) {
+				context.setColor(orange);
+			} else if (character.getPlayer().getId() == 2) {
+				context.setColor(violet);
+			} else {
+				context.setColor(Color.blue);
+			}
 		}
-		context.drawString("Nom : "+character.getName(), 100, hc-120);
-		context.drawString("Equipe du joueur : "+character.getPlayer().getId(), 100, hc-105);
-		context.drawString("Classe : "+character.getClasse(), 100, hc-90);
-		context.drawString("Arme : "+character.getWeapon().getType(), 100, hc-75);
-		context.drawString("Santé : "+character.getHealth()+"/"+character.getMaxHealth(), 100, hc-60);
-		context.drawString("Points de mouvement : "+character.getMovePoints(), 100, hc-45);
-		context.drawString("Attaque/Défense : "+character.getAttack()+"/"+character.getDefense(), 100, hc-30);
+		if (character != null) {
+			context.drawString("Nom : "+character.getName(), 100, hc-120);
+			context.drawString("Equipe du joueur : "+character.getPlayer().getName(), 100, hc-105);
+			context.drawString("Classe : "+character.getClasse(), 100, hc-90);
+			context.drawString("Arme : "+character.getWeapon().getType(), 100, hc-75);
+			context.drawString("Santé : "+character.getHealth()+"/"+character.getMaxHealth(), 100, hc-60);
+			context.drawString("Points de mouvement : "+character.getMovePoints(), 100, hc-45);
+			context.drawString("Attaque/Défense : "+character.getAttack()+"/"+character.getDefense(), 100, hc-30);
+		} else {
+			context.drawString("",100,hc-120);
+		}
 	}
 
 }

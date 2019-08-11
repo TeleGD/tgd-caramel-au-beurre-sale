@@ -34,13 +34,13 @@ public class World extends BasicGameState {
 	private Case caseSelected2;
 	private Character characterSelected1;
 	private Character characterSelected2;
-	private Interface infos = new Interface(null);
+	private Interface infos;
 	private boolean a;
 	private static Audio lifelight;
 	private static float lifelightPos;
 	private int[] mouse;
 	static {
-		// World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
 		World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
 		World.lifelightPos = 0;
 	}
@@ -168,26 +168,31 @@ public class World extends BasicGameState {
 		} else {
 			//TODO en jeu
 			board.render(container, game, context);
-			if (infos.getCharacter()!=null) {
-				infos.render(container, game, context);
-			}
+			infos.render(container, game, context);
 		}
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		if ((int)(Math.random()*2)==0) {
+			World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+		} else {
+			World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
+		}
 		World.lifelight.playAsMusic(1, .4f, true);
 		players = new ArrayList<Player>();
 		caseSelected1 = null;
 
-		players.add(new Player("Tristan"));
-		players.add(new Player("Axel"));
-		vendeurs = new PlayerVendeur("vendeur");
+		players.add(new Player(1));
+		players.add(new Player(2));
+		vendeurs = new PlayerVendeur(3);
 
 		Character v = new Character("Zhan",Classes.VENDEUR,new DrinkingWeapon(1, 1), vendeurs);
 		vendeurs.ajouter(v);
 
 		playerActifIndex = 0;
+		
+		infos = new Interface(null);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));
 		board = Generation.generate(20,35);
@@ -234,7 +239,7 @@ public class World extends BasicGameState {
 		float screenWidth = container.getWidth();
 		float screenHeight = container.getHeight();
 		float ratio = (screenWidth / 1920f) >= (screenHeight / 1080f) ? (screenWidth / 1920f) : (screenHeight / 1080f);
-		float caseHeight = 1080f / size[0] * ratio;
+		float caseHeight = 1080f / (size[0]+4) * ratio;
 		float caseWidth = 1920f / size[1] * ratio;
 		int i = (int) Math.floor(y / caseHeight);
 		int j = (int) Math.floor(x / caseWidth);
