@@ -20,6 +20,7 @@ public class Choice extends AppMenu {
 	public void init (GameContainer container, StateBasedGame game) {
 		super.initSize (container, game, 600, 400);
 		super.init (container, game);
+		this.setTitle ("Water Symbol");
 		this.setSubtitle ("Main menu");
 		this.setMenu (Arrays.asList (new MenuItem [] {
 			new MenuItem ("Jouer") {
@@ -33,7 +34,6 @@ public class Choice extends AppMenu {
 				}
 			}
 		}));
-		this.setTitle ("Water Symbol");
 		this.setHint ("Choisissez");
 	}
 

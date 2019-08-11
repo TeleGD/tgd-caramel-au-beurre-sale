@@ -196,14 +196,14 @@ public class World extends BasicGameState {
 
 	public void pause (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la mise en pause du jeu */
-		World.lifelightPos = lifelight.getPosition();
+		World.lifelightPos = World.lifelight.getPosition();
 		World.lifelight.stop();
 	}
 
 	public void resume (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la reprise du jeu */
 		World.lifelight.playAsMusic(1, .4f, true);
-		World.lifelight.setPosition(lifelightPos);
+		World.lifelight.setPosition(World.lifelightPos);
 	}
 
 	public void stop (GameContainer container, StateBasedGame game) {
