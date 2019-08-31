@@ -1,0 +1,7 @@
+- Amos George (@AmosGeorge)
+- Axel Pontet (@AxelPontet)
+- David Forlen (@DavidForlen)
+- Frédéric Venier (@FredericVenier)
+- Quentin Charrier (@QuentinCharrierTncy)
+- Tristan Le Godais (@TrisTOON)
+- Xavier Indice (@XavierIndice)
