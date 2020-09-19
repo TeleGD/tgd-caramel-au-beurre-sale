@@ -1,4 +1,4 @@
-package waterSymbol.board;
+package games.caramelAuBeurreSale.board;
 
 public class Generation {
 	

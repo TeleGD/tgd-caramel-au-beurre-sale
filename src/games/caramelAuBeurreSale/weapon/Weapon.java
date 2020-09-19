@@ -1,4 +1,4 @@
-package waterSymbol.weapon;
+package games.caramelAuBeurreSale.weapon;
 
 public abstract class Weapon {
 	

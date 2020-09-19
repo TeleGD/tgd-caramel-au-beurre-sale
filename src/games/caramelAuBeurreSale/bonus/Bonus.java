@@ -1,6 +1,6 @@
-package waterSymbol.bonus;
+package games.caramelAuBeurreSale.bonus;
 
-import waterSymbol.Character;
+import games.caramelAuBeurreSale.Character;
 
 public abstract class Bonus {
 	protected Character character;

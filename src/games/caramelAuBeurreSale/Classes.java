@@ -1,4 +1,4 @@
-package waterSymbol;
+package games.caramelAuBeurreSale;
 
 public enum Classes {
 	RANGER,

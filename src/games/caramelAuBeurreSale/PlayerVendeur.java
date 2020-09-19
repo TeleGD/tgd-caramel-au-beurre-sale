@@ -1,4 +1,4 @@
-package waterSymbol;
+package games.caramelAuBeurreSale;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import waterSymbol.board.Board;
+import games.caramelAuBeurreSale.board.Board;
 
 public class PlayerVendeur extends Player {
 

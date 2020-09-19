@@ -1,4 +1,4 @@
-package waterSymbol;
+package games.caramelAuBeurreSale;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,7 +12,7 @@ import app.AppLoader;
 public class TeamBuilder {
 
 	private Character characters[];
-	private static Image image = AppLoader.loadPicture("/images/teamBuilder.png");
+	private static Image image = AppLoader.loadPicture("/images/caramelAuBeurreSale/teamBuilder.png");
 
 	private float charSize;
 	private float ratioChar;
@@ -100,7 +100,7 @@ public class TeamBuilder {
 				activePlayer.ajouter(characters[choice-1]);
 				activePlayer = activePlayer==player1 ? player2 : player1;
 				compt = activePlayer==player1?compt+1:compt;
-				resetCharacters();	
+				resetCharacters();
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package waterSymbol.board;
+package games.caramelAuBeurreSale.board;
 
 import java.util.Random;
 
@@ -10,8 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
 
-import waterSymbol.Character;
-import waterSymbol.Classes;
+import games.caramelAuBeurreSale.Character;
+import games.caramelAuBeurreSale.Classes;
 
 public class Case {
 	private static Random rng;
@@ -55,7 +55,7 @@ public class Case {
 				break;
 			}
 		}
-		this.sprite = AppLoader.loadPicture("/images/" + type + ".png");
+		this.sprite = AppLoader.loadPicture("/images/caramelAuBeurreSale/" + type + ".png");
 	}
 
 	public int [] getPos () {

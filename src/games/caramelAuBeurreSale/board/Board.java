@@ -1,4 +1,4 @@
-package waterSymbol.board;
+package games.caramelAuBeurreSale.board;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -7,7 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import waterSymbol.Character;
+import games.caramelAuBeurreSale.Character;
 
 public class Board {
 	private Case[][] cases;

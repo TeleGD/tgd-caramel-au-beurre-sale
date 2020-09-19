@@ -1,10 +1,10 @@
-package waterSymbol.weapon;
+package games.caramelAuBeurreSale.weapon;
 
-public class DrinkingWeapon extends Weapon {
+public class SweetWeapon extends Weapon {
 
-	public DrinkingWeapon(int id, int value) {
+	public SweetWeapon(int id, int value) {
 		super(id, value);
-		super.typeId = 4;
+		super.typeId = 2;
 	}
 	
 	@Override
@@ -17,13 +17,14 @@ public class DrinkingWeapon extends Weapon {
 		return this.typeId;
 	}
 	
+	@Override
 	public String getType() {
-		return "Sens des affaires";
+		return "Sucre d'orge";
 	}
 	
 	@Override
 	public int getEffectValue() {
 		return this.effectValue;
 	}
-
+	
 }

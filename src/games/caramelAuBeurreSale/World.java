@@ -1,4 +1,4 @@
-package waterSymbol;
+package games.caramelAuBeurreSale;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,10 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import app.AppLoader;
 
-import waterSymbol.board.Board;
-import waterSymbol.board.Generation;
-import waterSymbol.weapon.DrinkingWeapon;
-import waterSymbol.board.Case;
+import games.caramelAuBeurreSale.board.Board;
+import games.caramelAuBeurreSale.board.Generation;
+import games.caramelAuBeurreSale.weapon.DrinkingWeapon;
+import games.caramelAuBeurreSale.board.Case;
 
 public class World extends BasicGameState {
 
@@ -40,8 +40,8 @@ public class World extends BasicGameState {
 	private static float lifelightPos;
 	private int[] mouse;
 	static {
-		World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
-		World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
+		World.lifelight = AppLoader.loadAudio("/musics/caramelAuBeurreSale/purgatoire.ogg");
+		World.lifelight = AppLoader.loadAudio("/musics/caramelAuBeurreSale/ZOT.ogg");
 		World.lifelightPos = 0;
 	}
 
@@ -175,9 +175,9 @@ public class World extends BasicGameState {
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		if ((int)(Math.random()*2)==0) {
-			World.lifelight = AppLoader.loadAudio("/musics/purgatoire.ogg");
+			World.lifelight = AppLoader.loadAudio("/musics/caramelAuBeurreSale/purgatoire.ogg");
 		} else {
-			World.lifelight = AppLoader.loadAudio("/musics/ZOT.ogg");
+			World.lifelight = AppLoader.loadAudio("/musics/caramelAuBeurreSale/ZOT.ogg");
 		}
 		World.lifelight.playAsMusic(1, .4f, true);
 		players = new ArrayList<Player>();
@@ -191,7 +191,7 @@ public class World extends BasicGameState {
 		vendeurs.ajouter(v);
 
 		playerActifIndex = 0;
-		
+
 		infos = new Interface(null);
 
 		builder = new TeamBuilder(4, container, players.get(0), players.get(1));

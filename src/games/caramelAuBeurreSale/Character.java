@@ -1,13 +1,13 @@
-package waterSymbol;
+package games.caramelAuBeurreSale;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import waterSymbol.board.Board;
-import waterSymbol.board.Case;
-import waterSymbol.weapon.*;
+import games.caramelAuBeurreSale.board.Board;
+import games.caramelAuBeurreSale.board.Case;
+import games.caramelAuBeurreSale.weapon.*;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -109,7 +109,7 @@ public class Character {
 
 	public void initAnim(){
 
-		String path = "/images/characters/";
+		String path = "/images/caramelAuBeurreSale/characters/";
 
 		switch (classe) {
 		case WARRIOR:

@@ -12,29 +12,29 @@ import app.elements.MenuItem;
 
 public class Choice extends AppMenu {
 
-	public Choice (int ID) {
-		super (ID);
+	public Choice(int ID) {
+		super(ID);
 	}
 
 	@Override
-	public void init (GameContainer container, StateBasedGame game) {
-		super.initSize (container, game, 600, 400);
-		super.init (container, game);
-		this.setTitle ("Water Symbol");
-		this.setSubtitle ("Main menu");
-		this.setMenu (Arrays.asList (new MenuItem [] {
-			new MenuItem ("Jouer") {
-				public void itemSelected () {
-					game.enterState (3, new FadeOutTransition (), new FadeInTransition ());
+	public void init(GameContainer container, StateBasedGame game) {
+		super.initSize(container, game, 600, 400);
+		super.init(container, game);
+		this.setTitle("Choix");
+		this.setSubtitle("Sans sous-titre");
+		this.setMenu(Arrays.asList(new MenuItem[] {
+			new MenuItem("Caramel au Beurre Salé") {
+				public void itemSelected() {
+					game.enterState(3, new FadeOutTransition(), new FadeInTransition());
 				}
 			},
-			new MenuItem ("Retour") {
-				public void itemSelected () {
-					game.enterState (0, new FadeOutTransition (), new FadeInTransition ());
+			new MenuItem("Retour") {
+				public void itemSelected() {
+					game.enterState(0, new FadeOutTransition(), new FadeInTransition());
 				}
 			}
 		}));
-		this.setHint ("Choisissez");
+		this.setHint("SELECT A GAME");
 	}
 
 }
