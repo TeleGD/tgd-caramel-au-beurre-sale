@@ -3,5 +3,5 @@
 - David Forlen (@DavidForlen)
 - Frédéric Venier (@FredericVenier)
 - Quentin Charrier (@QuentinCharrierTncy)
-- Tristan Le Godais (@TrisTOON)
+- Tristan Le Godais (@PolariTOON)
 - Xavier Indice (@XavierIndice)
